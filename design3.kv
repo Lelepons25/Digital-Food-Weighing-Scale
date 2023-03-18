@@ -1,0 +1,427 @@
+WindowManager:
+    AccountPage:
+    ProfilePage:
+    Homepage:
+    FruitsPage:
+    VegPage:
+    GrainsPage: 
+    ProteinPage:
+    DairyPage:
+    MorePage:
+
+<AccountPage>
+    name: "AccountPage"
+    
+    # User Profile
+    MDCard:
+        size_hint: None, None
+        size: 300, 350
+        pos_hint: {'center_x': 0.5, 'center_y':0.5}
+        elevation: 2
+        padding: 20
+        spacing: 20
+        orientation: 'vertical'
+        
+        MDLabel:
+            text: "Welcome"
+            font_size: 20
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 5
+
+        MDTextField:
+            mode: 'round'
+            id: user
+            hint_text: "username"
+            icon_right: "account"
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            mode: 'round'
+            id: password
+            hint_text: "password"
+            icon_right: "eye-off"
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            password: True
+
+        MDRoundFlatButton:
+            text: "LOG IN"
+            font_size: 12
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                app.root.current = "ProfilePage"
+                root.manager.transition.direction = "left"
+
+
+        Widget:
+            size_hint_y: None
+            height: 20
+
+
+<ProfilePage>
+    name: "ProfilePage"
+
+    MDCard:
+        size_hint: None, None
+        size: 300, 350
+        pos_hint: {'center_x': 0.5, 'center_y':0.5}
+        elevation: 2
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+        
+        MDLabel:
+            text: "Profile"
+            font_size: 20
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 5
+
+        MDTextField:
+            id: user_name
+            mode: "round"         
+            hint_text: "Name"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            mode: "round"
+            id: sex
+            hint_text: "Sex"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            mode: "round"
+            id: age
+            hint_text: "Age"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            mode: "round"
+            id: user_weight
+            hint_text: "Weight"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+        
+        MDTextField:
+            mode: "round"
+            id: user_height
+            hint_text: "Height"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+
+
+        MDRoundFlatButton:
+            text: "Save"
+            font_size: 12
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                app.root.current = "Homepage"
+                root.manager.transition.direction = "left"
+
+        Widget:
+            size_hint_y: None
+            height: 10
+
+<Homepage>
+    name: "Homepage"
+
+    MDCard:
+        size_hint: None, None
+        size: 150, 80
+        pos_hint: {'x': 0.32, 'top':0.96}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        Button:
+            id: clear
+            size_hint: (0.7, 0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'clear'
+        
+        Button:
+            id: tare
+            size_hint: (0.7,0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'tare'
+        
+    MDCard:
+        
+        size_hint: None, None
+        size: 150, 80
+        pos_hint: {'x': 0.48, 'top':0.96}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        Button:
+            id: save
+            size_hint: (0.7,0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'save'
+        
+
+    
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+        
+
+        # Display Weight
+        TextInput:
+            id: weight_input
+            text: "0"
+            font_size: 40
+            size_hint: (0.3, 0.3)
+            pos_hint:{'x':0.02}
+            spacing: 10
+            padding: 10
+                
+        
+        GridLayout:
+            cols: 3
+            rows: 2
+
+            spacing: 10
+            padding: 10
+
+            #Row
+            Button:
+                size_hint: (.2, .2)
+                background_color: 1,0,0,1
+                text: "Fruits"
+                on_release:
+                    app.root.current = "FruitsPage"
+                    root.manager.transition.direction = "left"
+            
+            Button:
+                size_hint: (.2, .2)
+                background_color: 1,0,0,1
+                text: "Vegetables"
+                on_release:
+                    app.root.current = "VegetablesPage"
+                    root.manager.transition.direction = "left"
+            
+            Button:
+                size_hint: (.2, .2)
+                background_color: 1,0,0,1
+                text: "Grains"
+                on_release:
+                    app.root.current = "GrainsPage"
+                    root.manager.transition.direction = "left"
+            
+            Button:
+                size_hint: (.2, .2)
+                background_color: 1,0,0,1
+                text: "Protein"
+                on_release:
+                    app.root.current = "ProteinPage"
+                    root.manager.transition.direction = "left"
+            
+            Button:
+                size_hint: (.2, .2)
+                background_color: 1,0,0,1
+                text: "Dairy"
+                on_release:
+                    app.root.current = "DairyPage"
+                    root.manager.transition.direction = "left"
+            
+            Button:
+                size_hint: (.2, .2)
+                background_color: 1,0,0,1
+                text: "More"
+                on_release:
+                    app.root.current = "MorePage"
+                    root.manager.transition.direction = "left"
+    
+
+              
+<FruitsPage>
+    name: "FruitsPage"
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+
+        TextInput:
+            id: weight_input
+            text: "0"
+            font_size: 40
+            size_hint: (0.8, 0.3)
+            pos_hint: {'x':0 , 'top':1}
+            spacing: 10
+            
+        Button:
+            id: clear
+            size_hint: (0.15, 0.15)
+            pos_hint: {'x':0.85 , 'top':1}
+            text: 'clear'
+
+
+
+        Label:
+            text: "Fruits"
+            font_size: 32
+    
+        # Return button
+    
+    MDRectangleFlatIconButton:
+        text: "Back"
+        icon: "page-previous"
+        theme_text_color: "Custom"
+        text_color: "blue"
+        line_color: "blue"
+        theme_icon_color: "Custom"
+        icon_color: "blue"
+        pos_hint: {"center_x": 0.94, "center_y": 0.93}
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"
+
+<VegPage>
+    name: "VegetablesPage"
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+
+        Label:
+            text: "Vegetables"
+            font_size: 32
+    
+    
+    # Return button
+    MDRectangleFlatIconButton:
+        text: "Back"
+        icon: "page-previous"
+        theme_text_color: "Custom"
+        text_color: "blue"
+        line_color: "blue"
+        theme_icon_color: "Custom"
+        icon_color: "blue"
+        pos_hint: {"center_x": 0.94, "center_y": 0.93}
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"
+
+<GrainsPage>
+    name: "GrainsPage"
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+
+        Label:
+            text: "Grains"
+            font_size: 32
+
+    # Return button
+    MDRectangleFlatIconButton:
+        text: "Back"
+        icon: "page-previous"
+        theme_text_color: "Custom"
+        text_color: "blue"
+        line_color: "blue"
+        theme_icon_color: "Custom"
+        icon_color: "blue"
+        pos_hint: {"center_x": 0.94, "center_y": 0.93}
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"
+
+<ProteinPage>
+    name: "ProteinPage"
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+
+        Label:
+            text: "Protein"
+            font_size: 32
+    
+    
+    # Return button
+    MDRectangleFlatIconButton:
+        text: "Back"
+        icon: "page-previous"
+        theme_text_color: "Custom"
+        text_color: "blue"
+        line_color: "blue"
+        theme_icon_color: "Custom"
+        icon_color: "blue"
+        pos_hint: {"center_x": 0.94, "center_y": 0.93}
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"
+
+<DairyPage>
+    name: "DairyPage"
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+
+        Label:
+            text: "Dairy"
+            font_size: 32
+    
+    # Return button
+    MDRectangleFlatIconButton:
+        text: "Back"
+        icon: "page-previous"
+        theme_text_color: "Custom"
+        text_color: "blue"
+        line_color: "blue"
+        theme_icon_color: "Custom"
+        icon_color: "blue"
+        pos_hint: {"center_x": 0.94, "center_y": 0.93}
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"
+
+<MorePage>
+    name: "MorePage"
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+
+        Label:
+            text: "More"
+            font_size: 32
+    
+    # Return button
+    MDRectangleFlatIconButton:
+        text: "Back"
+        icon: "page-previous"
+        theme_text_color: "Custom"
+        text_color: "blue"
+        line_color: "blue"
+        theme_icon_color: "Custom"
+        icon_color: "blue"
+        pos_hint: {"center_x": 0.94, "center_y": 0.93}
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"
