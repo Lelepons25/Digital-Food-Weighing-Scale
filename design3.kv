@@ -208,8 +208,6 @@ WindowManager:
             app.root.current = "Homepage"
             root.manager.transition.direction = "left"
 
-
-
 <Homepage>
     name: "Homepage"
 
@@ -245,15 +243,29 @@ WindowManager:
             id: save
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'Profile'
+
+        Button:
+            id: save
+            size_hint: (0.7,0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'save'
     
     MDCard:
         size_hint: None, None
-        size: 150, 80
-        pos_hint: {'x': 0.48, 'top':0.96}
+        size: 270, 80
+        pos_hint: {'x': 0.65, 'top':0.96}
         padding: 5
         spacing: 5
         orientation: 'vertical'
+
+        MDLabel:
+            text: "Calorie Tracker"
+            font_size: 16
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 5
 
         MDLabel:
             id: cal_tracker
@@ -263,11 +275,9 @@ WindowManager:
             id: cal_tracker_bar
             min: 0
             max: 1
-            pos_hint: {'x': .05}
+            pos_hint: {'x': 0}
             size_hint_x: 1
         
-
-    
     BoxLayout:
         orientation: 'vertical'
         size: root.width, root.height
@@ -294,12 +304,18 @@ WindowManager:
             #Row
             Button:
                 size_hint: (.2, .2)
-                background_color: 1,0,0,1
+                background_color: 0,0,0,0
                 text: "Fruits"
                 on_release:
                     app.root.current = "FruitsPage"
                     root.manager.transition.direction = "left"
-            
+                
+                Image:
+                    id: fruits_icon
+                    source: 'icon/fruits.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                
             Button:
                 size_hint: (.2, .2)
                 background_color: 1,0,0,1
@@ -339,9 +355,7 @@ WindowManager:
                 on_release:
                     app.root.current = "MorePage"
                     root.manager.transition.direction = "left"
-    
-
-              
+                  
 <FruitsPage>
     name: "FruitsPage"
 
