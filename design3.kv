@@ -166,34 +166,47 @@ WindowManager:
             height: 10
     
 
-    # Edit: Card is overlaying each other
+    MDCard:
+        size_hint: None, None
+        size: 220, 300
+        pos_hint: {'x': 0.03, 'y':0.1}
+        elevation: 2
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+    
+    MDCard:
+        size_hint: None, None
+        size: 220, 300
+        pos_hint: {'x': 0.36, 'y':0.1}
+        elevation: 2
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+    
+    MDCard:
+        size_hint: None, None
+        size: 220, 300
+        pos_hint: {'x': 0.68, 'y':0.1}
+        elevation: 2
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+    
+    # Skip
 
-    MDCard:
-        size_hint: None, None
-        size: 300, 350
-        pos_hint: {'center_x': 0.5, 'center_y':0.5}
-        elevation: 2
-        padding: 10
-        spacing: 10
-        orientation: 'vertical'
-    
-    MDCard:
-        size_hint: None, None
-        size: 300, 350
-        pos_hint: {'center_x': 0.5, 'center_y':0.5}
-        elevation: 2
-        padding: 10
-        spacing: 10
-        orientation: 'vertical'
-    
-    MDCard:
-        size_hint: None, None
-        size: 300, 350
-        pos_hint: {'center_x': 0.5, 'center_y':0.5}
-        elevation: 2
-        padding: 10
-        spacing: 10
-        orientation: 'vertical'
+    MDRectangleFlatButton:
+        text: "Skip"
+        # icon: "skip-next-circle-outline"
+        theme_text_color: "Custom"
+        text_color: "blue"
+        line_color: "blue"
+        # theme_icon_color: "Custom"
+        # icon_color: "blue"
+        pos_hint: {"center_x": 0.94, "center_y": 0.05}
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "left"
 
 
 
@@ -221,7 +234,6 @@ WindowManager:
             text: 'tare'
         
     MDCard:
-        
         size_hint: None, None
         size: 150, 80
         pos_hint: {'x': 0.48, 'top':0.96}
@@ -234,6 +246,25 @@ WindowManager:
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'save'
+    
+    MDCard:
+        size_hint: None, None
+        size: 150, 80
+        pos_hint: {'x': 0.48, 'top':0.96}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            id: cal_tracker
+            text: "O% Progress"
+
+        ProgressBar:
+            id: cal_tracker_bar
+            min: 0
+            max: 1
+            pos_hint: {'x': .05}
+            size_hint_x: 1
         
 
     
@@ -252,7 +283,7 @@ WindowManager:
             spacing: 10
             padding: 10
                 
-        
+    
         GridLayout:
             cols: 3
             rows: 2
@@ -331,8 +362,6 @@ WindowManager:
             size_hint: (0.15, 0.15)
             pos_hint: {'x':0.85 , 'top':1}
             text: 'clear'
-
-
 
         Label:
             text: "Fruits"

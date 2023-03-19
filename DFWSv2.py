@@ -67,7 +67,6 @@ class DFWS(MDApp):
     
     # function that will display the weight
     def computeWeight(self, weight):
-
         if( weight < 0):
             weight = weight * (-1)
         elif( weight >= 10000):
@@ -76,6 +75,23 @@ class DFWS(MDApp):
     # function that would display the food weight
     def displayWeight(self, weight):
         foodWeight = self.ids.weight_input.text
+
+    # function that would display the calorie tracker
+    def calorieTracker(self):
+        current = self.ids.cal_tracker_bar.value
+        # Start over after 100
+        if current == 1:
+            current = 0
+        
+        # Increment Value by calorie
+        # Edit: test : .25
+
+        current += .25
+        # Update progress bar
+        self.ids.cal_tracker_bar.value = current
+        # Update Label
+        self.ids.cal_tracker.text = f'{int(current*100)}% Progress'
+
 
 
 if __name__ == '__main__':
