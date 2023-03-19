@@ -2,6 +2,7 @@ WindowManager:
     AccountPage:
     ProfilePage:
     Homepage:
+    MealPlanPage
     FruitsPage:
     VegPage:
     GrainsPage: 
@@ -63,7 +64,6 @@ WindowManager:
         Widget:
             size_hint_y: None
             height: 20
-
 
 <ProfilePage>
     name: "ProfilePage"
@@ -136,12 +136,66 @@ WindowManager:
             font_size: 12
             pos_hint: {"center_x": 0.5}
             on_release:
-                app.root.current = "Homepage"
+                app.root.current = "MealPlanPage"
                 root.manager.transition.direction = "left"
 
         Widget:
             size_hint_y: None
             height: 10
+
+<MealPlanPage>
+    name: "MealPlanPage"
+
+    # Label Design
+    MDCard:
+        size_hint: None, None
+        size: 90, 50
+        pos_hint: {'center_x': 0.5, 'top':0.96}
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Meal Plans"
+            font_size: 16
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 5
+        
+        Widget:
+            size_hint_y: None
+            height: 10
+    
+
+    # Edit: Card is overlaying each other
+
+    MDCard:
+        size_hint: None, None
+        size: 300, 350
+        pos_hint: {'center_x': 0.5, 'center_y':0.5}
+        elevation: 2
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+    
+    MDCard:
+        size_hint: None, None
+        size: 300, 350
+        pos_hint: {'center_x': 0.5, 'center_y':0.5}
+        elevation: 2
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+    
+    MDCard:
+        size_hint: None, None
+        size: 300, 350
+        pos_hint: {'center_x': 0.5, 'center_y':0.5}
+        elevation: 2
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+
+
 
 <Homepage>
     name: "Homepage"

@@ -49,6 +49,9 @@ class ProfilePage(Screen):
 class AccountPage(Screen):
     pass
 
+class MealPlanPage(Screen):
+    pass
+
 class WindowManager(ScreenManager):
     pass
 
