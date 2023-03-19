@@ -76,6 +76,14 @@ class DFWS(MDApp):
     def displayWeight(self, weight):
         foodWeight = self.ids.weight_input.text
 
+    def buttonIcons(self):
+        self.ids.fruits_icon.source = 'icons/fruits.png'
+        self.ids.fruits_icon.source = 'icons/vegetable.png'
+        self.ids.fruits_icon.source = 'icons/grains.png'
+        self.ids.fruits_icon.source = 'icons/protein.png'
+        self.ids.fruits_icon.source = 'icons/dairy.png'
+
+
     # function that would display the calorie tracker
     def calorieTracker(self):
         current = self.ids.cal_tracker_bar.value

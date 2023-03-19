@@ -304,7 +304,7 @@ WindowManager:
             #Row
             Button:
                 size_hint: (.2, .2)
-                background_color: 0,0,0,0
+                background_color: 0,0,1,1
                 text: "Fruits"
                 on_release:
                     app.root.current = "FruitsPage"
@@ -312,7 +312,7 @@ WindowManager:
                 
                 Image:
                     id: fruits_icon
-                    source: 'icon/fruits.png'
+                    source: 'icons/fruits.png'
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
                 
@@ -323,6 +323,12 @@ WindowManager:
                 on_release:
                     app.root.current = "VegetablesPage"
                     root.manager.transition.direction = "left"
+                
+                Image:
+                    id: veg_icon
+                    source: 'icons/vegetable.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
             
             Button:
                 size_hint: (.2, .2)
@@ -331,6 +337,12 @@ WindowManager:
                 on_release:
                     app.root.current = "GrainsPage"
                     root.manager.transition.direction = "left"
+
+                Image:
+                    id: grains_icon
+                    source: 'icons/grains.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
             
             Button:
                 size_hint: (.2, .2)
@@ -339,6 +351,12 @@ WindowManager:
                 on_release:
                     app.root.current = "ProteinPage"
                     root.manager.transition.direction = "left"
+                
+                Image:
+                    id: protein_icon
+                    source: 'icons/protein.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
             
             Button:
                 size_hint: (.2, .2)
@@ -347,6 +365,12 @@ WindowManager:
                 on_release:
                     app.root.current = "DairyPage"
                     root.manager.transition.direction = "left"
+                
+                Image:
+                    id: dairy_icon
+                    source: 'icons/dairy.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
             
             Button:
                 size_hint: (.2, .2)
