@@ -2,7 +2,7 @@ from kivy.config import Config
 # 0 being off 1 being on as in true / false
 # you can use 0 or 1 && True or False
 Config.set('graphics', 'resizable', '0')
-# fix the width of the window
+# fix the width of the window   
 Config.set('graphics', 'width', '800')
 # fix the height of the window
 Config.set('graphics', 'height', '420')
@@ -17,11 +17,13 @@ from kivy.properties import StringProperty, ListProperty
 from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.vkeyboard import VKeyboard
+from kivy.uix.button import Button
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.gridlayout import GridLayout
 
 
 
-
-# Define the different screens
+# Define the different screen
 class FruitsPage(Screen):
     pass
 
@@ -54,7 +56,6 @@ class MealPlanPage(Screen):
 
 class WindowManager(ScreenManager):
     pass
-
 
 
 class DFWS(MDApp):
@@ -99,6 +100,8 @@ class DFWS(MDApp):
         self.ids.cal_tracker_bar.value = current
         # Update Label
         self.ids.cal_tracker.text = f'{int(current*100)}% Progress'
+    
+
 
 
 

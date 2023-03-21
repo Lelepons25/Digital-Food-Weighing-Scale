@@ -379,34 +379,72 @@ WindowManager:
                 on_release:
                     app.root.current = "MorePage"
                     root.manager.transition.direction = "left"
-                  
+
+
+
+                 
 <FruitsPage>
     name: "FruitsPage"
 
-    BoxLayout:
-        orientation: 'vertical'
-        size: root.width, root.height
-
-        TextInput:
-            id: weight_input
-            text: "0"
-            font_size: 40
-            size_hint: (0.8, 0.3)
-            pos_hint: {'x':0 , 'top':1}
-            spacing: 10
-            
-        Button:
-            id: clear
-            size_hint: (0.15, 0.15)
-            pos_hint: {'x':0.85 , 'top':1}
-            text: 'clear'
-
+    # Create the Nutrition Facts
+    FloatLayout:
+        size_hint: (0.3, 0.3)
+        pos_hint:{'x':0.01, 'top': 1}
+        
+        # Edit: Dli ma center ang label        
         Label:
-            text: "Fruits"
-            font_size: 32
+            # center: root.center
+            # halign: 'center'
+            text: '0'
+            bold: True
+            font_size: 60
+            color: 0.204, 0.204, 0.204, 1
+            pos_hint:{'x':0.01, 'top': 1}
+            
+            # Line
+            canvas.before:
+                Color:
+                    rgba: 0.204, 0.204, 0.204, 1
+                Line:
+                    width: 1.2
+                    rectangle: (self.x, self.y, 200, 100)
     
-        # Return button
-    
+    # Fix Food List
+    ScrollView:
+        size_hint: (0.4, root.height)
+        pos_hint:{'x':0.01, 'top': 1}
+        
+        FloatLayout:
+            size_hint: (0.4, root.height)
+            pos_hint:{'x':0.01, 'top': 1}
+
+            GridLayout:
+                size_hint_y: None
+                height: 420
+                width: 400
+                cols: 1
+                spacing: "20dp"
+                padding: "20dp"
+
+                MDCard:
+                    orientation: 'vertical'
+                    padding: "8dp"
+                    size_hint: 1, None
+                    height: "210dp"
+                    elevation: 5
+                    border_radius: 20
+                    radius: [15]
+                
+                MDCard:
+                    orientation: 'vertical'
+                    padding: "8dp"
+                    size_hint: 1, None
+                    height: "210dp"
+                    elevation: 5
+                    border_radius: 20
+                    radius: [15]
+
+    # Return button
     MDRectangleFlatIconButton:
         text: "Back"
         icon: "page-previous"
@@ -431,6 +469,7 @@ WindowManager:
             text: "Vegetables"
             font_size: 32
     
+
     
     # Return button
     MDRectangleFlatIconButton:
