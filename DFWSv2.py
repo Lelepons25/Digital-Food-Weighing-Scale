@@ -24,20 +24,9 @@ from kivymd.uix.list import MDList, OneLineListItem, TwoLineListItem
 
 
 # Define the different screen
-class FruitsPage(Screen):
+class CategoryPage(Screen):
     pass
 
-class VegPage(Screen):
-    pass
-
-class GrainsPage(Screen):
-    pass
-
-class ProteinPage(Screen):
-    pass
-
-class DairyPage(Screen):
-    pass
 
 class MorePage(Screen):
     pass
@@ -69,7 +58,7 @@ class DFWS(MDApp):
 
         
     def build(self):
-        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
         return Builder.load_file('dfws.kv') 
     
@@ -100,7 +89,7 @@ class DFWS(MDApp):
         # Update Label
         self.ids.cal_tracker.text = f'{int(current*100)}% Progress'
 
-    def foodList(self):
+    def foodList(self, *args):
         for i in range(20):
             item = TwoLineListItem(text = str(i) + ' item',
                                     secondary_text = '2nd ' + str(i) + 'th item')

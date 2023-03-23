@@ -3,12 +3,20 @@ WindowManager:
     ProfilePage:
     Homepage:
     MealPlanPage
-    FruitsPage:
-    VegPage:
-    GrainsPage: 
-    ProteinPage:
-    DairyPage:
+    CategoryPage:
     MorePage:
+
+# Widget Back Button
+<MDRectangleFlatIconButton>
+    text: "Back"
+    icon: "page-previous"
+    theme_text_color: "Custom"
+    text_color: "blue"
+    line_color: "blue"
+    theme_icon_color: "Custom"
+    icon_color: "blue"
+    pos_hint: {"center_x": 0.94, "center_y": 0.93}
+
 
 <AccountPage>
     name: "AccountPage"
@@ -197,12 +205,9 @@ WindowManager:
 
     MDRectangleFlatButton:
         text: "Skip"
-        # icon: "skip-next-circle-outline"
         theme_text_color: "Custom"
         text_color: "blue"
         line_color: "blue"
-        # theme_icon_color: "Custom"
-        # icon_color: "blue"
         pos_hint: {"center_x": 0.94, "center_y": 0.05}
         on_release:
             app.root.current = "Homepage"
@@ -307,7 +312,7 @@ WindowManager:
                 background_color: 0,0,1,1
                 text: "Fruits"
                 on_release:
-                    app.root.current = "FruitsPage"
+                    app.root.current = "CategoryPage"
                     root.manager.transition.direction = "left"
                 
                 Image:
@@ -321,7 +326,7 @@ WindowManager:
                 background_color: 1,0,0,1
                 text: "Vegetables"
                 on_release:
-                    app.root.current = "VegetablesPage"
+                    app.root.current = "CategoryPage"
                     root.manager.transition.direction = "left"
                 
                 Image:
@@ -335,7 +340,7 @@ WindowManager:
                 background_color: 1,0,0,1
                 text: "Grains"
                 on_release:
-                    app.root.current = "GrainsPage"
+                    app.root.current = "CategoryPage"
                     root.manager.transition.direction = "left"
 
                 Image:
@@ -349,7 +354,7 @@ WindowManager:
                 background_color: 1,0,0,1
                 text: "Protein"
                 on_release:
-                    app.root.current = "ProteinPage"
+                    app.root.current = "categoryPage"
                     root.manager.transition.direction = "left"
                 
                 Image:
@@ -363,7 +368,7 @@ WindowManager:
                 background_color: 1,0,0,1
                 text: "Dairy"
                 on_release:
-                    app.root.current = "DairyPage"
+                    app.root.current = "CategoryPage"
                     root.manager.transition.direction = "left"
                 
                 Image:
@@ -381,8 +386,8 @@ WindowManager:
                     root.manager.transition.direction = "left"
 
                  
-<FruitsPage>
-    name: "FruitsPage"
+<CategoryPage>
+    name: "CategoryPage"
 
     # Create the Nutrition Facts
     FloatLayout:
@@ -432,117 +437,6 @@ WindowManager:
 
     # Return button
     MDRectangleFlatIconButton:
-        text: "Back"
-        icon: "page-previous"
-        theme_text_color: "Custom"
-        text_color: "blue"
-        line_color: "blue"
-        theme_icon_color: "Custom"
-        icon_color: "blue"
-        pos_hint: {"center_x": 0.94, "center_y": 0.93}
-        on_release:
-            app.root.current = "Homepage"
-            root.manager.transition.direction = "right"
-
-<VegPage>
-    name: "VegetablesPage"
-
-    BoxLayout:
-        orientation: 'vertical'
-        size: root.width, root.height
-
-        Label:
-            text: "Vegetables"
-            font_size: 32
-    
-
-    
-    # Return button
-    MDRectangleFlatIconButton:
-        text: "Back"
-        icon: "page-previous"
-        theme_text_color: "Custom"
-        text_color: "blue"
-        line_color: "blue"
-        theme_icon_color: "Custom"
-        icon_color: "blue"
-        pos_hint: {"center_x": 0.94, "center_y": 0.93}
-        on_release:
-            app.root.current = "Homepage"
-            root.manager.transition.direction = "right"
-
-<GrainsPage>
-    name: "GrainsPage"
-
-    BoxLayout:
-        orientation: 'vertical'
-        size: root.width, root.height
-
-        Label:
-            text: "Grains"
-            font_size: 32
-
-    # Return button
-    MDRectangleFlatIconButton:
-        text: "Back"
-        icon: "page-previous"
-        theme_text_color: "Custom"
-        text_color: "blue"
-        line_color: "blue"
-        theme_icon_color: "Custom"
-        icon_color: "blue"
-        pos_hint: {"center_x": 0.94, "center_y": 0.93}
-        on_release:
-            app.root.current = "Homepage"
-            root.manager.transition.direction = "right"
-
-<ProteinPage>
-    name: "ProteinPage"
-
-    BoxLayout:
-        orientation: 'vertical'
-        size: root.width, root.height
-
-        Label:
-            text: "Protein"
-            font_size: 32
-    
-    
-    # Return button
-    MDRectangleFlatIconButton:
-        text: "Back"
-        icon: "page-previous"
-        theme_text_color: "Custom"
-        text_color: "blue"
-        line_color: "blue"
-        theme_icon_color: "Custom"
-        icon_color: "blue"
-        pos_hint: {"center_x": 0.94, "center_y": 0.93}
-        on_release:
-            app.root.current = "Homepage"
-            root.manager.transition.direction = "right"
-
-<DairyPage>
-    name: "DairyPage"
-
-    BoxLayout:
-        orientation: 'vertical'
-        size: root.width, root.height
-
-        Label:
-            text: "Dairy"
-            font_size: 32
-    
-    # Return button
-    MDRectangleFlatIconButton:
-        text: "Back"
-        icon: "page-previous"
-        theme_text_color: "Custom"
-        text_color: "blue"
-        line_color: "blue"
-        theme_icon_color: "Custom"
-        icon_color: "blue"
-        pos_hint: {"center_x": 0.94, "center_y": 0.93}
         on_release:
             app.root.current = "Homepage"
             root.manager.transition.direction = "right"
@@ -559,15 +453,7 @@ WindowManager:
             font_size: 32
     
     # Return button
-    MDRectangleFlatIconButton:
-        text: "Back"
-        icon: "page-previous"
-        theme_text_color: "Custom"
-        text_color: "blue"
-        line_color: "blue"
-        theme_icon_color: "Custom"
-        icon_color: "blue"
-        pos_hint: {"center_x": 0.94, "center_y": 0.93}
-        on_release:
-            app.root.current = "Homepage"
-            root.manager.transition.direction = "right"
+        MDRectangleFlatIconButton:
+            on_release:
+                app.root.current = "Homepage"
+                root.manager.transition.direction = "right"
