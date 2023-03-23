@@ -71,7 +71,7 @@ class DFWS(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Blue"
-        return Builder.load_file('design3.kv') 
+        return Builder.load_file('dfws.kv') 
     
     # function that will display the weight
     def computeWeight(self, weight):
