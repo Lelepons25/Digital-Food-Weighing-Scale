@@ -1,8 +1,11 @@
+#:import utils kivy.utils
+
 WindowManager:
     AccountPage:
     ProfilePage:
     Homepage:
-    MealPlanPage
+    MealPlanPage:
+    EditProfilePage:
     CategoryPage:
     MorePage:
 
@@ -12,11 +15,10 @@ WindowManager:
     icon: "page-previous"
     theme_text_color: "Custom"
     text_color: "blue"
-    line_color: "blue"
+    line_color: 0,0,0,0
     theme_icon_color: "Custom"
     icon_color: "blue"
-    pos_hint: {"center_x": 0.94, "center_y": 0.93}
-
+    pos_hint: {"center_x": 0.94, "top": 0.98}
 
 <AccountPage>
     name: "AccountPage"
@@ -213,6 +215,117 @@ WindowManager:
             app.root.current = "Homepage"
             root.manager.transition.direction = "left"
 
+<EditProfilePage>
+    name: "EditProfilePage"
+
+    # Profile
+    MDCard:
+        size_hint: None, None
+        size: 300, 350
+        pos_hint: {'x': 0.04, 'top':0.88}
+        elevation: 1
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+        
+        MDLabel:
+            text: "Profile"
+            font_size: 20
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 5
+
+        # Edit this to label
+        MDTextField:
+            id: user_name
+            mode: "round"         
+            hint_text: "Name"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            mode: "round"
+            id: sex
+            hint_text: "Sex"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            mode: "round"
+            id: age
+            hint_text: "Age"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            mode: "round"
+            id: user_weight
+            hint_text: "Weight"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+        
+        MDTextField:
+            mode: "round"
+            id: user_height
+            hint_text: "Height"
+            size_hint_x: None
+            width: 200
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+        
+        MDRoundFlatButton:
+            text: "Edit"
+            font_size: 12
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                app.root.current = "ProfilePage"
+                root.manager.transition.direction = "left"
+
+        Widget:
+            size_hint_y: None
+            height: 10
+
+    # Meal Plan
+    MDCard:
+        size_hint: None, None
+        size: 400, 350
+        pos_hint: {'x': 0.45, 'top':0.88}
+        elevation: 1
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Meal Plans"
+            font_size: 20
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 5
+        
+        ScrollView:
+            GridLayout:
+                cols: 1
+                spacing: 10
+                pading: 10
+
+            # List or Card of Meal Plans
+
+    # Return
+    MDRectangleFlatIconButton:
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"
+
 <Homepage>
     name: "Homepage"
 
@@ -228,13 +341,14 @@ WindowManager:
             id: clear
             size_hint: (0.7, 0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'clear'
+            text: 'CLEAR'
+            background_color: utils.get_color_from_hex('#FF3333')
         
         Button:
             id: tare
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'tare'
+            text: 'Tare'
         
     MDCard:
         size_hint: None, None
@@ -245,16 +359,19 @@ WindowManager:
         orientation: 'vertical'
 
         Button:
-            id: save
+            id: profile
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Profile'
+            on_release:
+                app.root.current = "EditProfilePage"
+                root.manager.transition.direction = "left"
 
         Button:
             id: save
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'save'
+            text: 'Save'
     
     MDCard:
         size_hint: None, None
@@ -309,8 +426,7 @@ WindowManager:
             #Row
             Button:
                 size_hint: (.2, .2)
-                background_color: 0,0,1,1
-                text: "Fruits"
+                background_color: 0,0,1,0
                 on_release:
                     app.root.current = "CategoryPage"
                     root.manager.transition.direction = "left"
@@ -323,8 +439,7 @@ WindowManager:
                 
             Button:
                 size_hint: (.2, .2)
-                background_color: 1,0,0,1
-                text: "Vegetables"
+                background_color: 0,0,1,0
                 on_release:
                     app.root.current = "CategoryPage"
                     root.manager.transition.direction = "left"
@@ -337,8 +452,7 @@ WindowManager:
             
             Button:
                 size_hint: (.2, .2)
-                background_color: 1,0,0,1
-                text: "Grains"
+                background_color: 0,0,1,0
                 on_release:
                     app.root.current = "CategoryPage"
                     root.manager.transition.direction = "left"
@@ -351,10 +465,9 @@ WindowManager:
             
             Button:
                 size_hint: (.2, .2)
-                background_color: 1,0,0,1
-                text: "Protein"
+                background_color: 0,0,1,0
                 on_release:
-                    app.root.current = "categoryPage"
+                    app.root.current = "CategoryPage"
                     root.manager.transition.direction = "left"
                 
                 Image:
@@ -365,8 +478,7 @@ WindowManager:
             
             Button:
                 size_hint: (.2, .2)
-                background_color: 1,0,0,1
-                text: "Dairy"
+                background_color: 0,0,1,0
                 on_release:
                     app.root.current = "CategoryPage"
                     root.manager.transition.direction = "left"
@@ -379,12 +491,16 @@ WindowManager:
             
             Button:
                 size_hint: (.2, .2)
-                background_color: 1,0,0,1
+                background_color: 0,0,1,0
                 text: "More"
                 on_release:
                     app.root.current = "MorePage"
                     root.manager.transition.direction = "left"
-
+                Image:
+                    id: more_icon
+                    source: 'icons/more.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
                  
 <CategoryPage>
     name: "CategoryPage"
@@ -453,7 +569,7 @@ WindowManager:
             font_size: 32
     
     # Return button
-        MDRectangleFlatIconButton:
-            on_release:
-                app.root.current = "Homepage"
-                root.manager.transition.direction = "right"
+    MDRectangleFlatIconButton:
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"
