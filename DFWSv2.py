@@ -13,13 +13,13 @@ import kivy
 from kivymd.app import MDApp
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.properties import StringProperty, ListProperty
 from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.vkeyboard import VKeyboard
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
+from kivymd.uix.list import MDList, OneLineListItem, TwoLineListItem
 
 
 
@@ -43,6 +43,13 @@ class MorePage(Screen):
     pass
 
 class Homepage(Screen):
+    # Icons for each category
+    def buttonIcons(self):
+        self.ids.fruits_icon.source = 'icons/fruits.png'
+        self.ids.fruits_icon.source = 'icons/vegetable.png'
+        self.ids.fruits_icon.source = 'icons/grains.png'
+        self.ids.fruits_icon.source = 'icons/protein.png'
+        self.ids.fruits_icon.source = 'icons/dairy.png'
     pass
 
 class ProfilePage(Screen):
@@ -62,7 +69,7 @@ class DFWS(MDApp):
 
         
     def build(self):
-        self.theme_cls.theme_style = "Light"
+        self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Blue"
         return Builder.load_file('design3.kv') 
     
@@ -77,13 +84,6 @@ class DFWS(MDApp):
     def displayWeight(self, weight):
         foodWeight = self.ids.weight_input.text
 
-    def buttonIcons(self):
-        self.ids.fruits_icon.source = 'icons/fruits.png'
-        self.ids.fruits_icon.source = 'icons/vegetable.png'
-        self.ids.fruits_icon.source = 'icons/grains.png'
-        self.ids.fruits_icon.source = 'icons/protein.png'
-        self.ids.fruits_icon.source = 'icons/dairy.png'
-
 
     # function that would display the calorie tracker
     def calorieTracker(self):
@@ -94,15 +94,19 @@ class DFWS(MDApp):
         
         # Increment Value by calorie
         # Edit: test : .25
-
         current += .25
         # Update progress bar
         self.ids.cal_tracker_bar.value = current
         # Update Label
         self.ids.cal_tracker.text = f'{int(current*100)}% Progress'
+
+    def foodList(self):
+        for i in range(20):
+            item = TwoLineListItem(text = str(i) + ' item',
+                                    secondary_text = '2nd ' + str(i) + 'th item')
+            self.root.ids.food.add_widget(item)
+        
     
-
-
 
 
 if __name__ == '__main__':

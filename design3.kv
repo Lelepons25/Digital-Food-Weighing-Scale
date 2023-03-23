@@ -380,8 +380,6 @@ WindowManager:
                     app.root.current = "MorePage"
                     root.manager.transition.direction = "left"
 
-
-
                  
 <FruitsPage>
     name: "FruitsPage"
@@ -425,26 +423,12 @@ WindowManager:
                 height: root.height
                 width: 400
                 cols: 1
-                spacing: "20dp"
-                padding: "20dp"
-
-                MDCard:
-                    orientation: 'vertical'
-                    padding: "8dp"
-                    size_hint: 1, None
-                    height: "210dp"
-                    elevation: 5
-                    border_radius: 20
-                    radius: [15]
+                spacing: "10dp"
+                padding: "10dp"
                 
-                MDCard:
-                    orientation: 'vertical'
-                    padding: "8dp"
-                    size_hint: 1, None
-                    height: "210dp"
-                    elevation: 5
-                    border_radius: 20
-                    radius: [15]
+                MDList:
+                    TwoLineListItem:
+                        id: food
 
     # Return button
     MDRectangleFlatIconButton:
