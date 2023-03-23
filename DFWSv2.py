@@ -8,8 +8,6 @@ Config.set('graphics', 'width', '800')
 Config.set('graphics', 'height', '420')
 
 
-import kivy
-
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.uix.widget import Widget
@@ -61,7 +59,7 @@ class DFWS(MDApp):
 
         
     def build(self):
-        self.theme_cls.theme_style = "Light"
+        self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Blue"
         return Builder.load_file('dfws.kv') 
     
