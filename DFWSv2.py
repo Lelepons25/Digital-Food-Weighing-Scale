@@ -56,10 +56,9 @@ class WindowManager(ScreenManager):
 
 
 class DFWS(MDApp):
-
         
     def build(self):
-        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
         return Builder.load_file('dfws.kv') 
     
@@ -90,14 +89,14 @@ class DFWS(MDApp):
         # Update Label
         self.ids.cal_tracker.text = f'{int(current*100)}% Progress'
 
-    def foodList(self, *args):
+    # Edit: Di mudisplay ang list
+    def foodList(self):
+        
         for i in range(20):
             item = TwoLineListItem(text = str(i) + ' item',
                                     secondary_text = '2nd ' + str(i) + 'th item')
             self.root.ids.food.add_widget(item)
-        
-    
-
+            
 
 if __name__ == '__main__':
     DFWS().run()

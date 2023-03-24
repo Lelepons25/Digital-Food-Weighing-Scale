@@ -400,134 +400,135 @@ WindowManager:
             pos_hint: {'x': 0}
             size_hint_x: 1
         
-    BoxLayout:
-        orientation: 'vertical'
-        size: root.width, root.height
+    FloatLayout:
+        size_hint: (0.28, 0.2)
+        pos_hint:{'x':0.02, 'top': 0.96}
         
-
-        # Display Weight
-        TextInput:
-            id: weight_input
-            text: "0"
-            font_size: 40
-            size_hint: (0.3, 0.3)
-            pos_hint:{'x':0.02}
-            spacing: 10
-            padding: 10
+        canvas.before:
+            Color:
+                rgba: 0.204, 0.204, 0.204, 1
+            Line:
+                width: 1.2
+                rectangle: (self.x, self.y, self.width, self.height)
+                
+        Label:
+            text: '0'
+            bold: True
+            font_size: 60
+            color: 0.204, 0.204, 0.204, 1
+            pos_hint:{'x':0.01, 'top': 1}
                 
     
-        GridLayout:
-            cols: 3
-            rows: 2
+    GridLayout:
+        size_hint: (1, 0.6)
+        pos_hint:{'x':0.02, 'top': 0.7}
 
-            spacing: 10
-            padding: 10
+        cols: 3
+        rows: 2
 
-            #Row
-            Button:
-                size_hint: (.2, .2)
-                background_color: 0,0,1,0
-                on_release:
-                    app.root.current = "CategoryPage"
-                    root.manager.transition.direction = "left"
-                
-                Image:
-                    id: fruits_icon
-                    source: 'icons/fruits.png'
-                    center_x: self.parent.center_x
-                    center_y: self.parent.center_y
-                
-            Button:
-                size_hint: (.2, .2)
-                background_color: 0,0,1,0
-                on_release:
-                    app.root.current = "CategoryPage"
-                    root.manager.transition.direction = "left"
-                
-                Image:
-                    id: veg_icon
-                    source: 'icons/vegetable.png'
-                    center_x: self.parent.center_x
-                    center_y: self.parent.center_y
-            
-            Button:
-                size_hint: (.2, .2)
-                background_color: 0,0,1,0
-                on_release:
-                    app.root.current = "CategoryPage"
-                    root.manager.transition.direction = "left"
+        spacing: 10
+        padding: 10
 
-                Image:
-                    id: grains_icon
-                    source: 'icons/grains.png'
-                    center_x: self.parent.center_x
-                    center_y: self.parent.center_y
+        #Row
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                root.manager.transition.direction = "left"
             
-            Button:
-                size_hint: (.2, .2)
-                background_color: 0,0,1,0
-                on_release:
-                    app.root.current = "CategoryPage"
-                    root.manager.transition.direction = "left"
-                
-                Image:
-                    id: protein_icon
-                    source: 'icons/protein.png'
-                    center_x: self.parent.center_x
-                    center_y: self.parent.center_y
+            Image:
+                id: fruits_icon
+                source: 'icons/fruits.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
             
-            Button:
-                size_hint: (.2, .2)
-                background_color: 0,0,1,0
-                on_release:
-                    app.root.current = "CategoryPage"
-                    root.manager.transition.direction = "left"
-                
-                Image:
-                    id: dairy_icon
-                    source: 'icons/dairy.png'
-                    center_x: self.parent.center_x
-                    center_y: self.parent.center_y
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                root.manager.transition.direction = "left"
             
-            Button:
-                size_hint: (.2, .2)
-                background_color: 0,0,1,0
-                text: "More"
-                on_release:
-                    app.root.current = "MorePage"
-                    root.manager.transition.direction = "left"
-                Image:
-                    id: more_icon
-                    source: 'icons/more.png'
-                    center_x: self.parent.center_x
-                    center_y: self.parent.center_y
+            Image:
+                id: veg_icon
+                source: 'icons/vegetable.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                root.manager.transition.direction = "left"
+
+            Image:
+                id: grains_icon
+                source: 'icons/grains.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                root.manager.transition.direction = "left"
+            
+            Image:
+                id: protein_icon
+                source: 'icons/protein.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                root.manager.transition.direction = "left"
+            
+            Image:
+                id: dairy_icon
+                source: 'icons/dairy.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            text: "More"
+            on_release:
+                app.root.current = "MorePage"
+                root.manager.transition.direction = "left"
+            Image:
+                id: more_icon
+                source: 'icons/more.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
                  
 <CategoryPage>
     name: "CategoryPage"
 
     # Create the Nutrition Facts
     FloatLayout:
-        size_hint: (0.3, 0.3)
-        pos_hint:{'x':0.02, 'top': 1}
+        size_hint: (0.28, 0.2)
+        pos_hint:{'x':0.02, 'top': 0.96}
         
-        # Edit: Dli ma center ang label 
-
+        canvas.before:
+            Color:
+                rgba: 0.204, 0.204, 0.204, 1
+            Line:
+                width: 1.2
+                rectangle: (self.x, self.y, self.width, self.height)
+                
         Label:
-            # center: root.center
-            # halign: 'center'
-            # text: '0'
+            text: '0'
             bold: True
             font_size: 60
             color: 0.204, 0.204, 0.204, 1
             pos_hint:{'x':0.01, 'top': 1}
-            
-            # Line
-            canvas.before:
-                Color:
-                    rgba: 0.204, 0.204, 0.204, 1
-                Line:
-                    width: 1.2
-                    rectangle: (self.x, self.y, 200, 100)
     
     MDCard:
         size_hint: None, None
@@ -620,8 +621,8 @@ WindowManager:
                 
                 MDList:
                     id: food
+                    
                         
-
     # Return button
     MDRectangleFlatIconButton:
         on_release:
