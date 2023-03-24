@@ -24,7 +24,6 @@ from kivymd.uix.list import MDList, OneLineListItem, TwoLineListItem
 class CategoryPage(Screen):
     pass
 
-
 class MorePage(Screen):
     pass
 
@@ -69,8 +68,10 @@ class DFWS(MDApp):
         elif( weight >= 10000):
             weight = 0
 
-    # function that would display the food weight
+    weight = 10
+    # function that would display the food weight 
     def displayWeight(self, weight):
+        self.ids.weight_input.text = weight
         foodWeight = self.ids.weight_input.text
 
 
