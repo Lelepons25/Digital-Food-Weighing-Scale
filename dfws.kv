@@ -20,6 +20,14 @@ WindowManager:
     icon_color: "blue"
     pos_hint: {"center_x": 0.94, "top": 0.98}
 
+# Widget Nutrition Facts
+<MDLabel>
+    font_size: 14
+    halign: 'left'
+    size_hint_y: None
+    height: self.texture_size[1]
+    padding_y: 5
+
 <AccountPage>
     name: "AccountPage"
     
@@ -621,7 +629,9 @@ WindowManager:
                 padding: "10dp"
                 
                 MDList:
-                    id: food
+                    TwoLineListItem:
+                        id: food
+                    
 
     # Display Nutrition Facts rectangle or box             
     MDCard:
@@ -635,11 +645,34 @@ WindowManager:
 
         MDLabel:
             text: "Nutrition Facts"
-            font_size: 14
+            bold: True
             halign: 'center'
-            size_hint_y: None
-            height: self.texture_size[1]
-            padding_y: 5
+        
+        # Label Text
+        # Edit: add holder with id on the right side
+        MDLabel:
+            text: "Serving Size"
+        
+        MDLabel:
+            text: "Calories"
+        
+        MDLabel:
+            text: "Total Fat (g)"
+        
+        MDLabel:
+            text: "Cholesterol (mg)"
+        
+        MDLabel:
+            text: "Sodium (mg)"
+        
+        MDLabel:
+            text: "Protein (g)"
+        
+        MDLabel:
+            text: "Calcium (mg)"
+        
+        MDLabel:
+            text: "Iron (mg)"
 
 
 

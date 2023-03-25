@@ -18,10 +18,15 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivymd.uix.list import MDList, OneLineListItem, TwoLineListItem
 
-
-
 # Define the different screen
 class CategoryPage(Screen):
+    # Edit: Di mudisplay ang list
+    def foodList(self):
+        for i in range(20):
+            self.name += 1
+            item = TwoLineListItem(text = str(i) + ' item',
+                                    secondary_text = '2nd ' + str(i) + 'th item')
+            self.root.ids.food.add_widget(item)
     pass
 
 class MorePage(Screen):
@@ -58,7 +63,7 @@ class DFWS(MDApp):
         
     def build(self):
         self.theme_cls.theme_style = "Light"
-        self.theme_cls.primary_palette = "Blue"
+        self.theme_cls.primary_palette = "Blue"  
         return Builder.load_file('dfws.kv') 
     
     # function that will display the weight
@@ -89,14 +94,6 @@ class DFWS(MDApp):
         self.ids.cal_tracker_bar.value = current
         # Update Label
         self.ids.cal_tracker.text = f'{int(current*100)}% Progress'
-
-    # Edit: Di mudisplay ang list
-    def foodList(self):
-        
-        for i in range(20):
-            item = TwoLineListItem(text = str(i) + ' item',
-                                    secondary_text = '2nd ' + str(i) + 'th item')
-            self.root.ids.food.add_widget(item)
             
 
 if __name__ == '__main__':
