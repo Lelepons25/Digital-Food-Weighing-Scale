@@ -426,16 +426,16 @@ WindowManager:
             font_size: 60
             color: 0.204, 0.204, 0.204, 1
             pos_hint:{'x':0.01, 'top': 1}
-                
-    
+                    
     GridLayout:
+
         size_hint: (1, 0.6)
         pos_hint:{'x':0.02, 'top': 0.7}
 
         cols: 3
         rows: 2
 
-        spacing: 10
+        spacing: 40
         padding: 10
 
         #Row
@@ -451,6 +451,8 @@ WindowManager:
                 source: 'icons/fruits.png'
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
+
+            # Edit: Let's try making a label
             
         Button:
             size_hint: (.2, .2)
@@ -464,7 +466,7 @@ WindowManager:
                 source: 'icons/vegetable.png'
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
-        
+
         Button:
             size_hint: (.2, .2)
             background_color: 0,0,1,0
@@ -507,7 +509,6 @@ WindowManager:
         Button:
             size_hint: (.2, .2)
             background_color: 0,0,1,0
-            text: "More"
             on_release:
                 app.root.current = "MorePage"
                 root.manager.transition.direction = "left"
@@ -516,7 +517,98 @@ WindowManager:
                 source: 'icons/more.png'
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
-                 
+
+    MDCard:
+        size_hint: None, None
+        size: 60, 30
+        pos_hint: {'x': 0.14, 'top':0.45}
+        padding: 5
+        spacing: 5
+        elevation: 1
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Fruits"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+    
+    MDCard:
+        size_hint: None, None
+        size: 90, 30
+        pos_hint: {'x': 0.47, 'top':0.45}
+        padding: 5
+        spacing: 5
+        elevation: 1
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Vegetables"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+    
+    MDCard:
+        size_hint: None, None
+        size: 60, 30
+        pos_hint: {'x': 0.82, 'top':0.45}
+        padding: 5
+        spacing: 5
+        elevation: 1
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Grains"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    MDCard:
+        size_hint: None, None
+        size: 60, 30
+        pos_hint: {'x': 0.14, 'top':0.13}
+        padding: 5
+        spacing: 5
+        elevation: 1
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Protein"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    MDCard:
+        size_hint: None, None
+        size: 60, 30
+        pos_hint: {'x': 0.48, 'top':0.13}
+        padding: 5
+        spacing: 5
+        elevation: 1
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Dairy"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    MDCard:
+        size_hint: None, None
+        size: 60, 30
+        pos_hint: {'x': 0.82, 'top':0.13}
+        padding: 5
+        spacing: 5
+        elevation: 1
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "More"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+
 <CategoryPage>
     name: "CategoryPage"
 
