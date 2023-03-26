@@ -26,7 +26,7 @@ WindowManager:
     halign: 'left'
     size_hint_y: None
     height: self.texture_size[1]
-    padding_y: 5
+    padding_y: 3
 
 <AccountPage>
     name: "AccountPage"
@@ -666,6 +666,9 @@ WindowManager:
             text: "Sodium (mg)"
         
         MDLabel:
+            text: "Total Carbohydrate (g)"
+
+        MDLabel:
             text: "Protein (g)"
         
         MDLabel:
@@ -673,8 +676,64 @@ WindowManager:
         
         MDLabel:
             text: "Iron (mg)"
+    
+    MDCard:
+        size_hint: None, None
+        size: 97,248 
+        pos_hint: {'x': 0.84, 'top':0.63}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
 
-
+        MDLabel: # This is empty
+            text: " "
+            halign: 'center'
+        
+        # Label Text
+        MDLabel:
+            text: " 0 "
+            id: food_serving_size
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_calories
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_fat
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_choles
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_sodium
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_carbo
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_protein
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_calcium
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_iron
+            halign: "right"
 
     # Return button
     MDRectangleFlatIconButton:

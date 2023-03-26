@@ -18,6 +18,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivymd.uix.list import MDList, OneLineListItem, TwoLineListItem
 
+
 # Define the different screen
 class CategoryPage(Screen):
     # Edit: Di mudisplay ang list
