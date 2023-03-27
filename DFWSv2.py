@@ -59,6 +59,8 @@ class AccountPage(Screen):
             self.reset()
 
 
+class NewAccountPage(Screen):
+    pass
 
 class MealPlanPage(Screen):
     pass
