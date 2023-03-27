@@ -408,6 +408,8 @@ WindowManager:
             pos_hint: {'x': 0}
             size_hint_x: 1
         
+
+
     FloatLayout:
         size_hint: (0.28, 0.2)
         pos_hint:{'x':0.02, 'top': 0.96}
@@ -606,6 +608,12 @@ WindowManager:
 <CategoryPage>
     name: "CategoryPage"
 
+    MDFloatingActionButtonSpeedDial:
+        id: speed_dial
+        data: app.data
+        root_button_anim: True
+        hint_animation: True   
+        
     # Create the Nutrition Facts
     FloatLayout:
         size_hint: (0.28, 0.2)

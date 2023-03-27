@@ -17,6 +17,8 @@ from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivymd.uix.list import MDList, OneLineListItem, TwoLineListItem
+from kivy.properties import ObjectProperty, DictProperty
+from database import DataBase # for Login (Test Only)
 
 
 # Define the different screen
@@ -48,7 +50,15 @@ class ProfilePage(Screen):
     pass
 
 class AccountPage(Screen):
-    pass
+    username = ObjectProperty(None)
+    password = ObjectProperty(None)
+
+    # validate
+    def login(self):
+        if db.validate(self.username.text, self.password.text):
+            self.reset()
+
+
 
 class MealPlanPage(Screen):
     pass
@@ -60,13 +70,27 @@ class WindowManager(ScreenManager):
     pass
 
 
+sm = WindowManager()
+db = DataBase("users.txt")
+
 class DFWS(MDApp):
-        
+
+    data = DictProperty()
+
+    def floatButton(self):
+        self.data = {
+            'Create Meal': 'food'
+        }  
+
     def build(self):
         self.theme_cls.theme_style = "Light"
-        self.theme_cls.primary_palette = "Blue"  
-        return Builder.load_file('dfws.kv') 
-    
+        self.theme_cls.primary_palette = "Blue"
+
+
+        return Builder.load_file('dfws.kv')
+
+
+
     # function that will display the weight
     def computeWeight(self, weight):
         if( weight < 0):
@@ -96,6 +120,7 @@ class DFWS(MDApp):
         # Update Label
         self.ids.cal_tracker.text = f'{int(current*100)}% Progress'
             
+
 
 if __name__ == '__main__':
     DFWS().run()
