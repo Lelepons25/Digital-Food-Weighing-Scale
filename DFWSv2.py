@@ -19,6 +19,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivymd.uix.list import MDList, OneLineListItem, TwoLineListItem
 from kivy.properties import ObjectProperty, DictProperty
 from database import DataBase # for Login (Test Only)
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 
 # Define the different screen
@@ -54,13 +56,49 @@ class AccountPage(Screen):
     password = ObjectProperty(None)
 
     # validate
-    def login(self):
+    def loginButton(self):
         if db.validate(self.username.text, self.password.text):
             self.reset()
+            sm.current = "Homepage"
+        else:
+            invalidLogin()
+    
+    def createButton(self):
+        self.reset()
+        sm.current = "NewAccountPage"
+    
+    def reset(self):
+        self.username.text = ""
+        self.password.text = ""
+
 
 
 class NewAccountPage(Screen):
-    pass
+    username = ObjectProperty(None)
+    password = ObjectProperty(None)
+
+    def signup(self):
+        if self.username.text != "":
+            if self.password != "":
+                db.add_user(self.username.text, self.password.text)
+
+                self.reset()
+
+                sm.current = "AccountPage"
+            else:
+                invalidForm()
+        else:
+            invalidForm()
+    
+    def login(self):
+        self.reset()
+        sm.current = "AccountPage"
+    
+    def reset(self):
+        self.username.text = ""
+        self.password.text = ""
+
+                
 
 class MealPlanPage(Screen):
     pass
@@ -122,7 +160,21 @@ class DFWS(MDApp):
         # Update Label
         self.ids.cal_tracker.text = f'{int(current*100)}% Progress'
             
+def invalidLogin():
+    pop = Popup(title = " Invalid Login ",
+        content = Label (text = "Invalid username or password"),
+        size_hint = (None, None),
+        size = (400, 400)
+    )
+    pop.open()
 
+def invalidForm():
+    pop = Popup(title = " Invalid Form ",
+        content = Label (text = "Fill in with valid information"),
+        size_hint = (None, None),
+        size = (400, 400)
+    )
+    pop.open()
 
 if __name__ == '__main__':
     DFWS().run()
