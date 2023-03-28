@@ -31,6 +31,9 @@ WindowManager:
 
 <AccountPage>
     name: "AccountPage"
+
+    username: username
+    password: password
     
     # User Profile
     MDCard:
@@ -52,7 +55,7 @@ WindowManager:
 
         MDTextField:
             mode: 'round'
-            id: user
+            id: username
             hint_text: "username"
             icon_right: "account"
             size_hint_x: None
@@ -76,17 +79,18 @@ WindowManager:
             font_size: 12
             pos_hint: {"center_x": 0.5}
             on_release:
-                app.root.current = "ProfilePage"
                 root.manager.transition.direction = "left"
-        
+                root.loginButton()
+                # app.root.current = "Homepage"
+
         MDFlatButton:
             text: "Create an account"
             font_size: 12
             pos_hint: {"center_x": 0.5}
             on_release:
-                app.root.current = "NewAccountPage"
                 root.manager.transition.direction = "left"
-
+                root.createButton()
+                # app.root.current = "NewAccountPage"
 
         Widget:
             size_hint_y: None
@@ -94,6 +98,10 @@ WindowManager:
 
 <NewAccountPage>
     name: "NewAccountPage"
+
+    username: username
+    password: password
+
 
     MDCard:
         size_hint: None, None
@@ -114,7 +122,7 @@ WindowManager:
 
         MDTextField:
             mode: 'round'
-            id: user
+            id: username
             hint_text: "username"
             icon_right: "account"
             size_hint_x: None
@@ -138,17 +146,22 @@ WindowManager:
             font_size: 12
             pos_hint: {"center_x": 0.5}
             on_release:
-                app.root.current = "AccountPage"
                 root.manager.transition.direction = "left"
-
+                root.signup()
+                # app.root.current = "AccountPage"
+        
+        MDFlatButton:
+            text: "Already have an account? Login"
+            font_size: 12
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                root.manager.transition.direction = "left"
+                root.login()
+                # app.root.current = "AccountPage"
         Widget:
             size_hint_y: None
             height: 20
     
-    MDRectangleFlatIconButton:
-        on_release:
-            app.root.current = "AccountPage"
-            root.manager.transition.direction = "left"
 
 <ProfilePage>
     name: "ProfilePage"

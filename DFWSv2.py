@@ -23,6 +23,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
 
+
 # Define the different screen
 class CategoryPage(Screen):
     # Edit: Di mudisplay ang list
@@ -32,7 +33,6 @@ class CategoryPage(Screen):
             item = TwoLineListItem(text = str(i) + ' item',
                                     secondary_text = '2nd ' + str(i) + 'th item')
             self.root.ids.food.add_widget(item)
-    pass
 
 class MorePage(Screen):
     pass
@@ -46,8 +46,8 @@ class Homepage(Screen):
         self.ids.protein_icon.source = 'icons/protein.png'
         self.ids.dairy_icon.source = 'icons/dairy.png'
         self.ids.more_icon.source = 'icons/more.png'
-    pass
-
+    
+ 
 class ProfilePage(Screen):
     pass
 
@@ -59,18 +59,17 @@ class AccountPage(Screen):
     def loginButton(self):
         if db.validate(self.username.text, self.password.text):
             self.reset()
-            sm.current = "Homepage"
+            WindowManager.current = "Homepage"
         else:
             invalidLogin()
     
     def createButton(self):
         self.reset()
-        sm.current = "NewAccountPage"
+        WindowManager.current = "NewAccountPage"
     
     def reset(self):
         self.username.text = ""
         self.password.text = ""
-
 
 
 class NewAccountPage(Screen):
@@ -81,10 +80,10 @@ class NewAccountPage(Screen):
         if self.username.text != "":
             if self.password != "":
                 db.add_user(self.username.text, self.password.text)
-
+                accountCreated()
                 self.reset()
 
-                sm.current = "AccountPage"
+                WindowManager.current = "AccountPage"
             else:
                 invalidForm()
         else:
@@ -92,14 +91,13 @@ class NewAccountPage(Screen):
     
     def login(self):
         self.reset()
-        sm.current = "AccountPage"
+        WindowManager.current = "AccountPage"
     
     def reset(self):
         self.username.text = ""
         self.password.text = ""
 
                 
-
 class MealPlanPage(Screen):
     pass
 
@@ -109,9 +107,47 @@ class EditProfilePage(Screen):
 class WindowManager(ScreenManager):
     pass
 
+def invalidLogin():
+    pop = Popup(title = " Invalid Login ",
+        content = Label (text = "Invalid username or password"),
+        size_hint = (None, None),
+        size = (400, 400)
+    )
+    pop.open()
+
+def invalidForm():
+    pop = Popup(title = " Invalid Form ",
+        content = Label (text = "Fill in with valid information"),
+        size_hint = (None, None),
+        size = (400, 400)
+    )
+    pop.open()
+
+def accountCreated():
+    pop = Popup(title= "Succesfull!",
+                content = Label (text = "Account Created"),
+                size_hint = (None, None),
+                size = (400, 400)
+                )
+    pop.open 
 
 sm = WindowManager()
 db = DataBase("users.txt")
+
+
+screens = [AccountPage (name = "AccountPage"),
+           NewAccountPage (name = "NewAccountPage"),
+           ProfilePage (name = "ProfilePage"),
+           Homepage (name = "Homepage"),
+           MealPlanPage (name = "MealPlanPage"),
+           EditProfilePage (name = "EditProfilePage"),
+           CategoryPage (name = "EditCategoryPage"),
+           MorePage (name = "MorePage")]
+
+for screen in screens:
+    sm.add_widget(screen)
+
+sm.current = "AccountPage"
 
 class DFWS(MDApp):
 
@@ -120,15 +156,13 @@ class DFWS(MDApp):
     def floatButton(self):
         self.data = {
             'Create Meal': 'food'
-        }  
+        } 
 
     def build(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
-
-
-        return Builder.load_file('dfws.kv')
-
+        kv = Builder.load_file('dfws.kv')   
+        return kv
 
 
     # function that will display the weight
@@ -160,21 +194,7 @@ class DFWS(MDApp):
         # Update Label
         self.ids.cal_tracker.text = f'{int(current*100)}% Progress'
             
-def invalidLogin():
-    pop = Popup(title = " Invalid Login ",
-        content = Label (text = "Invalid username or password"),
-        size_hint = (None, None),
-        size = (400, 400)
-    )
-    pop.open()
 
-def invalidForm():
-    pop = Popup(title = " Invalid Form ",
-        content = Label (text = "Fill in with valid information"),
-        size_hint = (None, None),
-        size = (400, 400)
-    )
-    pop.open()
 
 if __name__ == '__main__':
     DFWS().run()
