@@ -21,6 +21,7 @@ from kivy.properties import ObjectProperty, DictProperty
 from database import DataBase # for Login (Test Only)
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
+from kivy.clock import Clock
 
 
 
@@ -102,6 +103,9 @@ class MealPlanPage(Screen):
 class EditProfilePage(Screen):
     pass
 
+class SplashScreenPage(Screen):
+    pass
+
 class WindowManager(ScreenManager):
     pass
 
@@ -131,11 +135,31 @@ def accountCreated():
 
 
 
-sm = WindowManager()
 db = DataBase("users.txt")
 
+global sm
+sm = ScreenManager()
 
-screens = [AccountPage (name = "AccountPage"),
+screens = [SplashScreenPage (name = "SplashScreenPage"),
+        AccountPage (name = "AccountPage"),
+        NewAccountPage (name = "NewAccountPage"),
+        ProfilePage (name = "ProfilePage"),
+        Homepage (name = "Homepage"),
+        MealPlanPage (name = "MealPlanPage"),
+        EditProfilePage (name = "EditProfilePage"),
+        CategoryPage (name = "EditCategoryPage"),
+        MorePage (name = "MorePage")]
+
+for screen in screens:
+    sm.add_widget(screen)
+
+class DFWS(MDApp):
+
+    global sm
+    sm = ScreenManager()
+
+    screens = [SplashScreenPage (name = "SplashScreenPage"),
+           AccountPage (name = "AccountPage"),
            NewAccountPage (name = "NewAccountPage"),
            ProfilePage (name = "ProfilePage"),
            Homepage (name = "Homepage"),
@@ -144,12 +168,8 @@ screens = [AccountPage (name = "AccountPage"),
            CategoryPage (name = "EditCategoryPage"),
            MorePage (name = "MorePage")]
 
-for screen in screens:
-    sm.add_widget(screen)
-
-sm.current = "AccountPage"
-
-class DFWS(MDApp):
+    for screen in screens:
+        sm.add_widget(screen)
 
     data = DictProperty()
 
@@ -163,6 +183,13 @@ class DFWS(MDApp):
         self.theme_cls.primary_palette = "Blue"
         kv = Builder.load_file('dfws.kv')   
         return kv
+    
+    def on_start(self):
+        # Delay time for splash screen before main screen
+        Clock.schedule_once(self.change_screen, 5)
+    
+    def change_screen(self, dt):
+        sm.current = "Homepage"
 
 
     # function that will display the weight
