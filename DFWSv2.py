@@ -29,7 +29,6 @@ class CategoryPage(Screen):
     # Edit: Di mudisplay ang list
     def foodList(self):
         for i in range(20):
-            self.name += 1
             item = TwoLineListItem(text = str(i) + ' item',
                                     secondary_text = '2nd ' + str(i) + 'th item')
             self.root.ids.food.add_widget(item)
@@ -59,13 +58,13 @@ class AccountPage(Screen):
     def loginButton(self):
         if db.validate(self.username.text, self.password.text):
             self.reset()
-            WindowManager.current = "Homepage"
+            self.manager.current = "ProfilePage"
         else:
             invalidLogin()
     
     def createButton(self):
         self.reset()
-        WindowManager.current = "NewAccountPage"
+        self.manager.current = "NewAccountPage"
     
     def reset(self):
         self.username.text = ""
@@ -82,8 +81,7 @@ class NewAccountPage(Screen):
                 db.add_user(self.username.text, self.password.text)
                 accountCreated()
                 self.reset()
-
-                WindowManager.current = "AccountPage"
+                self.manager.current = "AccountPage"
             else:
                 invalidForm()
         else:
@@ -91,7 +89,7 @@ class NewAccountPage(Screen):
     
     def login(self):
         self.reset()
-        WindowManager.current = "AccountPage"
+        self.manager.current = "AccountPage"
     
     def reset(self):
         self.username.text = ""
@@ -124,12 +122,14 @@ def invalidForm():
     pop.open()
 
 def accountCreated():
-    pop = Popup(title= "Succesfull!",
+    pop = Popup(title= "Successful!",
                 content = Label (text = "Account Created"),
                 size_hint = (None, None),
                 size = (400, 400)
                 )
-    pop.open 
+    pop.open
+
+
 
 sm = WindowManager()
 db = DataBase("users.txt")
