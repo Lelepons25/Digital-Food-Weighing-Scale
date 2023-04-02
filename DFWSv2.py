@@ -22,7 +22,15 @@ from database import DataBase # for Login (Test Only)
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.clock import Clock
+import mysql.connector
+import pandas as pd
+import sqlite3
 
+conn = sqlite3.connect("food_mixtures.db")
+cur = conn.cursor()
+
+for row in cur.execute("SELECT * from FoodMixturesTable"):
+    print(row)
 
 
 # Define the different screen
@@ -194,3 +202,5 @@ class DFWS(MDApp):
 
 if __name__ == '__main__':
     DFWS().run()
+
+conn.close()
