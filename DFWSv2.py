@@ -57,53 +57,35 @@ class Homepage(Screen):
     
  
 class ProfilePage(Screen):
-    pass
+    user_name = ObjectProperty(None)
+    sex = ObjectProperty(None)
+    age = ObjectProperty(None)
+    user_weight = ObjectProperty(None)
+    user_height = ObjectProperty(None)
 
-class AccountPage(Screen):
-    username = ObjectProperty(None)
-    password = ObjectProperty(None)
+    # Add info of the user
 
-    # validate
-    def loginButton(self):
-        if db.validate(self.username.text, self.password.text):
-            self.reset()
-            self.manager.current = "ProfilePage"
-        else:
-            invalidLogin()
-    
-    def createButton(self):
-        self.reset()
-        self.manager.current = "NewAccountPage"
-    
-    def reset(self):
-        self.username.text = ""
-        self.password.text = ""
-
-
-class NewAccountPage(Screen):
-    username = ObjectProperty(None)
-    password = ObjectProperty(None)
-
-    def signup(self):
-        if self.username.text != "":
-            if self.password != "":
-                db.add_user(self.username.text, self.password.text)
-                accountCreated()
+    def saveProfile(self):
+        if self.user_name.text != "" and self.sex.text != "" and self.age.text != "":
+            if self.user_weight.text != "" and self.user_height.text != "":
+                db.add_user(self.user_name.text,
+                            self.sex.text,
+                            self.age.text,
+                            self.user_weight.text,
+                            self.user_height.text)
                 self.reset()
-                self.manager.current = "AccountPage"
+                self.manager.current = "Homepage"
             else:
                 invalidForm()
         else:
             invalidForm()
     
-    def login(self):
-        self.reset()
-        self.manager.current = "AccountPage"
-    
     def reset(self):
-        self.username.text = ""
-        self.password.text = ""
-
+        self.user_name.text = ""
+        self.sex.text = ""
+        self.age.text = ""
+        self.user_weight.text = ""
+        self.user_height.text = ""
                 
 class MealPlanPage(Screen):
     pass
@@ -149,8 +131,6 @@ global sm
 sm = ScreenManager()
 
 screens = [SplashScreenPage (name = "SplashScreenPage"),
-        AccountPage (name = "AccountPage"),
-        NewAccountPage (name = "NewAccountPage"),
         ProfilePage (name = "ProfilePage"),
         Homepage (name = "Homepage"),
         MealPlanPage (name = "MealPlanPage"),
@@ -167,8 +147,6 @@ class DFWS(MDApp):
     sm = ScreenManager()
 
     screens = [SplashScreenPage (name = "SplashScreenPage"),
-           AccountPage (name = "AccountPage"),
-           NewAccountPage (name = "NewAccountPage"),
            ProfilePage (name = "ProfilePage"),
            Homepage (name = "Homepage"),
            MealPlanPage (name = "MealPlanPage"),

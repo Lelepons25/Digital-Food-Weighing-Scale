@@ -12,36 +12,40 @@ class DataBase:
         self.users = {}
 
         for line in self.file:
-            username, password, created = line.strip().split(";")
-            self.users[username] = (password, created)
+            user_name, sex, age, user_weight, user_height, created = line.strip().split(";")
+            self.users[user_name] = (sex, age, user_weight, user_height, created)
 
         self.file.close()
 
-    def get_user(self, username):
-        if username in self.users:
-            return self.users[username]
+    def get_user(self, user_name):
+        if user_name in self.users:
+            return self.users[user_name]
         else:
             return -1
 
-    def add_user(self, username, password):
-        if username.strip() not in self.users:
-            self.users[username.strip()] = (password.strip(), DataBase.get_date())
+    def add_user(self, user_name, sex, age, user_weight, user_height):
+        if user_name.strip() not in self.users:
+            self.users[user_name.strip()] = (sex.strip(), 
+                                             age.strip(), 
+                                             user_weight.strip(),
+                                             user_height.strip(),
+                                             DataBase.get_date())
             self.save()
             return 1
         else:
             print("Username exists already")
             return -1
 
-    def validate(self, username, password):
-        if self.get_user(username) != -1:
-            return self.users[username][0] == password
-        else:
-            return False
 
     def save(self):
         with open(self.filename, "w") as f:
             for user in self.users:
-                f.write(user + ";" + self.users[user][0] + ";" + self.users[user][1] + "\n")
+                f.write(user + ";" 
+                        + self.users[user][0] + ";" # sex
+                        + self.users[user][1] + ";" # age
+                        + self.users[user][2] + ";" # weight
+                        + self.users[user][3] + ";" # height
+                        + self.users[user][4] + "\n")
 
     @staticmethod
     def get_date():
