@@ -53,90 +53,6 @@ WindowManager:
                 running_duration: 1
                 catching_duration: 1
 
-<ProfilePage>
-    name: "ProfilePage"
-
-    user_name: user_name
-    sex: sex
-    age: age
-    user_weight: user_weight
-    user_height: user_height
-
-    MDCard:
-        size_hint: None, None
-        size: 300, 350
-        pos_hint: {'center_x': 0.5, 'center_y':0.5}
-        elevation: 2
-        padding: 10
-        spacing: 10
-        orientation: 'vertical'
-        
-        MDLabel:
-            text: "Profile"
-            font_size: 20
-            halign: 'center'
-            size_hint_y: None
-            height: self.texture_size[1]
-            padding_y: 5
-
-        MDTextField:
-            id: user_name
-            mode: "round"         
-            hint_text: "Name"
-            size_hint_x: None
-            width: 200
-            font_size: 14
-            pos_hint: {"center_x": 0.5}
-
-        # Edit: Change this to drop down 
-        MDTextField:
-            mode: "round"
-            id: sex
-            hint_text: "Sex"
-            size_hint_x: None
-            width: 200
-            font_size: 14
-            pos_hint: {"center_x": 0.5}
-
-        MDTextField:
-            mode: "round"
-            id: age
-            hint_text: "Age"
-            size_hint_x: None
-            width: 200
-            font_size: 14
-            pos_hint: {"center_x": 0.5}
-
-        MDTextField:
-            mode: "round"
-            id: user_weight
-            hint_text: "Weight"
-            size_hint_x: None
-            width: 200
-            font_size: 14
-            pos_hint: {"center_x": 0.5}
-        
-        MDTextField:
-            mode: "round"
-            id: user_height
-            hint_text: "Height"
-            size_hint_x: None
-            width: 200
-            font_size: 14
-            pos_hint: {"center_x": 0.5}
-
-
-        MDRoundFlatButton:
-            text: "Save"
-            font_size: 12
-            pos_hint: {"center_x": 0.5}
-            on_release:
-                root.manager.transition.direction = "left"
-                root.saveProfile()
-        Widget:
-            size_hint_y: None
-            height: 10
-
 <MealPlanPage>
     name: "MealPlanPage"
 
@@ -584,6 +500,9 @@ WindowManager:
 <CategoryPage>
     name: "CategoryPage"
 
+    # food_name: food_name
+    # common_name: common_name
+
     MDFloatingActionButtonSpeedDial:
         id: speed_dial
         data: app.data
@@ -698,9 +617,8 @@ WindowManager:
                 spacing: "10dp"
                 padding: "10dp"
                 
-                MDList:
-                    TwoLineListItem:
-                        id: food
+
+
                     
 
     # Display Nutrition Facts rectangle or box             

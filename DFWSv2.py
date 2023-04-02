@@ -27,6 +27,14 @@ from kivy.clock import Clock
 
 # Define the different screen
 class CategoryPage(Screen):
+
+    # db input
+    # food_name = ObjectProperty(None)
+    # common_name = ObjectProperty(None)
+
+    def createFoodList(self):
+        pass
+
     # Edit: Di mudisplay ang list
     def foodList(self):
         for i in range(20):
@@ -91,14 +99,6 @@ class SplashScreenPage(Screen):
 class WindowManager(ScreenManager):
     pass
 
-def invalidLogin():
-    pop = Popup(title = " Invalid Login ",
-        content = Label (text = "Invalid username or password"),
-        size_hint = (None, None),
-        size = (400, 400)
-    )
-    pop.open()
-
 def invalidForm():
     pop = Popup(title = " Invalid Form ",
         content = Label (text = "Fill in with valid information"),
@@ -106,15 +106,6 @@ def invalidForm():
         size = (400, 400)
     )
     pop.open()
-
-def accountCreated():
-    pop = Popup(title= "Successful!",
-                content = Label (text = "Account Created"),
-                size_hint = (None, None),
-                size = (400, 400)
-                )
-    pop.open
-
 
 
 db = DataBase("users.txt")
