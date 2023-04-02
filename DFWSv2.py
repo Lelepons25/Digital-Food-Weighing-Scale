@@ -22,7 +22,6 @@ from database import DataBase # for Login (Test Only)
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.clock import Clock
-import mysql.connector
 import pandas as pd
 import sqlite3
 
