@@ -4,12 +4,14 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from database import DataBase
 from kivy.lang import Builder
+from kivy.uix.boxlayout import BoxLayout
+from kivymd.app import MDApp
 
 Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
 db = DataBase("users.txt")
 
-class ProfilePage(Screen):
+class ProfilePage(BoxLayout):
     user_name = ObjectProperty(None)
     sex = ObjectProperty(None)
     age = ObjectProperty(None)

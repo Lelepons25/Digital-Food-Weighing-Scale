@@ -23,6 +23,7 @@ from kivy.uix.label import Label
 from kivy.clock import Clock
 import pandas as pd
 import sqlite3
+from kivy.uix.boxlayout import BoxLayout
 
 
 from View.Profile_Page import ProfilePage
@@ -33,7 +34,9 @@ from View.MealPlan_Page import MealPlanPage
 from View.More_Page import MorePage
 from View.SplashScreen_Page import SplashScreenPage
 
-class WindowManager(ScreenManager):
+
+
+class WindowManager(BoxLayout):
     
     ProfilePage_widget = ProfilePage()
     Homepage_widget = Homepage()
