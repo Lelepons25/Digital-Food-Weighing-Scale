@@ -2,7 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivymd.uix.list import TwoLineListItem
 from kivy.lang import Builder
 
-Builder.load_file('CategoryPage.kv')
+Builder.load_file('View\Category_Page\CategoryPage.kv')
 
 class CategoryPage(Screen):
     def foodList(self):

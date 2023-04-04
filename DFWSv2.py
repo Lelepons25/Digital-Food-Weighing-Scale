@@ -24,6 +24,7 @@ from kivy.clock import Clock
 import pandas as pd
 import sqlite3
 
+
 from View.Profile_Page import ProfilePage
 from View.Home_page import Homepage
 from View.Category_Page import CategoryPage
@@ -31,7 +32,6 @@ from View.EditProfile_Page import EditProfilePage
 from View.MealPlan_Page import MealPlanPage
 from View.More_Page import MorePage
 from View.SplashScreen_Page import SplashScreenPage
-
 
 class WindowManager(ScreenManager):
     

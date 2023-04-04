@@ -5,7 +5,7 @@ from kivy.uix.label import Label
 from database import DataBase
 from kivy.lang import Builder
 
-Builder.load_file('ProfilePage.kv')
+Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
 db = DataBase("users.txt")
 
