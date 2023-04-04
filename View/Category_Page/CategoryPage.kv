@@ -1,0 +1,235 @@
+<CategoryPage>
+    name: "CategoryPage"
+
+    # food_name: food_name
+    # common_name: common_name
+
+    MDFloatingActionButtonSpeedDial:
+        id: speed_dial
+        data: app.data
+        root_button_anim: True
+        hint_animation: True   
+        
+    # Create the Nutrition Facts
+    FloatLayout:
+        size_hint: (0.28, 0.2)
+        pos_hint:{'x':0.02, 'top': 0.96}
+        
+        canvas.before:
+            Color:
+                rgba: 0.204, 0.204, 0.204, 1
+            Line:
+                width: 1.2
+                rectangle: (self.x, self.y, self.width, self.height)
+                
+        Label:
+            text: '0'
+            bold: True
+            font_size: 60
+            color: 0.204, 0.204, 0.204, 1
+            pos_hint:{'x':0.01, 'top': 1}
+    
+    MDCard:
+        size_hint: None, None
+        size: 150, 80
+        pos_hint: {'x': 0.32, 'top':0.96}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        Button:
+            id: clear
+            size_hint: (0.7, 0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'CLEAR'
+            background_color: utils.get_color_from_hex('#ff3333')
+        
+        Button:
+            id: tare
+            size_hint: (0.7,0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'Tare'
+        
+    MDCard:
+        size_hint: None, None
+        size: 150, 80
+        pos_hint: {'x': 0.48, 'top':0.96}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        Button:
+            id: profile
+            size_hint: (0.7,0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'Profile'
+            on_release:
+                app.root.current = "EditProfilePage"
+                root.manager.transition.direction = "left"
+
+        Button:
+            id: save
+            size_hint: (0.7,0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'Save'
+    
+    MDCard:
+        size_hint: None, None
+        size: 270, 80
+        pos_hint: {'x': 0.65, 'top':0.96}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Calorie Tracker"
+            font_size: 16
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 5
+
+        MDLabel:
+            id: cal_tracker
+            text: "O% Progress"
+
+        ProgressBar:
+            id: cal_tracker_bar
+            min: 0
+            max: 1
+            pos_hint: {'x': 0}
+            size_hint_x: 1
+
+    # Fix Food List
+
+    FloatLayout:
+        size_hint: (0.65, 0.7)
+        pos_hint:{'x':0.01, 'top':0.8}
+
+        ScrollView:
+            size: 400, 420
+            pos_hint:{'x':0.01, 'top': 0.8}
+
+            GridLayout:
+                size_hint_y: None
+                height: root.height
+                width: 400
+                cols: 1
+                spacing: "10dp"
+                padding: "10dp"
+
+                id: food
+
+            
+                
+
+
+                    
+
+    # Display Nutrition Facts rectangle or box             
+    MDCard:
+        size_hint: None, None
+        size: 240,300 
+        pos_hint: {'x': 0.68, 'top':0.75}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+        elevation: 1
+
+        MDLabel:
+            text: "Nutrition Facts"
+            bold: True
+            halign: 'center'
+        
+        # Label Text
+        # Edit: add holder with id on the right side
+        MDLabel:
+            text: "Serving Size"
+        
+        MDLabel:
+            text: "Calories"
+        
+        MDLabel:
+            text: "Total Fat (g)"
+        
+        MDLabel:
+            text: "Cholesterol (mg)"
+        
+        MDLabel:
+            text: "Sodium (mg)"
+        
+        MDLabel:
+            text: "Total Carbohydrate (g)"
+
+        MDLabel:
+            text: "Protein (g)"
+        
+        MDLabel:
+            text: "Calcium (mg)"
+        
+        MDLabel:
+            text: "Iron (mg)"
+    
+    MDCard:
+        size_hint: None, None
+        size: 97,248 
+        pos_hint: {'x': 0.84, 'top':0.63}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel: # This is empty
+            text: " "
+            halign: 'center'
+        
+        # Label Text
+        MDLabel:
+            text: " 0 "
+            id: food_serving_size
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_calories
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_fat
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_choles
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_sodium
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_carbo
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_protein
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_calcium
+            halign: "right"
+        
+        MDLabel:
+            text: " 0 "
+            id: food_iron
+            halign: "right"
+
+    # Return button
+    MDRectangleFlatIconButton:
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"

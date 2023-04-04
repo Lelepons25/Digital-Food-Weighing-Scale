@@ -25,11 +25,11 @@ from kivy.clock import Clock
 import pandas as pd
 import sqlite3
 
-conn = sqlite3.connect("food_mixtures.db")
-cur = conn.cursor()
+# conn = sqlite3.connect("food_mixtures.db")
+# cur = conn.cursor()
 
-for row in cur.execute("SELECT * from FoodMixturesTable"):
-    print(row)
+# for row in cur.execute("SELECT * from FoodMixturesTable"):
+#    print(row)
 
 
 # Define the different screen
@@ -39,15 +39,14 @@ class CategoryPage(Screen):
     # food_name = ObjectProperty(None)
     # common_name = ObjectProperty(None)
 
-    def createFoodList(self):
-        pass
+    def __init__(self, **kwargs):
+        super(CategoryPage,self).__init__(**kwargs)
 
-    # Edit: Di mudisplay ang list
     def foodList(self):
         for i in range(20):
             item = TwoLineListItem(text = str(i) + ' item',
                                     secondary_text = '2nd ' + str(i) + 'th item')
-            self.root.ids.food.add_widget(item)
+            self.ids.food.add_widget(item)
 
 class MorePage(Screen):
     pass

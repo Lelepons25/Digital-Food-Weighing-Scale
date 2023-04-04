@@ -1,0 +1,16 @@
+<MorePage>
+    name: "MorePage"
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+
+        Label:
+            text: "More"
+            font_size: 32
+    
+    # Return button
+    MDRectangleFlatIconButton:
+        on_release:
+            app.root.current = "Homepage"
+            root.manager.transition.direction = "right"
