@@ -9,62 +9,19 @@ Config.set('graphics', 'height', '420')
 
 
 from kivymd.app import MDApp
-from kivy.lang import Builder
-from kivy.uix.widget import Widget
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.vkeyboard import VKeyboard
-from kivy.uix.button import Button
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.gridlayout import GridLayout
-from kivymd.uix.list import MDList, OneLineListItem, TwoLineListItem
-from kivy.properties import ObjectProperty, DictProperty
-from kivy.uix.popup import Popup
-from kivy.uix.label import Label
-from kivy.clock import Clock
-import pandas as pd
-import sqlite3
-from kivy.uix.boxlayout import BoxLayout
+from View.Manager_Screen.ManagerScreen import ManagerScreen
 
-
-from View.Profile_Page import ProfilePage
-from View.Home_page import Homepage
-from View.Category_Page import CategoryPage
-from View.EditProfile_Page import EditProfilePage
-from View.MealPlan_Page import MealPlanPage
-from View.More_Page import MorePage
-from View.SplashScreen_Page import SplashScreenPage
-
-
-
-class WindowManager(ScreenManager):
-    
-    ProfilePage_widget = ProfilePage()
-    Homepage_widget = Homepage()
-    CategoryPage_widget = CategoryPage()
-    EditProfilePage_widget = EditProfilePage()
-    MealPlanPage_widget = MealPlanPage()
-    MorePage_widget = MorePage()
-    SplashScreenPage_widget = SplashScreenPage()
-
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        self.ids.ProfilePage.add_widget(self.ProfilePage_widget)
-        self.ids.Homepage.add_widget(self.Homepage_widget)
-        self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
-        self.ids.EditProfilePage.add_widget(self.EditProfilePage_widget)
-        self.ids.MealPlanPage.add_widget(self.MealPlanPage_widget)
-        self.ids.MorePage.add_widget(self.MorePage_widget)
-        self.ids.SplashScreenpage.add_widget(self.SplashScreenPage_widget)
 
 class DFWS(MDApp):
-    def build(self):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
-        return WindowManager()
-            
+        self.manager_screen = ManagerScreen()
+    
+    def build(self) -> ManagerScreen:
+        self.manager_screen.add_widget(self.manager_screen.load_common_package)
+        return self.manager_screen
 
 
-if __name__ == '__main__':
-    DFWS().run()
+DFWS().run()
