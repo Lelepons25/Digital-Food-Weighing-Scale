@@ -36,7 +36,7 @@ from View.SplashScreen_Page import SplashScreenPage
 
 
 
-class WindowManager(BoxLayout):
+class WindowManager(ScreenManager):
     
     ProfilePage_widget = ProfilePage()
     Homepage_widget = Homepage()
