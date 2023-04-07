@@ -20,7 +20,22 @@ class ManagerScreen(ScreenManager):
     
     def on_current(self, *args):
         super().on_current(*args)
-
+        
+    
+    def create_screen(self, name_screen):
+        if name_screen not in self._screenNames:
+            self._screenNames.append(name_screen)
+            self.load_common_package(name_screen)
+            exec(f"import View.{screens[name_screen]}")
+            self.app.load_all_kv_files(
+                os.path.join(self.app.directory, "View", screens[name_screen].split(".")[0])
+            )
+            view = eval(
+                f'View.{screens[name_screen]}.{screens[name_screen].split(".")[0]}View()'
+            )
+            view.name = name_screen
+            return view
+        
     def load_common_package(self, name_screen) -> None:
         def _load_kv(path_to_kv):
             kv_loaded = False

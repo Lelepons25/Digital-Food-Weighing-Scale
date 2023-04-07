@@ -13,14 +13,18 @@ from View.Manager_Screen.ManagerScreen import ManagerScreen
 
 
 class DFWS(MDApp):
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
         self.manager_screen = ManagerScreen()
-    
+
+    def on_current(self, *args):
+        super().on_current(*args)
+
     def build(self) -> ManagerScreen:
-        self.manager_screen.add_widget(self.manager_screen.load_common_package)
+        self.manager_screen.add_widget(self.manager_screen.create_screen("Home"))
         return self.manager_screen
 
 
