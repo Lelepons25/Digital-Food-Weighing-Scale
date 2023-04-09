@@ -21,7 +21,8 @@ class ManagerScreen(ScreenManager):
     def on_current(self, *args):
         super().on_current(*args)
         
-    
+    # This method creates a new screen, loads appropriate KV Files
+    # Returns a view object for the screen
     def create_screen(self, name_screen):
         if name_screen not in self._screenNames:
             self._screenNames.append(name_screen)
