@@ -6,7 +6,7 @@ from kivy.uix.button import Button
 Builder.load_file('View\Category_Page\CategoryPage.kv')
 
 class CategoryPage(Screen):
-
+    
     def on_pre_enter(self, *args):
 
         # check if the button is pressed

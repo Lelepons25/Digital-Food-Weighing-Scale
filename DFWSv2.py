@@ -9,7 +9,19 @@ Config.set('graphics', 'height', '420')
 
 
 from kivymd.app import MDApp
-from View.Manager_Screen.ManagerScreen import ManagerScreen
+from kivy.uix.screenmanager import ScreenManager
+# from View.Manager_Screen.ManagerScreen import ManagerScreen
+
+# import
+
+from View.Category_Page.CategoryPage import CategoryPage
+
+class WindowManager(ScreenManager):
+
+    def on_pre_enter(self, *args):
+        self.categoryPage_widget = CategoryPage()
+        self.ids.CategoryPage.add_widget(self.categoryPage_widget)
+
 
 
 class DFWS(MDApp):
@@ -18,14 +30,17 @@ class DFWS(MDApp):
         super().__init__(**kwargs)
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
-        self.manager_screen = ManagerScreen()
+
+    def build(self):    
+        return WindowManager()
+        """self.manager_screen = ManagerScreen()
 
     def on_current(self, *args):
         super().on_current(*args)
 
     def build(self) -> ManagerScreen:
-        self.manager_screen.add_widget(self.manager_screen.create_screen("Home"))
-        return self.manager_screen
+        self.manager_screen.add_widget(self.manager_screen.create_screen("Profile"))
+        return self.manager_screen"""
 
 
 DFWS().run()

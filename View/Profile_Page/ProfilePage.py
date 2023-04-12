@@ -11,7 +11,7 @@ Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
 db = DataBase("users.txt")
 
-class ProfilePage(BoxLayout):
+class ProfilePage(Screen):
     user_name = ObjectProperty(None)
     sex = ObjectProperty(None)
     age = ObjectProperty(None)

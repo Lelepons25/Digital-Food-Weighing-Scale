@@ -32,7 +32,7 @@ class ManagerScreen(ScreenManager):
                 os.path.join(self.app.directory, "View", screens[name_screen].split(".")[0])
             )
             view = eval(
-                f'View.{screens[name_screen]}.{screens[name_screen].split(".")[0]}View()'
+                f'View.{screens[name_screen]}.{screens[name_screen].split(".")[0]}()'
             )
             view.name = name_screen
             return view
