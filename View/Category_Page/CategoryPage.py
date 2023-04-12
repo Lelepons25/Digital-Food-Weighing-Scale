@@ -3,12 +3,15 @@ from kivymd.uix.list import TwoLineListItem
 from kivy.lang import Builder
 from kivy.uix.button import Button
 
+
 Builder.load_file('View\Category_Page\CategoryPage.kv')
 
 class CategoryPage(Screen):
     
-    def on_pre_enter(self, *args):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
+    def on_pre_enter(self, *args):
         # check if the button is pressed
         def presser(self):
             print("Pressed")

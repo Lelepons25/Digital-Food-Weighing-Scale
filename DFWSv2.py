@@ -10,24 +10,47 @@ Config.set('graphics', 'height', '420')
 
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
-# from View.Manager_Screen.ManagerScreen import ManagerScreen
+from kivy.lang import Builder
+
 
 # import
-
+from View.Home_page.Homepage import Homepage
 from View.Category_Page.CategoryPage import CategoryPage
+from View.MealPlan_Page.MealPlanPage import MealPlanPage
+from View.Profile_Page.ProfilePage import ProfilePage
+from View.EditProfile_Page.EditProfilePage import EditProfilePage
+from View.More_Page.MorePage import MorePage
+
+
+
+
+
+Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
 
-    def on_pre_enter(self, *args):
-        self.categoryPage_widget = CategoryPage()
-        self.ids.CategoryPage.add_widget(self.categoryPage_widget)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        
+        print("Inside")
 
+        self.Homepage_widget = Homepage()
+        self.CategoryPage_widget = CategoryPage()
+        self.MealPlanPage_widget = MealPlanPage()
+        self.ProfilePage_widget = ProfilePage()
+        self.EditProfilePage_widget = EditProfilePage()
+        self.MorePage_widget = MorePage()
 
+        self.ids.Homepage.add_widget(self.Homepage_widget)
+        self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
+        self.ids.MealPlanPage.add_widget(self.MealPlanPage_widget)
+        self.ids.ProfilePage.add_widget(self.ProfilePage_widget)
+        self.ids.EditProfilePage.add_widget(self.EditProfilePage_widget)
+        self.ids.MorePage.add_widget(self.MorePage_widget)
 
 class DFWS(MDApp):
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def on_start(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
 
