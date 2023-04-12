@@ -21,10 +21,6 @@ from View.Profile_Page.ProfilePage import ProfilePage
 from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from View.More_Page.MorePage import MorePage
 
-
-
-
-
 Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
@@ -32,8 +28,6 @@ class WindowManager(ScreenManager):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
-        print("Inside")
-
         self.Homepage_widget = Homepage()
         self.CategoryPage_widget = CategoryPage()
         self.MealPlanPage_widget = MealPlanPage()
