@@ -59,7 +59,7 @@
             text: 'Profile'
             on_release:
                 app.root.current = "EditProfilePage"
-                root.manager.transition.direction = "left"
+                # root.manager.transition.direction = "left"
 
         Button:
             id: save
@@ -104,14 +104,13 @@
         ScrollView:
             size: 400, 420
             GridLayout:
-                id: food
+                id: foodList
                 size_hint_y: None
                 height: self.minimum_height
                 width: 400
                 cols: 2
                 spacing: 10, 10
                 padding: 10, 10
-
             
                 
 
@@ -224,4 +223,4 @@
     MDRectangleFlatIconButton:
         on_release:
             app.root.current = "Homepage"
-            root.manager.transition.direction = "right"
+            # root.manager.transition.direction = "right"

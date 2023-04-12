@@ -10,8 +10,6 @@ class CategoryPage(Screen):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-    def on_pre_enter(self, *args):
         # check if the button is pressed
         def presser(self):
             print("Pressed")
