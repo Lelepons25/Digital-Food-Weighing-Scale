@@ -50,14 +50,7 @@ class DFWS(MDApp):
 
     def build(self):    
         return WindowManager()
-        """self.manager_screen = ManagerScreen()
 
-    def on_current(self, *args):
-        super().on_current(*args)
-
-    def build(self) -> ManagerScreen:
-        self.manager_screen.add_widget(self.manager_screen.create_screen("Profile"))
-        return self.manager_screen"""
 
 
 DFWS().run()

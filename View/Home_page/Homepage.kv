@@ -9,6 +9,7 @@
         spacing: 5
         orientation: 'vertical'
 
+        # CLEAR 
         Button:
             id: clear
             size_hint: (0.7, 0.7)
@@ -16,6 +17,7 @@
             text: 'CLEAR'
             background_color: utils.get_color_from_hex('#FF3333')
         
+        # TARE
         Button:
             id: tare
             size_hint: (0.7,0.7)
@@ -31,6 +33,7 @@
         spacing: 5
         orientation: 'vertical'
 
+        # PROFILE
         Button:
             id: profile
             size_hint: (0.7,0.7)
@@ -41,6 +44,7 @@
                 app.root.current = "EditProfilePage"
                 # root.manager.transition.direction = "left"
 
+        # SAVE
         Button:
             id: save
             size_hint: (0.7,0.7)
@@ -56,6 +60,7 @@
         spacing: 5
         orientation: 'vertical'
 
+        # CALORIE TRACKER
         MDLabel:
             text: "Calorie Tracker"
             font_size: 16
@@ -95,35 +100,37 @@
             font_size: 60
             color: 0.204, 0.204, 0.204, 1
             pos_hint:{'x':0.01, 'top': 1}
-                    
+
+
+##############################################################################
+
     GridLayout:
-
+        id: category_grid
         size_hint: (1, 0.6)
-        pos_hint:{'x':0.02, 'top': 0.7}
+        pos_hint:{'x':0.01, 'top': 0.7}
 
-        cols: 3
+        cols: 4
         rows: 2
 
         spacing: 40
         padding: 10
 
-        #Row
+        # CEREALS
         Button:
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             
             on_release:
-                root.createFruit()
+                app.root.current = "CategoryPage"
                 # root.manager.transition.direction = "left"
             
             Image:
-                id: fruits_icon
-                source: 'icons/fruits.png'
+                id: cereals_icon
+                source: 'icons/cereals.png'
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
 
-            # Edit: Let's try making a label
-            
+        # STARCHY    
         Button:
             size_hint: (.2, .2)
             background_color: 0,0,1,0
@@ -132,11 +139,12 @@
                 # root.manager.transition.direction = "left"
             
             Image:
-                id: veg_icon
-                source: 'icons/vegetable.png'
+                id: starchy_icon
+                source: 'icons/starchy.png'
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
 
+        # NUTS
         Button:
             size_hint: (.2, .2)
             background_color: 0,0,1,0
@@ -145,11 +153,12 @@
                 # root.manager.transition.direction = "left"
 
             Image:
-                id: grains_icon
-                source: 'icons/grains.png'
+                id: nuts_icon
+                source: 'icons/nuts.png'
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
         
+        # MEAT
         Button:
             size_hint: (.2, .2)
             background_color: 0,0,1,0
@@ -158,11 +167,12 @@
                 # root.manager.transition.direction = "left"
             
             Image:
-                id: protein_icon
-                source: 'icons/protein.png'
+                id: meat_icon
+                source: 'icons/meat.png'
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
         
+        # SEAFOOD
         Button:
             size_hint: (.2, .2)
             background_color: 0,0,1,0
@@ -171,12 +181,42 @@
                 # root.manager.transition.direction = "left"
             
             Image:
-                id: dairy_icon
-                source: 'icons/dairy.png'
+                id: seafood_icon
+                source: 'icons/seafood.png'
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
         
+        # EGG
         Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+            
+            Image:
+                id: egg_icon
+                source: 'icons/egg.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        # MILK
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+            
+            Image:
+                id: milk_icon
+                source: 'icons/milk.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+
+        Button:
+            id: more_button
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             on_release:
@@ -188,81 +228,122 @@
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
 
-    # Food Category Labels
+
+
+############################# Food Category Labels
+    
+    # CEREALS
     MDCard:
         size_hint: None, None
         size: 60, 30
-        pos_hint: {'x': 0.14, 'top':0.45}
+        pos_hint: {'x': 0.09, 'top':0.45}
         padding: 5
         spacing: 5
         orientation: 'vertical'
 
         MDLabel:
-            text: "Fruits"
+            text: "Cereals"
             font_size: 12
             background_color: utils.get_color_from_hex('#09E4F5')
             halign: 'center'
     
+    # STARCHY
     MDCard:
         size_hint: None, None
         size: 90, 30
-        pos_hint: {'x': 0.47, 'top':0.45}
+        pos_hint: {'x': 0.33, 'top':0.45}
         padding: 5
         spacing: 5
         orientation: 'vertical'
 
         MDLabel:
-            text: "Vegetables"
+            text: "Starchy Roots"
             font_size: 12
             background_color: utils.get_color_from_hex('#09E4F5')
             halign: 'center'
     
+    # NUTS
     MDCard:
         size_hint: None, None
-        size: 60, 30
-        pos_hint: {'x': 0.82, 'top':0.45}
+        size: 100, 30
+        pos_hint: {'x': 0.57, 'top':0.45}
         padding: 5
         spacing: 5
         orientation: 'vertical'
 
         MDLabel:
-            text: "Grains"
+            text: "Nuts and Products"
             font_size: 12
             background_color: utils.get_color_from_hex('#09E4F5')
             halign: 'center'
 
+    # MEAT
     MDCard:
         size_hint: None, None
-        size: 60, 30
-        pos_hint: {'x': 0.14, 'top':0.13}
+        size: 100, 30
+        pos_hint: {'x': 0.83, 'top':0.45}
         padding: 5
         spacing: 5
         orientation: 'vertical'
 
         MDLabel:
-            text: "Protein"
+            text: "Meat and Products"
             font_size: 12
             background_color: utils.get_color_from_hex('#09E4F5')
             halign: 'center'
 
+    #### 2nd Row
+
+    # SEAFOOD
     MDCard:
         size_hint: None, None
         size: 60, 30
-        pos_hint: {'x': 0.48, 'top':0.13}
+        pos_hint: {'x': 0.09, 'top':0.13}
         padding: 5
         spacing: 5
         orientation: 'vertical'
 
         MDLabel:
-            text: "Dairy"
+            text: "Seafood"
             font_size: 12
             background_color: utils.get_color_from_hex('#09E4F5')
             halign: 'center'
 
+    # EGG
+    MDCard:
+        size_hint: None, None
+        size: 100, 30
+        pos_hint: {'x': 0.33, 'top':0.13}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Eggs and Products"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    # MILK
+    MDCard:
+        size_hint: None, None
+        size: 100, 30
+        pos_hint: {'x': 0.57, 'top':0.13}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Milk and Products"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    # MORE    
     MDCard:
         size_hint: None, None
         size: 60, 30
-        pos_hint: {'x': 0.82, 'top':0.13}
+        pos_hint: {'x': 0.85, 'top':0.13}
         padding: 5
         spacing: 5
         orientation: 'vertical'
