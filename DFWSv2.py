@@ -7,7 +7,7 @@ Config.set('graphics', 'width', '800')
 # fix the height of the window
 Config.set('graphics', 'height', '420')
 
-
+import os
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
 from kivy.lang import Builder
@@ -21,14 +21,21 @@ from View.Profile_Page.ProfilePage import ProfilePage
 from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from View.More_Page.MorePage import MorePage
 
+from database import DataBase
+
+db = DataBase("users.txt")
 Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        print(self.ids)
 
+        if os.path.getsize(db.file_path) == 0:
+            print("Empty")
+        else:
+            print("Not")
+            
         self.Homepage_widget = Homepage(manager = self)
         self.CategoryPage_widget = CategoryPage(manager = self)
         self.MealPlanPage_widget = MealPlanPage(manager = self)

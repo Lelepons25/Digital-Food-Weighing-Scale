@@ -1,8 +1,10 @@
 import datetime
+import os
 
 class DataBase:
     def __init__(self, filename):
         self.filename = filename
+        self.file_path = os.path.join(os.getcwd(), filename)
         self.users = None
         self.file = None
         self.load()
