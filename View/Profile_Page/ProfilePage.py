@@ -18,8 +18,13 @@ class ProfilePage(Screen):
     user_weight = ObjectProperty(None)
     user_height = ObjectProperty(None)
 
-    # Add info of the user
 
+    def __init__(self, manager = None, **kwargs):
+        self.manager = manager
+        super(ProfilePage, self).__init__(**kwargs)
+        
+
+    # Add info of the user
     def saveProfile(self):
         if self.user_name.text != "" and self.sex.text != "" and self.age.text != "":
             if self.user_weight.text != "" and self.user_height.text != "":

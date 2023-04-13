@@ -27,13 +27,14 @@ class WindowManager(ScreenManager):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        
-        self.Homepage_widget = Homepage()
-        self.CategoryPage_widget = CategoryPage()
-        self.MealPlanPage_widget = MealPlanPage()
-        self.ProfilePage_widget = ProfilePage()
-        self.EditProfilePage_widget = EditProfilePage()
-        self.MorePage_widget = MorePage()
+        print(self.ids)
+
+        self.Homepage_widget = Homepage(manager = self)
+        self.CategoryPage_widget = CategoryPage(manager = self)
+        self.MealPlanPage_widget = MealPlanPage(manager = self)
+        self.ProfilePage_widget = ProfilePage(manager = self)
+        self.EditProfilePage_widget = EditProfilePage(manager = self)
+        self.MorePage_widget = MorePage(manager = self)
 
         self.ids.Homepage.add_widget(self.Homepage_widget)
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
