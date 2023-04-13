@@ -1,15 +1,359 @@
 <MorePage>
     name: "MorePage"
 
-    BoxLayout:
+    MDCard:
+        size_hint: None, None
+        size: 150, 80
+        pos_hint: {'x': 0.32, 'top':0.96}
+        padding: 5
+        spacing: 5
         orientation: 'vertical'
-        size: root.width, root.height
 
-        Label:
-            text: "More"
-            font_size: 32
+        # CLEAR 
+        Button:
+            id: clear
+            size_hint: (0.7, 0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'CLEAR'
+            background_color: utils.get_color_from_hex('#FF3333')
+        
+        # TARE
+        Button:
+            id: tare
+            size_hint: (0.7,0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'Tare'
+            background_color: utils.get_color_from_hex('#33B7FF')
+        
+    MDCard:
+        size_hint: None, None
+        size: 150, 80
+        pos_hint: {'x': 0.48, 'top':0.96}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        # PROFILE
+        Button:
+            id: profile
+            size_hint: (0.7,0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'Profile'
+            background_color: utils.get_color_from_hex('#33B7FF')
+            on_release:
+                app.root.current = "EditProfilePage"
+                # root.manager.transition.direction = "left"
+
+        # SAVE
+        Button:
+            id: save
+            size_hint: (0.7,0.7)
+            pos_hint: {'center_x':0.5 , 'center_y':0.5}
+            text: 'Save'
+            background_color: utils.get_color_from_hex('#33B7FF')
     
-    # Return button
+    MDCard:
+        size_hint: None, None
+        size: 270, 80
+        pos_hint: {'x': 0.65, 'top':0.96}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        # CALORIE TRACKER
+        MDLabel:
+            text: "Calorie Tracker"
+            font_size: 16
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 5
+
+        MDLabel:
+            id: cal_tracker
+            text: "O% Progress"
+
+        ProgressBar:
+            id: cal_tracker_bar
+            min: 0
+            max: 1
+            pos_hint: {'x': 0}
+            size_hint_x: 1
+        
+
+
+    FloatLayout:
+        size_hint: (0.28, 0.2)
+        pos_hint:{'x':0.02, 'top': 0.96}
+        
+        canvas.before:
+            Color:
+                rgba: 0.204, 0.204, 0.204, 1
+            Line:
+                width: 1.2
+                rectangle: (self.x, self.y, self.width, self.height)
+                
+        Label:
+            id: weight_input
+            text: '0'
+            bold: True
+            font_size: 60
+            color: 0.204, 0.204, 0.204, 1
+            pos_hint:{'x':0.01, 'top': 1}
+
+
+##############################################################################
+
+    GridLayout:
+        id: category_grid
+        size_hint: (1, 0.6)
+        pos_hint:{'x':0.01, 'top': 0.7}
+
+        cols: 4
+        rows: 2
+
+        spacing: 40
+        padding: 10
+
+        # OIL
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+            
+            Image:
+                id: oil_icon
+                source: 'icons/oil.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+
+        # SUGAR
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+            
+            Image:
+                id: sugar_icon
+                source: 'icons/sugar.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+
+        # CONDIMENTS
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+
+            Image:
+                id: condiments_icon
+                source: 'icons/condiments.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        # ALCOHOLIC
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+            
+            Image:
+                id: alcoholic_icon
+                source: 'icons/alcoholic.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        # NONALCOHOLIC
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+            
+            Image:
+                id: nonalcoholic_icon
+                source: 'icons/nonalcoholic.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        # MIXED DISHES
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+            
+            Image:
+                id: mixeddishes_icon
+                source: 'icons/mixeddishes.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        # BABY FOOD
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+            
+            Image:
+                id: babyfood_icon
+                source: 'icons/babyfood.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+        # MISC
+        Button:
+            size_hint: (.2, .2)
+            background_color: 0,0,1,0
+            on_release:
+                app.root.current = "CategoryPage"
+                # root.manager.transition.direction = "left"
+            Image:
+                id: misc_icon
+                source: 'icons/misc.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+
+
+
+############################# Food Category Labels
+    
+    # OIL
+    MDCard:
+        size_hint: None, None
+        size: 60, 30
+        pos_hint: {'x': 0.08, 'top':0.45}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Oil"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+    
+    # SUGAR
+    MDCard:
+        size_hint: None, None
+        size: 130, 30
+        pos_hint: {'x': 0.3, 'top':0.45}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Sugar and Products"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+    
+    # CONDIMENTS
+    MDCard:
+        size_hint: None, None
+        size: 130, 30
+        pos_hint: {'x': 0.57, 'top':0.44}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Condiments and Spices"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    # ALCOHOLIC
+    MDCard:
+        size_hint: None, None
+        size: 130, 30
+        pos_hint: {'x': 0.81, 'top':0.44}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Alcoholic Beverages"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    #### 2nd Row
+
+    # NONALCOHOLIC
+    MDCard:
+        size_hint: None, None
+        size: 130, 30
+        pos_hint: {'x': 0.05, 'top':0.12}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Non-alcoholic Beverages"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    # MIXED DISHES
+    MDCard:
+        size_hint: None, None
+        size: 100, 30
+        pos_hint: {'x': 0.32, 'top':0.13}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Mixed Dishes"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    # BABY FOOD
+    MDCard:
+        size_hint: None, None
+        size: 100, 30
+        pos_hint: {'x': 0.57, 'top':0.13}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Baby Food"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    # MISC  
+    MDCard:
+        size_hint: None, None
+        size: 100, 30
+        pos_hint: {'x': 0.83, 'top':0.12}
+        padding: 5
+        spacing: 5
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Miscellaneous"
+            font_size: 12
+            background_color: utils.get_color_from_hex('#09E4F5')
+            halign: 'center'
+
+    
     MDRectangleFlatIconButton:
         on_release:
             app.root.current = "Homepage"
