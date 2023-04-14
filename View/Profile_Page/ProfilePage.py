@@ -31,7 +31,6 @@ class ProfilePage(Screen):
     def get_trackgoal_spinner(self, value):
         self.track_goal.text = value
 
-
     # Add info of the user
     def saveProfile(self):
         
