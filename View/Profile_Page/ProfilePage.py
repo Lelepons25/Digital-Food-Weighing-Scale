@@ -37,14 +37,18 @@ class ProfilePage(Screen):
         
         # Check if all required fields are filled
         if self.user_name.text and self.sex.text and self.age.text and self.user_weight.text and self.user_height.text and self.track_goal.text:
+            
+            if len(self.user_name.text) >= 4 and len(self.user_name.text)<=50:
             # Check if age is a valid positive integer
-            if self.age.text.isdigit() and 0 < int(self.age.text) < 100:
-                # Check if user weight and height are valid positive integers
-                if self.user_weight.text.isdigit() and int(self.user_weight.text) > 0 and self.user_height.text.isdigit() and int(self.user_height.text) > 0:
-                    # Add user to the database
-                    db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
-                    self.reset()
-                    self.manager.current = "Homepage"
+                if self.age.text.isdigit() and 0 < int(self.age.text) < 100:
+                    # Check if user weight and height are valid positive integers
+                    if self.user_weight.text.isdigit() and int(self.user_weight.text) > 0 and self.user_height.text.isdigit() and int(self.user_height.text) > 0:
+                        # Add user to the database
+                        db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
+                        self.reset()
+                        self.manager.current = "Homepage"
+                    else:
+                        invalidForm()
                 else:
                     invalidForm()
             else:
