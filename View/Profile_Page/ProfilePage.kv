@@ -6,6 +6,7 @@
     age: age
     user_weight: user_weight
     user_height: user_height
+    track_goal: track_goal
 
     MDCard:
         size_hint: None, None
@@ -24,6 +25,7 @@
             height: self.texture_size[1]
             padding_y: 5
 
+        # NAME
         MDTextField:
             id: user_name
             mode: "round"         
@@ -34,15 +36,20 @@
             pos_hint: {"center_x": 0.5}
 
         # Edit: Change this to drop down 
-        MDTextField:
-            mode: "round"
+        # SEX
+        Spinner:
             id: sex
-            hint_text: "Sex"
+            text: "Sex"
+            values: ["Male", "Female"]
             size_hint_x: None
             width: 200
-            font_size: 14
+            # font_size: 14
             pos_hint: {"center_x": 0.5}
 
+            on_text:
+                root.get_sex_spinner(sex.text)
+
+        # AGE
         MDTextField:
             mode: "round"
             id: age
@@ -52,15 +59,17 @@
             font_size: 14
             pos_hint: {"center_x": 0.5}
 
+        # WEIGHT
         MDTextField:
             mode: "round"
             id: user_weight
             hint_text: "Weight"
             size_hint_x: None
-            width: 200
+            size: 200, 50
             font_size: 14
             pos_hint: {"center_x": 0.5}
         
+        # HEIGHT
         MDTextField:
             mode: "round"
             id: user_height
@@ -70,7 +79,20 @@
             font_size: 14
             pos_hint: {"center_x": 0.5}
 
+        # CALORIE or LOW CARB
+        Spinner:
+            id: track_goal
+            text: "Which do you wanna track?"
+            values: ["Calorie Deficit", "Low Carb Diet"]
+            size_hint_x: None
+            size: 200, 50
+            # font_size: 14
+            pos_hint: {"center_x": 0.5}
 
+            on_text: root.get_trackgoal_spinner(track_goal.text)
+
+
+        # SAVE
         MDRoundFlatButton:
             text: "Save"
             font_size: 12

@@ -14,8 +14,8 @@ class DataBase:
         self.users = {}
 
         for line in self.file:
-            user_name, sex, age, user_weight, user_height, created = line.strip().split(";")
-            self.users[user_name] = (sex, age, user_weight, user_height, created)
+            user_name, sex, age, user_weight, user_height, track_goal,  created = line.strip().split(";")
+            self.users[user_name] = (sex, age, user_weight, user_height, track_goal, created)
 
         self.file.close()
 
@@ -25,12 +25,13 @@ class DataBase:
         else:
             return -1
 
-    def add_user(self, user_name, sex, age, user_weight, user_height):
+    def add_user(self, user_name, sex, age, user_weight, user_height, track_goal):
         if user_name.strip() not in self.users:
             self.users[user_name.strip()] = (sex.strip(), 
-                                             age.strip(), 
-                                             user_weight.strip(),
-                                             user_height.strip(),
+                                             str(age).strip(), 
+                                             str(user_weight).strip(),
+                                             str(user_height).strip(),
+                                             track_goal.strip(),
                                              DataBase.get_date())
             self.save()
             return 1
@@ -47,6 +48,7 @@ class DataBase:
                         + self.users[user][1] + ";" # age
                         + self.users[user][2] + ";" # weight
                         + self.users[user][3] + ";" # height
+                        + self.users[user][4] + ";" # track_goal
                         + self.users[user][4] + "\n")
 
     @staticmethod
