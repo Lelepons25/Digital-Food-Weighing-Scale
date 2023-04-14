@@ -4,8 +4,9 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from database import DataBase
 from kivy.lang import Builder
-from kivy.uix.boxlayout import BoxLayout
-from kivymd.app import MDApp
+from kivy.uix.vkeyboard import VKeyboard
+
+
 
 Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
@@ -19,11 +20,43 @@ class ProfilePage(Screen):
     user_height = ObjectProperty(None)
     track_goal = ObjectProperty(None)
 
-
     # Inherits the manager attribute for screen manager
     def __init__(self, manager = None, **kwargs):
         self.manager = manager
         super(ProfilePage, self).__init__(**kwargs)
+        # Define Keyboard
+        keyboard = VKeyboard(size_hint = (0.4, 0.4),
+                             on_key_up = self.key_up)
+        self.add_widget(keyboard)
+
+    def key_up(self, keyboard, keycode, text, modifiers):
+        active_textfield = None
+        if isinstance(keycode, tuple):
+            keycode = keycode[1]
+        if self.user_name.focus:
+            active_textfield = self.user_name
+        elif self.age.focus:
+            active_textfield = self.age
+        elif self.user_weight.focus:
+            active_textfield = self.user_weight
+        elif self.user_height.focus:
+            active_textfield = self.user_height
+            
+        if active_textfield is not None:
+            if keycode == 'backspace':
+                active_textfield.text = active_textfield.text[:-1]
+            elif keycode == 'spacebar':
+                active_textfield.text += ' '
+            elif keycode == 'capslock':
+                active_textfield.text.upper()
+            elif keycode == 'shift':
+                pass
+            elif keycode == 'enter':
+                pass
+            elif keycode == 'layout':
+                pass
+            else:
+                active_textfield.text += text
 
     def get_sex_spinner(self, value):
         self.sex.text = value
