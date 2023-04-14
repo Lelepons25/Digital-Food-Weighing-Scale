@@ -37,24 +37,27 @@ class ProfilePage(Screen):
         
         # Check if all required fields are filled
         if self.user_name.text and self.sex.text and self.age.text and self.user_weight.text and self.user_height.text and self.track_goal.text:
-            
+            # Check the length of the name 
             if len(self.user_name.text) >= 4 and len(self.user_name.text)<=50:
             # Check if age is a valid positive integer
-                if self.age.text.isdigit() and 0 < int(self.age.text) < 100:
+                if self.age.text.isdigit() and 2 < int(self.age.text) < 100:
                     # Check if user weight and height are valid positive integers
-                    if self.user_weight.text.isdigit() and int(self.user_weight.text) > 0 and self.user_height.text.isdigit() and int(self.user_height.text) > 0:
+                    if self.user_weight.text.isdigit() and int(self.user_weight.text) > 0 and int(self.user_weight.text) < 400:
+                        if self.user_height.text.isdigit() and int(self.user_height.text) > 0 and int(self.user_height.text) <300:
                         # Add user to the database
-                        db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
-                        self.reset()
-                        self.manager.current = "Homepage"
+                            db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
+                            self.reset()
+                            self.manager.current = "Homepage"
+                        else: 
+                            invalidForm("Input height in cm raging from 50 - 300")
                     else:
-                        invalidForm()
+                        invalidForm("Input weight in kg raging from 2 - 400")
                 else:
-                    invalidForm()
+                    invalidForm("Input age between 0 - 100")
             else:
-                invalidForm()
+                invalidForm("Input name with 4-50 characters")
         else:
-            invalidForm()
+            invalidForm("Please complete the form")
 
     
     def reset(self):
@@ -64,9 +67,9 @@ class ProfilePage(Screen):
         self.user_weight.text = ""
         self.user_height.text = ""
 
-def invalidForm():
+def invalidForm(message):
     pop = Popup(title = " Invalid Form ",
-        content = Label (text = "Fill in with valid information"),
+        content = Label (text = message),
         size_hint = (None, None),
         size = (400, 400)
     )

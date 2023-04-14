@@ -23,7 +23,7 @@ from View.More_Page.MorePage import MorePage
 
 from database import DataBase
 
-db = DataBase("users.txt")
+
 Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
@@ -31,10 +31,11 @@ class WindowManager(ScreenManager):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        db = DataBase("users.txt")
         if os.path.getsize(db.file_path) == 0:
-            print("Empty")
+            self.current = "ProfilePage"
         else:
-            print("Not")
+            self.current ="Homepage"
             
         self.Homepage_widget = Homepage(manager = self)
         self.CategoryPage_widget = CategoryPage(manager = self)
