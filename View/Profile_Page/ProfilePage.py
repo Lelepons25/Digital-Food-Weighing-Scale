@@ -29,8 +29,9 @@ class ProfilePage(Screen):
                              on_key_up = self.key_up)
         self.add_widget(keyboard)
 
+    # key_up: when the keyboard is released
     def key_up(self, keyboard, keycode, text, modifiers):
-        active_textfield = None
+        active_textfield = None 
         if isinstance(keycode, tuple):
             keycode = keycode[1]
         if self.user_name.focus:
@@ -66,7 +67,6 @@ class ProfilePage(Screen):
 
     # Add info of the user
     def saveProfile(self):
-        
         # Check if all required fields are filled
         if self.user_name.text and self.sex.text and self.age.text and self.user_weight.text and self.user_height.text and self.track_goal.text:
             # Check the length of the name 

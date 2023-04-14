@@ -49,7 +49,7 @@ class DataBase:
                         + self.users[user][2] + ";" # weight
                         + self.users[user][3] + ";" # height
                         + self.users[user][4] + ";" # track_goal
-                        + self.users[user][4] + "\n")
+                        + self.users[user][5] + "\n")
 
     @staticmethod
     def get_date():
