@@ -18,7 +18,6 @@ class EditProfilePage(Screen):
     bmi = ObjectProperty(None)
     current = ""
 
-    print(user_name.text)
 
     def on_enter(self, *args):
         user_data = db.get_user(self.current)
