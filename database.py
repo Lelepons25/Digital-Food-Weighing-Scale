@@ -26,18 +26,22 @@ class DataBase:
             return -1
 
     def add_user(self, user_name, sex, age, user_weight, user_height, track_goal):
-        if user_name.strip() not in self.users:
+        if len(self.users) > 0:
+            print("This database can only accept one user.")
+            return -1
+        elif user_name.strip() not in self.users:
             self.users[user_name.strip()] = (sex.strip(), 
-                                             str(age).strip(), 
-                                             str(user_weight).strip(),
-                                             str(user_height).strip(),
-                                             track_goal.strip(),
-                                             DataBase.get_date())
+                                            str(age).strip(), 
+                                            str(user_weight).strip(),
+                                            str(user_height).strip(),
+                                            track_goal.strip(),
+                                            DataBase.get_date())
             self.save()
             return 1
         else:
             print("Username exists already")
             return -1
+
 
 
     def save(self):
