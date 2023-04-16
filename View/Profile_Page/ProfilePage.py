@@ -20,9 +20,13 @@ class ProfilePage(Screen):
     user_height = ObjectProperty(None)
     track_goal = ObjectProperty(None)
 
+
+
     # Inherits the manager attribute for screen manager
     def __init__(self, manager = None, **kwargs):
         self.manager = manager
+        self.user = "User"
+        print(self.user)
         super(ProfilePage, self).__init__(**kwargs)
         # Define Keyboard
         keyboard = VKeyboard(size_hint = (0.4, 0.4),
@@ -70,6 +74,7 @@ class ProfilePage(Screen):
         # Check if all required fields are filled
         if self.user_name.text and self.sex.text and self.age.text and self.user_weight.text and self.user_height.text and self.track_goal.text:
             # Check the length of the name 
+            print(self.user_name.text)
             if len(self.user_name.text) >= 4 and len(self.user_name.text)<=50:
             # Check if age is a valid positive integer
                 if self.age.text.isdigit() and 2 < int(self.age.text) < 100:

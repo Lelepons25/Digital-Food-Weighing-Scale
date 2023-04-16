@@ -20,7 +20,7 @@ class EditProfilePage(Screen):
 
     print("Inside1")
 
-    def on_pre_enter(self, *args):
+    def on_enter(self, *args):
         print("Inside2")
         user_data = db.get_user(self.current)
         print(user_data)

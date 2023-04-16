@@ -11,7 +11,7 @@ import os
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
 from kivy.lang import Builder
-
+from kivy.properties import StringProperty
 
 # import
 from View.Home_page.Homepage import Homepage
@@ -28,6 +28,8 @@ Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
 
+    user = StringProperty("Name")
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -63,4 +65,3 @@ class DFWS(MDApp):
 
 
 DFWS().run()
-#edit
