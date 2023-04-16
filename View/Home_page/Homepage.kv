@@ -116,11 +116,12 @@
 
         # CEREALS
         Button:
+            id: cereals_categ
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             
-            on_release:
-                app.root.current = "CategoryPage"
+            on_press:
+                root.on_button_press('cereals_categ')
                 # root.manager.transition.direction = "left"
             
             Image:
@@ -131,10 +132,11 @@
 
         # STARCHY    
         Button:
+            id: starchy_categ
             size_hint: (.2, .2)
             background_color: 0,0,1,0
-            on_release:
-                app.root.current = "CategoryPage"
+            on_press: 
+                root.on_button_press('starchy_categ')
                 # root.manager.transition.direction = "left"
             
             Image:
