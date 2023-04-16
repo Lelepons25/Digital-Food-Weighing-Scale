@@ -23,46 +23,46 @@ class CategoryPage(Screen):
     def show_categorypage(self, button):
         # do something with the button
         #cursor = None 
-    
+        categ_page = CategoryPage()
         print("Button pressed:", button)
         cursor = None
-        data =[]
+        
         if button == 'cereals_categ':
             print('Cereals button pressed!')
             with sqlite3.connect("root_products.db") as conn:
                 print('Database connecting...')
                 cursor = conn.execute("SELECT foodName FROM RootProductsTable")
-                for row in cursor:
-                    data.append(row[0])
-                self.build(data)
+                self.showDatabase(cursor)
 
         elif button == 'starchy_categ':
             print('Starchy foods button pressed!')
             with sqlite3.connect("food_mixtures.db") as conn:
                 print('Database connecting...')
                 cursor = conn.execute("SELECT foodName FROM FoodMixturesTable")
-                for row in cursor:
-                    data.append(row[0])
-                #self.showDatabase(data)
-                self.build(data)
+                self.showDatabase(cursor)
         
 
             #conn.close() 
-    def build(self, data):
+    def showDatabase(self, cursor):
+        data =[]
+        for row in cursor:
+                data.append(row[0])
         print('Creating buttons...')
-        food_list = GridLayout(cols=2, spacing =10, size_hint_y=None)
+        #food_list = GridLayout(cols=2, spacing =10, size_hint_y=None)
         #food_list.clear_widgets() # remove any existing buttons
-        food_list.bind(minimum_height=food_list.setter('height'))
+        #self.ids.food_list.bind(minimum_height=self.ids.food_list.setter('height'))
 
-        for i in range(len(data)):
-            btn = Button(text=data[i], size_hint_y=None, height=50, valign='center', font_size=20, background_color = (0,.8,.8,.8))
-            #btn.text_size = (btn.size)
-            food_list.add_widget(btn)
+        for item in data:
+            btn = Button(text = item, 
+                    size_hint_y = (None),
+                    size = ("50dp", "50dp"))
+            self.ids.foodList.bind(on_press = self.presser)
+            self.ids.foodList.add_widget(btn)
             print(data)
 
-        root = ScrollView(size_hint=(1,None), size =(400,420))
-        root.add_widget(food_list)
-        return root
+        #root = ScrollView(size_hint=(1,None), size =(400,420))
+        #root.add_widget(self.ids.food_list)
+        #return root
     def reset(self):
         self.ids.food.clear_widgets()
         self.manager.current = "Homepage"
