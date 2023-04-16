@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-keke;Male;54;65.0;164.0;Calorie Deficit;2023-04-16
-=======
-Shin;Female;24;56.0;156.0;Low Carb Diet;2023-04-16
->>>>>>> b4304d77d9c6a5a9a83debed298173959a69e27e
+iksd;Male;43;54.0;165.0;Calorie Deficit;2023-04-16

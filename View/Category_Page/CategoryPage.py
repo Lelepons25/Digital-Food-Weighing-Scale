@@ -21,8 +21,6 @@ class CategoryPage(Screen):
         print("Button pressed:", instance.text)
 
     def show_categorypage(self, button):
-        # do something with the button
-        #cursor = None 
         categ_page = CategoryPage()
         print("Button pressed:", button)
         cursor = None
@@ -32,37 +30,40 @@ class CategoryPage(Screen):
             with sqlite3.connect("root_products.db") as conn:
                 print('Database connecting...')
                 cursor = conn.execute("SELECT foodName FROM RootProductsTable")
-                self.showDatabase(cursor)
+                self.create_foodButton(cursor)
 
         elif button == 'starchy_categ':
             print('Starchy foods button pressed!')
             with sqlite3.connect("food_mixtures.db") as conn:
                 print('Database connecting...')
                 cursor = conn.execute("SELECT foodName FROM FoodMixturesTable")
-                self.showDatabase(cursor)
+                self.create_foodButton(cursor)
         
 
-            #conn.close() 
-    def showDatabase(self, cursor):
+
+    def create_foodButton(self, cursor):
         data =[]
         for row in cursor:
                 data.append(row[0])
-        print('Creating buttons...')
-        #food_list = GridLayout(cols=2, spacing =10, size_hint_y=None)
-        #food_list.clear_widgets() # remove any existing buttons
-        #self.ids.food_list.bind(minimum_height=self.ids.food_list.setter('height'))
 
         for item in data:
-            btn = Button(text = item, 
+            food = Button(text = item, 
                     size_hint_y = (None),
                     size = ("50dp", "50dp"))
-            self.ids.foodList.bind(on_press = self.presser)
-            self.ids.foodList.add_widget(btn)
-            print(data)
+            food.bind(on_press = self.presser)
+            self.ids.foodList.add_widget(food)
 
-        #root = ScrollView(size_hint=(1,None), size =(400,420))
-        #root.add_widget(self.ids.food_list)
-        #return root
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.ids.foodList.clear_widgets()
+        
+        with sqlite3.connect("root_products.db") as conn:
+            print('Database connecting...')
+            cursor = conn.execute("SELECT foodName FROM RootProductsTable")
+            self.create_foodButton(cursor)
+
+
     def reset(self):
         self.ids.food.clear_widgets()
         self.manager.current = "Homepage"

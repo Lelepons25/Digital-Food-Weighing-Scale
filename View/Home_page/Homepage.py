@@ -4,18 +4,8 @@ from kivy.properties import ObjectProperty
 from View.Category_Page.CategoryPage import CategoryPage
 
 Builder.load_file('View\Home_page\Homepage.kv')
-    
-class Homepage(Screen):
-    # Icons for each category
-    def buttonIcons(self):
-        self.ids.fruits_icon.source = 'icons/fruits.png'
-        self.ids.veg_icon.source = 'icons/vegetable.png'
-        self.ids.grains_icon.source = 'icons/grains.png'
-        self.ids.protein_icon.source = 'icons/protein.png'
-        self.ids.dairy_icon.source = 'icons/dairy.png'
-        self.ids.more_icon.source = 'icons/more.png'
 
-    # define the presser function to switch to another screen and print "Pressed"
+class Homepage(Screen):
     #def presser(self, instance):
         #print("Pressed")
         # switch to another screen or page
@@ -42,5 +32,7 @@ class Homepage(Screen):
 
     def enter_EditProfilePage(self):
         self.manager.current = "EditProfilePage"
+
+
 
 
