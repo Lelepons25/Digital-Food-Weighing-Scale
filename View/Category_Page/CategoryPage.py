@@ -34,8 +34,8 @@ class CategoryPage(Screen):
                 cursor = conn.execute("SELECT foodName FROM RootProductsTable")
                 for row in cursor:
                     data.append(row[0])
-                #self.showDatabase(data)
-                
+                self.build(data)
+
         elif button == 'starchy_categ':
             print('Starchy foods button pressed!')
             with sqlite3.connect("food_mixtures.db") as conn:
@@ -44,6 +44,11 @@ class CategoryPage(Screen):
                 for row in cursor:
                     data.append(row[0])
                 #self.showDatabase(data)
+                self.build(data)
+        
+
+            #conn.close() 
+    def build(self, data):
         print('Creating buttons...')
         food_list = GridLayout(cols=2, spacing =10, size_hint_y=None)
         #food_list.clear_widgets() # remove any existing buttons
@@ -53,14 +58,11 @@ class CategoryPage(Screen):
             btn = Button(text=data[i], size_hint_y=None, height=50, valign='center', font_size=20, background_color = (0,.8,.8,.8))
             #btn.text_size = (btn.size)
             food_list.add_widget(btn)
-            print(i)
+            print(data)
 
         root = ScrollView(size_hint=(1,None), size =(400,420))
         root.add_widget(food_list)
         return root
-
-            #conn.close() 
-
     def reset(self):
         self.ids.food.clear_widgets()
         self.manager.current = "Homepage"
