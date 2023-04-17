@@ -6,9 +6,11 @@ from View.Category_Page.CategoryPage import CategoryPage
 Builder.load_file('View\Home_page\Homepage.kv')
 
 class Homepage(Screen):
-    #def presser(self, instance):
-        #print("Pressed")
-        # switch to another screen or page
+
+    def __init__(self, manager = None, **kwargs):
+        self.manager = manager
+        super().__init__(**kwargs)
+
     def on_button_press(self, button_id):
         if button_id == 'cereals_categ':
             button = 'cereals_categ'
@@ -22,16 +24,12 @@ class Homepage(Screen):
             category_page.show_categorypage(button)
         
         self.manager.current = 'CategoryPage'
-        
-    
- 
-        
-    def __init__(self, manager = None, **kwargs):
-        self.manager = manager
-        super().__init__(**kwargs)
-
-    def enter_EditProfilePage(self):
-        self.manager.current = "EditProfilePage"
+          
+    def enter_topButton(self, button):
+        if button == "Profile":
+            self.manager.current = "EditProfilePage"
+        elif button == "Save":
+            pass
 
 
 

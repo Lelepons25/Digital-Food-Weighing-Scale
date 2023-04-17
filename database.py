@@ -1,61 +1,68 @@
-import datetime
 import os
 
 class DataBase:
     def __init__(self, filename):
         self.filename = filename
         self.file_path = os.path.join(os.getcwd(), filename)
-        self.users = None
+        self.user = None
         self.file = None
-        self.load()
+        first_line = self.load()
+        if first_line:
+            fields = first_line.strip().split(";")
+            if len(fields) == 6:
+                user_name, sex, age, user_weight, user_height, track_goal= fields
+                self.user = {
+                    'user_name': user_name,
+                    'sex': sex,
+                    'age': int(age),
+                    'user_weight': float(user_weight),
+                    'user_height': float(user_height),
+                    'track_goal': track_goal
+                }
+            else:
+                print(f"Invalid line format in file {self.filename}: {first_line}")
+        else:
+            print("Database is empty.")
 
     def load(self):
-        self.file = open(self.filename, "r")
-        self.users = {}
+        with open(self.filename, "r") as f:
+            line = f.readline()
+            if line:
+                return line
+            else:
+                return None
 
-        for line in self.file:
-            user_name, sex, age, user_weight, user_height, track_goal,  created = line.strip().split(";")
-            self.users[user_name] = (sex, age, user_weight, user_height, track_goal, created)
-
-        self.file.close()
 
     def get_user(self, user_name):
-        if user_name in self.users:
-            return self.users[user_name]
+        if self.user and user_name == self.user['user_name']:
+            return self.user
         else:
-            return -1
+            return None
 
     def add_user(self, user_name, sex, age, user_weight, user_height, track_goal):
-        if len(self.users) > 0:
+        if self.user:
             print("This database can only accept one user.")
             return -1
-        elif user_name.strip() not in self.users:
-            self.users[user_name.strip()] = (sex.strip(), 
-                                            str(age).strip(), 
-                                            str(user_weight).strip(),
-                                            str(user_height).strip(),
-                                            track_goal.strip(),
-                                            DataBase.get_date())
+        else:
+            self.user = {
+                'user_name': user_name.strip(),
+                'sex': sex.strip(),
+                'age': int(age),
+                'user_weight': float(user_weight),
+                'user_height': float(user_height),
+                'track_goal': track_goal
+            }
             self.save()
             return 1
-        else:
-            print("Username exists already")
-            return -1
-
-
 
     def save(self):
         with open(self.filename, "w") as f:
-            for user in self.users:
-                f.write(user + ";" 
-                        + self.users[user][0] + ";" # sex
-                        + self.users[user][1] + ";" # age
-                        + self.users[user][2] + ";" # weight
-                        + self.users[user][3] + ";" # height
-                        + self.users[user][4] + ";" # track_goal
-                        + self.users[user][5] + "\n")
-
-    @staticmethod
-    def get_date():
-        return str(datetime.datetime.now()).split(" ")[0]
-    
+            if self.user:
+                f.write(
+                    self.user['user_name'] + ";" 
+                    + self.user['sex'] + ";" 
+                    + str(self.user['age']) + ";" 
+                    + str(self.user['user_weight']) + ";" 
+                    + str(self.user['user_height']) + ";"
+                    + self.user['track_goal'] + "\n" 
+                )

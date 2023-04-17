@@ -23,15 +23,15 @@ class ProfilePage(Screen):
 
 
     # Inherits the manager attribute for screen manager
-    def __init__(self, manager = None, **kwargs):
+    def __init__(self, manager = None, user = None, **kwargs):
         self.manager = manager
-        self.user = "User"
-        print(self.user)
         super(ProfilePage, self).__init__(**kwargs)
         # Define Keyboard
         keyboard = VKeyboard(size_hint = (0.4, 0.4),
                              on_key_up = self.key_up)
         self.add_widget(keyboard)
+        self.user = "Name"
+        print(self.user)
 
     # key_up: when the keyboard is released
     def key_up(self, keyboard, keycode, text, modifiers):

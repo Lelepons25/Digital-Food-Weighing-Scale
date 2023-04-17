@@ -19,20 +19,23 @@ class EditProfilePage(Screen):
     current = ""
 
     print("Inside1")
+            
 
-    def on_enter(self, *args):
-        print("Inside2")
-        user_data = db.get_user(self.current)
-        print(user_data)
-        if user_data:
-            user_name, sex, age, user_weight, user_height, track_goal, email = user_data
-            self.ids.user_name.text = f"Name: {user_name}"
-            self.ids.sex.text = f"Sex: {sex}"
-            self.ids.age.text = f"Age: {age}"
-            self.ids.user_weight.text = f"Weight: {user_weight}"
-            self.ids.user_height.text = f"Height: {user_height}"
-            self.ids.track_goal.text = f"Track: {track_goal}"
-            self.ids.bmi.text = "BMI: empty"
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        first_line = db.load()
+        if first_line:
+            fields = first_line.strip().split(";")
+            if len(fields) == 6:
+                user_name, sex, age, user_weight, user_height, track_goal = fields
+                self.ids.user_name.text = f"Name: {user_name}"
+                self.ids.sex.text = f"Sex: {sex}"
+                self.ids.age.text = f"Age: {age}"
+                self.ids.user_weight.text = f"Weight: {user_weight}"
+                self.ids.user_height.text = f"Height: {user_height}"
+                self.ids.track_goal.text = f"Track: {track_goal}"
+                self.ids.bmi.text = "BMI: empty"
+            else:
+                print(f"Invalid line format in file {self.filename}: {first_line}")
         else:
-            # Handle case where user data is not found
-            pass
+            print("Database is empty.")
