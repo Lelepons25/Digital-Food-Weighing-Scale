@@ -16,23 +16,40 @@ class EditProfilePage(Screen):
     user_height = ObjectProperty(None)
     track_goal = ObjectProperty(None)
     bmi = ObjectProperty(None)
-    current = ""
 
-    print("Inside1")
+    def identify_bmiCategory(self, bmi):
+        if bmi >= 0 and bmi <= 16.0:
+            bmiCategory = "Severely underweight"
+        elif bmi >= 16.1 and bmi <= 18.5:
+            bmiCategory = "Underweight"
+        elif bmi >= 18.6 and bmi <= 25:
+            bmiCategory = "Normal"
+        elif bmi >= 25.1 and bmi <= 30:
+            bmiCategory = "Overweight"
+        elif bmi >= 30.1 and bmi <= 35:
+            bmiCategory = "Obese"
+        
+        return bmiCategory
 
-    def on_enter(self, *args):
-        print("Inside2")
-        user_data = db.get_user(self.current)
-        print(user_data)
-        if user_data:
-            user_name, sex, age, user_weight, user_height, track_goal, email = user_data
-            self.ids.user_name.text = f"Name: {user_name}"
-            self.ids.sex.text = f"Sex: {sex}"
-            self.ids.age.text = f"Age: {age}"
-            self.ids.user_weight.text = f"Weight: {user_weight}"
-            self.ids.user_height.text = f"Height: {user_height}"
-            self.ids.track_goal.text = f"Track: {track_goal}"
-            self.ids.bmi.text = "BMI: empty"
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        first_line = db.load()
+        if first_line:
+            fields = first_line.strip().split(";")
+            if len(fields) == 6:
+                user_name, sex, age, user_weight, user_height, track_goal = fields
+                self.ids.user_name.text = f"Name: {user_name}"
+                self.ids.sex.text = f"Sex: {sex}"
+                self.ids.age.text = f"Age: {age}"
+                self.ids.user_weight.text = f"Weight: {user_weight} kg"
+                self.ids.user_height.text = f"Height: {user_height} cm"
+                self.ids.track_goal.text = f"Track: {track_goal}"
+                bmi = float(user_weight) / ((float(user_height)/100) ** 2)
+                bmiCategory = self.identify_bmiCategory(bmi)
+                self.ids.bmi.text = f"BMI: {bmi:.2f} - {bmiCategory}"
+            else:
+                print(f"Invalid line format in file {self.filename}: {first_line}")
         else:
-            # Handle case where user data is not found
-            pass
+            print("Database is empty.")
+
+

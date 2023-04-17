@@ -41,9 +41,8 @@
             text: 'Profile'
             background_color: utils.get_color_from_hex('#33B7FF')
             on_release:
-                root.enter_EditProfilePage()
-                # root.manager.transition.direction = "left"
-
+                root.enter_topButton("Profile")
+                
         # SAVE
         Button:
             id: save
@@ -51,6 +50,8 @@
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Save'
             background_color: utils.get_color_from_hex('#33B7FF')
+            on_release:
+                root.enter_topButton("Save")
     
     MDCard:
         size_hint: None, None
