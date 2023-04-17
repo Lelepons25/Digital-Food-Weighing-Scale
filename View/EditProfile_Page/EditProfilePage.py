@@ -19,7 +19,7 @@ class EditProfilePage(Screen):
     current = ""
 
     print("Inside1")
-            
+    
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -34,7 +34,8 @@ class EditProfilePage(Screen):
                 self.ids.user_weight.text = f"Weight: {user_weight}"
                 self.ids.user_height.text = f"Height: {user_height}"
                 self.ids.track_goal.text = f"Track: {track_goal}"
-                self.ids.bmi.text = "BMI: empty"
+                bmi = float(user_weight) / ((float(user_height)/100) ** 2)
+                self.ids.bmi.text = f"BMI: {bmi:.2f}"
             else:
                 print(f"Invalid line format in file {self.filename}: {first_line}")
         else:
