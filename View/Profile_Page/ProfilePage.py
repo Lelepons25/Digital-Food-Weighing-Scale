@@ -6,11 +6,17 @@ from database import DataBase
 from kivy.lang import Builder
 from kivy.uix.vkeyboard import VKeyboard
 
+import os
 
 
 Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
 db = DataBase("users.txt")
+
+if os.path.getsize(db.file_path) == 0:
+    check = 0
+else:
+    check = 1
 
 class ProfilePage(Screen):
     user_name = ObjectProperty(None)
@@ -20,18 +26,16 @@ class ProfilePage(Screen):
     user_height = ObjectProperty(None)
     track_goal = ObjectProperty(None)
 
-
-
     # Inherits the manager attribute for screen manager
-    def __init__(self, manager = None, user = None, **kwargs):
+    def __init__(self, manager = None, **kwargs):
         self.manager = manager
         super(ProfilePage, self).__init__(**kwargs)
         # Define Keyboard
         keyboard = VKeyboard(size_hint = (0.4, 0.4),
                              on_key_up = self.key_up)
         self.add_widget(keyboard)
-        self.user = "Name"
-        print(self.user)
+
+        self.check = check
 
     # key_up: when the keyboard is released
     def key_up(self, keyboard, keycode, text, modifiers):
@@ -82,9 +86,14 @@ class ProfilePage(Screen):
                     if self.user_weight.text.isdigit() and int(self.user_weight.text) > 0 and int(self.user_weight.text) < 400:
                         if self.user_height.text.isdigit() and int(self.user_height.text) > 0 and int(self.user_height.text) <300:
                         # Add user to the database
-                            db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
-                            self.reset()
-                            self.manager.current = "Homepage"
+                            if (self.check == 0):
+                                db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
+                                self.reset()
+                                self.manager.current = "Homepage"
+                            elif (self.check == 1):
+                                db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
+                                self.reset()
+                                self.manager.current = "EditProfilePage"
                         else: 
                             invalidForm("Input height in cm raging from 50 - 300")
                     else:

@@ -30,9 +30,14 @@ class EditProfilePage(Screen):
             bmiCategory = "Obese"
         
         return bmiCategory
+    
 
-    def __init__(self, **kwargs):
+    def __init__(self, manager = None, **kwargs):
+        self.manager = manager
         super().__init__(**kwargs)
+        self.display_database()
+    
+    def display_database(self):
         first_line = db.load()
         if first_line:
             fields = first_line.strip().split(";")
@@ -53,3 +58,5 @@ class EditProfilePage(Screen):
             print("Database is empty.")
 
 
+    def enter_editButton(self):
+        self.manager.current = "ProfilePage"
