@@ -70,7 +70,9 @@ class DataBase:
             self.user['track_goal'] = track_goal.strip()
         
         self.save()
+
         return 1
+    
 
     def save(self):
         with open(self.filename, "w") as f:

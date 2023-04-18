@@ -33,9 +33,10 @@ class EditProfilePage(Screen):
     
 
     def __init__(self, manager = None, **kwargs):
-        self.manager = manager
         super().__init__(**kwargs)
+        self.manager = manager
         self.display_database()
+        print("Enter init")
     
     def display_database(self):
         first_line = db.load()
@@ -56,7 +57,17 @@ class EditProfilePage(Screen):
                 print(f"Invalid line format in file {self.filename}: {first_line}")
         else:
             print("Database is empty.")
-
+    
 
     def enter_editButton(self):
+
         self.manager.current = "ProfilePage"
+
+    def reset(self): 
+        self.user_name.text = "Name: "
+        self.sex.text = "Sex: "
+        self.age.text = "Age: "
+        self.user_weight.text = "Weight: "
+        self.user_height.text = "Height: "
+        self.track_goal.text = "Track: "
+        self.bmi.text = "Bmi: "
