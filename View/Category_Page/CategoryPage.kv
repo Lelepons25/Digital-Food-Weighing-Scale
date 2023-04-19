@@ -1,8 +1,10 @@
 #: import utils kivy.utils
 
 <CategoryPage>
+
     id: CategoryPage
     name: "CategoryPage"
+    food_list : foodList
 
     # Create the Nutrition Facts
     FloatLayout:
@@ -102,6 +104,7 @@
         pos_hint:{'x':0.01, 'top':0.8}
         
         ScrollView:
+            
             size: 400, 420
             GridLayout:
                 id: foodList
@@ -111,6 +114,7 @@
                 cols: 2
                 spacing: 10, 10
                 padding: 10, 10
+            
 
     # Display Nutrition Facts rectangle or box             
     MDCard:

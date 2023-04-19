@@ -8,63 +8,55 @@ import sqlite3
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.properties import ObjectProperty
-#from ConnectDatabase import connect_CerealsDB, connectFoodMix
+from kivy.uix.button import Button
+
 
 Builder.load_file('View\Category_Page\CategoryPage.kv')
 
-#conn = ConnectDB.connectFoodMix()
-#DOUBLE CHECK DATABASE AGAIN
+
 class CategoryPage(Screen):
+    foodList = ObjectProperty(None)
     
     def presser(self, instance):
         # do something when a button is pressed
         print("Button pressed:", instance.text)
 
-    def show_categorypage(self, button):
-        categ_page = CategoryPage()
-        print("Button pressed:", button)
+    def __init__(self, manager, button_id, **kwargs):
+        super(CategoryPage, self).__init__(**kwargs)
+        self.manager = manager
+        self.button_id = button_id
         cursor = None
-        
-        if button == 'cereals_categ':
+        data = []
+
+        if button_id == 'cereals_categ':
             print('Cereals button pressed!')
             with sqlite3.connect("root_products.db") as conn:
                 print('Database connecting...')
-                cursor = conn.execute("SELECT foodName FROM RootProductsTable")
-                self.create_foodButton(cursor)
+                cursor = conn.execute("SELECT foodName FROM ProductsTable")
+                data = [str(row[0]) for row in cursor.fetchall()]
 
-        elif button == 'starchy_categ':
+        elif button_id == 'starchy_categ':
             print('Starchy foods button pressed!')
             with sqlite3.connect("food_mixtures.db") as conn:
                 print('Database connecting...')
-                cursor = conn.execute("SELECT foodName FROM FoodMixturesTable")
-                self.create_foodButton(cursor)
-        
-
-
-    def create_foodButton(self, cursor):
-        data =[]
-        for row in cursor:
-                data.append(row[0])
-
-        for item in data:
-            food = Button(text = item, 
-                    size_hint_y = (None),
-                    size = ("50dp", "50dp"))
-            food.bind(on_press = self.presser)
+                cursor = conn.execute("SELECT foodName FROM ProductsTable")
+                data = [str(row[0]) for row in cursor.fetchall()]
+                    
+        print(data)
+        for char in data:
+            food = Button(text=char, 
+                        size_hint_y=0.2,
+                        height="50dp")
+            food.bind(on_press=self.presser)
             self.ids.foodList.add_widget(food)
-
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.ids.foodList.clear_widgets()
-        
-        with sqlite3.connect("root_products.db") as conn:
-            print('Database connecting...')
-            cursor = conn.execute("SELECT foodName FROM RootProductsTable")
-            self.create_foodButton(cursor)
-
+            print(char)
+            print(self.ids.foodList)
 
     def reset(self):
-        self.ids.food.clear_widgets()
+        self.ids.foodList.clear_widgets()
         self.manager.current = "Homepage"
     
+
+
+class CategoryButton(Button):
+    pass
