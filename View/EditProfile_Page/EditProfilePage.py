@@ -2,6 +2,8 @@ from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from database import DataBase
+from kivymd.uix.card import MDCard
+from kivymd.uix.label import MDLabel
 
 
 Builder.load_file('View\EditProfile_Page\EditProfilePage.kv')
@@ -38,11 +40,6 @@ class EditProfilePage(Screen):
         self.display_database()
         self.display_mealPlan()
     
-
-    def display_mealPlan(self):
-        pass
-
-    
     def display_database(self):
         self.reset()
         first_line = db.load()
@@ -65,6 +62,29 @@ class EditProfilePage(Screen):
         else:
             print("Database is empty.")
 
+    
+    def display_mealPlan(self):
+        
+        for i in range(7):
+            card = MDCard(
+                size_hint=(None, None),
+                size=(350, 250),
+                pos_hint={"center_x": 0.5, "top": 0.96},
+                padding=5,
+                spacing=5,
+                elevation=1,
+                orientation="vertical",
+            )
+            label = MDLabel(
+                text=f"Meal Plan for Day {i+1}",
+                halign="center",
+                size_hint_y=None,
+                height=card.height - 50,
+            )
+            card.add_widget(label)
+            self.ids.carousel.add_widget(card)
+
+        
     def enter_editButton(self):
         self.manager.current = "ProfilePage"
     

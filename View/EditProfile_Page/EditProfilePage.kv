@@ -112,54 +112,8 @@
             # List or Card of Meal Plans
             id: carousel
 
-            MDCard:
-                size_hint: None, None
-                size: 350, 250
-                pos_hint: {'center_x': 0.5, 'top':0.96}
-                padding: 5
-                spacing: 5
-                elevation: 1
-                orientation: 'vertical'
-
-                MDLabel:
-                    text: "Day 1"
-                    font_size: 14
-                    halign: 'center'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-                    padding_y: 5
-            
-            MDCard:
-                size_hint: None, None
-                size: 350, 250
-                pos_hint: {'center_x': 0.5, 'top':0.96}
-                padding: 5
-                spacing: 5
-                elevation: 1
-                orientation: 'vertical'
-
-                MDLabel:
-                    text: "Day 1"
-                    font_size: 14
-                    halign: 'center'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-                    padding_y: 5
-            
-
-
     # Return
     MDRectangleFlatIconButton:
         on_release:
             app.root.current = "Homepage"
             # root.manager.transition.direction = "right"
-
-<display_mealPlan>
-    MDCard:
-        id: card
-        size_hint: None, None
-        size: 150, 150
-        pos_hint: {'x': 0.32, 'top':0.96}
-        padding: 5
-        spacing: 5
-        orientation: 'vertical'
