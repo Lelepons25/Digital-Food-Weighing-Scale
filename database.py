@@ -54,6 +54,25 @@ class DataBase:
             }
             self.save()
             return 1
+        
+    def update_user(self, user_name, sex=None, age=None, user_weight=None, user_height=None, track_goal=None):
+        if user_name:
+            self.user['user_name'] = user_name.strip()
+        if sex:
+            self.user['sex'] = sex.strip()
+        if age:
+            self.user['age'] = int(age)
+        if user_weight:
+            self.user['user_weight'] = float(user_weight)
+        if user_height:
+            self.user['user_height'] = float(user_height)
+        if track_goal:
+            self.user['track_goal'] = track_goal.strip()
+        
+        self.save()
+
+        return 1
+    
 
     def save(self):
         with open(self.filename, "w") as f:

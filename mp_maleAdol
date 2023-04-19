@@ -1,0 +1,14 @@
+import sqlite3
+import pandas as pd
+
+conn = sqlite3.connect("food_mixtures.db")
+
+conn.execute('''
+    CREATE TABLE mp_maleAdol(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    day INTEGER,
+    meal_type TEXT,
+    food_item TEXT,
+    serving_size TEXT
+    )
+''')

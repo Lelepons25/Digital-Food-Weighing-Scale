@@ -31,9 +31,12 @@ class WindowManager(ScreenManager):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+<<<<<<< HEAD
 
         #button = ObjectProperty()
         user = StringProperty("None")
+=======
+>>>>>>> 5eaec5110cb0195cb391cc6e1cb95b079b686a43
         
         db = DataBase("users.txt")
         if os.path.getsize(db.file_path) == 0:
@@ -44,7 +47,7 @@ class WindowManager(ScreenManager):
         self.Homepage_widget = Homepage(manager = self)
         self.CategoryPage_widget = CategoryPage(manager = self, button_id='button')
         self.MealPlanPage_widget = MealPlanPage(manager = self)
-        self.ProfilePage_widget = ProfilePage(manager = self, user = user)
+        self.ProfilePage_widget = ProfilePage(manager = self)
         self.EditProfilePage_widget = EditProfilePage(manager = self)
         self.MorePage_widget = MorePage(manager = self)
 
