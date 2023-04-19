@@ -20,8 +20,6 @@ class ProfilePage(Screen):
     user_height = ObjectProperty(None)
     track_goal = ObjectProperty(None)
 
-
-
     # Inherits the manager attribute for screen manager
     def __init__(self, manager = None, user = None, **kwargs):
         self.manager = manager

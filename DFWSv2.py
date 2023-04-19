@@ -11,7 +11,7 @@ import os
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
 from kivy.lang import Builder
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ObjectProperty
 
 # import
 from View.Home_page.Homepage import Homepage
@@ -32,6 +32,7 @@ class WindowManager(ScreenManager):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        #button = ObjectProperty()
         user = StringProperty("None")
         
         db = DataBase("users.txt")
@@ -41,7 +42,7 @@ class WindowManager(ScreenManager):
             self.current ="Homepage"
             
         self.Homepage_widget = Homepage(manager = self)
-        self.CategoryPage_widget = CategoryPage(manager = self)
+        self.CategoryPage_widget = CategoryPage(manager = self, button_id='button')
         self.MealPlanPage_widget = MealPlanPage(manager = self)
         self.ProfilePage_widget = ProfilePage(manager = self, user = user)
         self.EditProfilePage_widget = EditProfilePage(manager = self)
@@ -60,7 +61,8 @@ class DFWS(MDApp):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
 
-    def build(self):    
+    def build(self): 
+           
         return WindowManager()
 
 
