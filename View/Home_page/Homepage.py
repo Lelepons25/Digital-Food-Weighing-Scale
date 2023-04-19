@@ -29,7 +29,11 @@ class Homepage(Screen):
         if button == "Profile":
             self.manager.current = "EditProfilePage"
         elif button == "Save":
-            pass
+            print("Save")
+        elif button == "Clear":
+            print("Clear")
+
+
 
 
 

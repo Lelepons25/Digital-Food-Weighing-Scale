@@ -5,8 +5,10 @@ from kivy.uix.label import Label
 from database import DataBase
 from kivy.lang import Builder
 from kivy.uix.vkeyboard import VKeyboard
+from View.EditProfile_Page.EditProfilePage import EditProfilePage
 
 import os
+import sys
 
 Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
@@ -91,7 +93,10 @@ class ProfilePage(Screen):
                                 self.manager.current = "Homepage"
                             elif (self.check == 1):
                                 db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
+                                restart()
                                 self.reset()
+                                EditProfile_Page = EditProfilePage()
+                                EditProfile_Page.display_database()
                                 self.manager.current = "EditProfilePage"
                         else: 
                             invalidForm("Input height in cm raging from 50 - 300")
@@ -117,5 +122,13 @@ def invalidForm(message):
         content = Label (text = message),
         size_hint = (None, None),
         size = (400, 400)
+    )
+    pop.open()
+
+def restart():
+    pop = Popup(title = "Changes Saved!",
+        content = Label (text = "Restart the program to see the changes"),
+        size_hint = (None, None),
+        size = (400,400)
     )
     pop.open()

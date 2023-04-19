@@ -1,1 +1,1 @@
-Newt;Male;43;43.0;165.0;Calorie Deficit
+Edit;Male;54;54.0;159.0;Calorie Deficit
