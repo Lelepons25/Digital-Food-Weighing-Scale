@@ -20,6 +20,7 @@ class EditProfilePage(Screen):
     track_goal = ObjectProperty(None)
     bmi = ObjectProperty(None)
 
+    # Identify which category the user belongs
     def identify_bmiCategory(self, bmi):
         if bmi >= 0 and bmi <= 16.0:
             bmiCategory = "Severely underweight"
@@ -34,6 +35,10 @@ class EditProfilePage(Screen):
         
         return bmiCategory
     
+    # Identify which meal to be loaded
+    def identify_mealPlan(self):
+        pass
+
     def __init__(self, manager = None, **kwargs):
         super().__init__(**kwargs)
         self.manager = manager

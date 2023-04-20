@@ -6,6 +6,7 @@ from database import DataBase
 from kivy.lang import Builder
 from kivy.uix.vkeyboard import VKeyboard
 from View.EditProfile_Page.EditProfilePage import EditProfilePage
+from kivy.core.window import Window
 
 import os
 import sys
@@ -13,11 +14,6 @@ import sys
 Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
 db = DataBase("users.txt")
-
-if os.path.getsize(db.file_path) == 0:
-    check = 0
-else:
-    check = 1
 
 class ProfilePage(Screen):
     user_name = ObjectProperty(None)
@@ -29,14 +25,22 @@ class ProfilePage(Screen):
 
     # Inherits the manager attribute for screen manager
     def __init__(self, manager = None, **kwargs):
-        self.manager = manager
         super(ProfilePage, self).__init__(**kwargs)
-        # Define Keyboard
-        keyboard = VKeyboard(size_hint = (0.4, 0.4),
-                             on_key_up = self.key_up)
-        self.add_widget(keyboard)
+        self.manager = manager
+        # Bind on_focus event of each TextInput to on_text_focus()
+        self.user_name.bind(focus=self.on_text_focus)
+        self.age.bind(focus=self.on_text_focus)
+        self.user_weight.bind(focus=self.on_text_focus)
+        self.user_height.bind(focus=self.on_text_focus)
 
-        self.check = check
+    def on_text_focus(self, widget, value):
+        if value:
+            keyboard = VKeyboard(target=widget, layout='qwerty', size_hint = (0.35, 0.4))
+            Window.add_widget(keyboard)
+        else:
+            for child in Window.children[:]:
+                if isinstance(child, VKeyboard):
+                    Window.remove_widget(child)
 
     # key_up: when the keyboard is released
     def key_up(self, keyboard, keycode, text, modifiers):
@@ -87,11 +91,11 @@ class ProfilePage(Screen):
                     if self.user_weight.text.isdigit() and int(self.user_weight.text) > 0 and int(self.user_weight.text) < 400:
                         if self.user_height.text.isdigit() and int(self.user_height.text) > 0 and int(self.user_height.text) <300:
                         # Add user to the database
-                            if (self.check == 0):
+                            if os.path.getsize(db.file_path) == 0:
                                 db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
                                 self.reset()
                                 self.manager.current = "Homepage"
-                            elif (self.check == 1):
+                            else:
                                 db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
                                 restart()
                                 self.reset()
