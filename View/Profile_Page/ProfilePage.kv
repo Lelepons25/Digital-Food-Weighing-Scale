@@ -10,15 +10,17 @@
 
     MDCard:
         size_hint: None, None
-        size: 300, 350
+        size: 330, 400
         pos_hint: {'center_x': 0.5, 'center_y':0.5}
         elevation: 2
-        padding: 10
-        spacing: 10
+        padding: 5
+        spacing: 5
         orientation: 'vertical'
+        md_bg_color:utils.get_color_from_hex('#CCF5E9')
         
         MDLabel:
             text: "Profile"
+            bold: True
             font_size: 20
             halign: 'center'
             size_hint_y: None
@@ -28,10 +30,11 @@
         # NAME
         MDTextField:
             id: user_name
-            mode: "round"         
+            mode: "rectangle"         
             hint_text: "Name"
             size_hint_x: None
             width: 200
+            height: 50
             font_size: 14
             pos_hint: {"center_x": 0.5}
 
@@ -50,7 +53,7 @@
 
         # AGE
         MDTextField:
-            mode: "round"
+            mode: "rectangle"
             id: age
             hint_text: "Age"
             size_hint_x: None
@@ -60,7 +63,7 @@
 
         # WEIGHT
         MDTextField:
-            mode: "round"
+            mode: "rectangle"
             id: user_weight
             hint_text: "Weight(kg)"
             size_hint_x: None
@@ -70,7 +73,7 @@
         
         # HEIGHT
         MDTextField:
-            mode: "round"
+            mode: "rectangle"
             id: user_height
             hint_text: "Height(cm)"
             size_hint_x: None
@@ -101,4 +104,4 @@
                 root.saveProfile()
         Widget:
             size_hint_y: None
-            height: 10
+            height: 3

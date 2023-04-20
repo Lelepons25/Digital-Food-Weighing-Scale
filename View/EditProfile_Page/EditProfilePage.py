@@ -22,6 +22,7 @@ class EditProfilePage(Screen):
 
     # Identify which category the user belongs
     def identify_bmiCategory(self, bmi):
+        bmiCategory = "Unknown"
         if bmi >= 0 and bmi <= 16.0:
             bmiCategory = "Severely underweight"
         elif bmi >= 16.1 and bmi <= 18.5:
@@ -37,16 +38,16 @@ class EditProfilePage(Screen):
     
     # Identify which meal to be loaded
     def identify_mealPlan(self):
-        pass
+        print(self.age)
 
     def __init__(self, manager = None, **kwargs):
-        super().__init__(**kwargs)
+        super(EditProfilePage, self).__init__(**kwargs)
         self.manager = manager
         self.display_database()
         self.display_mealPlan()
     
     def display_database(self):
-        self.reset()
+        print("INSIDE")
         first_line = db.load()
         if first_line:
             fields = first_line.strip().split(";")

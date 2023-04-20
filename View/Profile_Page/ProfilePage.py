@@ -83,7 +83,6 @@ class ProfilePage(Screen):
         # Check if all required fields are filled
         if self.user_name.text and self.sex.text and self.age.text and self.user_weight.text and self.user_height.text and self.track_goal.text:
             # Check the length of the name 
-            print(self.user_name.text)
             if len(self.user_name.text) >= 4 and len(self.user_name.text)<=50:
             # Check if age is a valid positive integer
                 if self.age.text.isdigit() and 2 < int(self.age.text) < 100:
@@ -94,6 +93,8 @@ class ProfilePage(Screen):
                             if os.path.getsize(db.file_path) == 0:
                                 db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
                                 self.reset()
+                                EditProfile_Page = EditProfilePage()
+                                EditProfile_Page.display_database()
                                 self.manager.current = "Homepage"
                             else:
                                 db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
