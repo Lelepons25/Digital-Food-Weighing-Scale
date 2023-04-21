@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 shin;Male;35;67.0;167.0;Which do you wanna track?
+=======
+sheldon;Female;43;43.0;154.0;Low Carb Diet
+>>>>>>> edc752f4e3e645a8c5f6b292bf7cfe56083f19b0

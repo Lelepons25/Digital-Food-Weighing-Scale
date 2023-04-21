@@ -20,32 +20,31 @@ class EditProfilePage(Screen):
     track_goal = ObjectProperty(None)
     bmi = ObjectProperty(None)
 
-    # Identify which category the user belongs
-    def identify_bmiCategory(self, bmi):
-        bmiCategory = "Unknown"
-        if bmi >= 0 and bmi <= 16.0:
-            bmiCategory = "Severely underweight"
-        elif bmi >= 16.1 and bmi <= 18.5:
-            bmiCategory = "Underweight"
-        elif bmi >= 18.6 and bmi <= 25:
-            bmiCategory = "Normal"
-        elif bmi >= 25.1 and bmi <= 30:
-            bmiCategory = "Overweight"
-        elif bmi >= 30.1 and bmi <= 35:
-            bmiCategory = "Obese"
-        
-        return bmiCategory
-    
-    # Identify which meal to be loaded
-    def identify_mealPlan(self):
-        print(self.age)
-
     def __init__(self, manager = None, **kwargs):
         super(EditProfilePage, self).__init__(**kwargs)
         self.manager = manager
         self.display_database()
         self.display_mealPlan()
+
+    # Identify which category the user belongs
+    def identify_bmiCategory(self, bmi):
+        if bmi < 0:
+            return "Unknown"
+        elif bmi <= 16.0:
+            return "Severely underweight"
+        elif bmi <= 18.5:
+            return "Underweight"
+        elif bmi <= 25:
+            return "Normal"
+        elif bmi <= 30:
+            return "Overweight"
+        else:
+            return "Obese"
     
+    # Identify which meal to be loaded
+    def identify_mealPlan(self):
+        print(self.age)
+
     def display_database(self):
         print("INSIDE")
         first_line = db.load()
@@ -94,14 +93,12 @@ class EditProfilePage(Screen):
     def enter_editButton(self):
         self.manager.current = "ProfilePage"
     
-    def enter_saveButton(self):
-        pass
 
     def reset(self): 
-        self.ids.user_name.text = "Name: "
-        self.ids.sex.text = "Sex: "
-        self.ids.age.text = "Age: "
-        self.ids.user_weight.text = "Weight: "
-        self.ids.user_height.text = "Height: "
-        self.ids.track_goal.text = "Track: "
-        self.ids.bmi.text = "Bmi: "
+        self.user_name.text = "Name: "
+        self.sex.text = "Sex: "
+        self.age.text = "Age: "
+        self.user_weight.text = "Weight: "
+        self.user_height.text = "Height: "
+        self.track_goal.text = "Track: "
+        self.bmi.text = "Bmi: "

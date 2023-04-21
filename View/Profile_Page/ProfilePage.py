@@ -10,10 +10,18 @@ from kivy.core.window import Window
 
 import os
 import sys
-
+import subprocess
 Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
 db = DataBase("users.txt")
+
+def restart_program():
+    # Kill the current process
+    subprocess.call([sys.executable, "-c", "import os; os.kill(os.getpid(), 9)"])
+
+    # Start a new instance of the program
+    subprocess.Popen([sys.executable] + sys.argv)
+
 
 class ProfilePage(Screen):
     user_name = ObjectProperty(None)
@@ -96,10 +104,11 @@ class ProfilePage(Screen):
                                 EditProfile_Page = EditProfilePage()
                                 EditProfile_Page.display_database()
                                 self.manager.current = "Homepage"
-                            else:
+                            else :
                                 db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
                                 restart()
                                 self.reset()
+                                # restart_program()
                                 EditProfile_Page = EditProfilePage()
                                 EditProfile_Page.display_database()
                                 self.manager.current = "EditProfilePage"
