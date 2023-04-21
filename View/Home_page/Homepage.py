@@ -10,7 +10,7 @@ class Homepage(Screen):
     def __init__(self, **kwargs):
         super(Homepage, self).__init__(**kwargs)
         self.button_id = None
-        #self.button_id = button_id
+        self.ids.weight_input.text = "54"
 
 
     def on_button_press(self, button_id):
