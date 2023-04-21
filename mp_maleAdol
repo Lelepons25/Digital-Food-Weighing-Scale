@@ -34,4 +34,3 @@ for row in cur:
     print("SERVING SIZE = ", row[3], "\n")
     
 print("Records created successfully")
-conn.close()
