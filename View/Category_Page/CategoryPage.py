@@ -44,13 +44,13 @@ class CategoryPage(Screen):
                     
         print(data)
         for char in data:
-            food = Button(text=char, 
+            food = Button(text= char, 
                         size_hint_y=0.2,
                         height="50dp")
             food.bind(on_press=self.presser)
             self.ids.foodList.add_widget(food)
-            print(char)
-            print(self.ids.foodList)
+            #print(char)
+            #print(self.ids.foodList)
 
     def reset(self):
         self.ids.foodList.clear_widgets()
