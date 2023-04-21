@@ -5,17 +5,15 @@ from kivy.uix.label import Label
 from database import DataBase
 from kivy.lang import Builder
 from kivy.uix.vkeyboard import VKeyboard
+from View.EditProfile_Page.EditProfilePage import EditProfilePage
+from kivy.core.window import Window
 
 import os
+import sys
 
 Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
 db = DataBase("users.txt")
-
-if os.path.getsize(db.file_path) == 0:
-    check = 0
-else:
-    check = 1
 
 class ProfilePage(Screen):
     user_name = ObjectProperty(None)
@@ -27,14 +25,22 @@ class ProfilePage(Screen):
 
     # Inherits the manager attribute for screen manager
     def __init__(self, manager = None, **kwargs):
-        self.manager = manager
         super(ProfilePage, self).__init__(**kwargs)
-        # Define Keyboard
-        keyboard = VKeyboard(size_hint = (0.4, 0.4),
-                             on_key_up = self.key_up)
-        self.add_widget(keyboard)
+        self.manager = manager
+        # Bind on_focus event of each TextInput to on_text_focus()
+        self.user_name.bind(focus=self.on_text_focus)
+        self.age.bind(focus=self.on_text_focus)
+        self.user_weight.bind(focus=self.on_text_focus)
+        self.user_height.bind(focus=self.on_text_focus)
 
-        self.check = check
+    def on_text_focus(self, widget, value):
+        if value:
+            keyboard = VKeyboard(target=widget, layout='qwerty', size_hint = (0.35, 0.4))
+            Window.add_widget(keyboard)
+        else:
+            for child in Window.children[:]:
+                if isinstance(child, VKeyboard):
+                    Window.remove_widget(child)
 
     # key_up: when the keyboard is released
     def key_up(self, keyboard, keycode, text, modifiers):
@@ -77,7 +83,6 @@ class ProfilePage(Screen):
         # Check if all required fields are filled
         if self.user_name.text and self.sex.text and self.age.text and self.user_weight.text and self.user_height.text and self.track_goal.text:
             # Check the length of the name 
-            print(self.user_name.text)
             if len(self.user_name.text) >= 4 and len(self.user_name.text)<=50:
             # Check if age is a valid positive integer
                 if self.age.text.isdigit() and 2 < int(self.age.text) < 100:
@@ -85,13 +90,18 @@ class ProfilePage(Screen):
                     if self.user_weight.text.isdigit() and int(self.user_weight.text) > 0 and int(self.user_weight.text) < 400:
                         if self.user_height.text.isdigit() and int(self.user_height.text) > 0 and int(self.user_height.text) <300:
                         # Add user to the database
-                            if (self.check == 0):
+                            if os.path.getsize(db.file_path) == 0:
                                 db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
                                 self.reset()
+                                EditProfile_Page = EditProfilePage()
+                                EditProfile_Page.display_database()
                                 self.manager.current = "Homepage"
-                            elif (self.check == 1):
+                            else:
                                 db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
+                                restart()
                                 self.reset()
+                                EditProfile_Page = EditProfilePage()
+                                EditProfile_Page.display_database()
                                 self.manager.current = "EditProfilePage"
                         else: 
                             invalidForm("Input height in cm raging from 50 - 300")
@@ -117,5 +127,13 @@ def invalidForm(message):
         content = Label (text = message),
         size_hint = (None, None),
         size = (400, 400)
+    )
+    pop.open()
+
+def restart():
+    pop = Popup(title = "Changes Saved!",
+        content = Label (text = "Restart the program to see the changes"),
+        size_hint = (None, None),
+        size = (400,400)
     )
     pop.open()

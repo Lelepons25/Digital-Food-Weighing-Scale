@@ -25,6 +25,7 @@ class DataBase:
             print("Database is empty.")
 
     def load(self):
+        print("Loading")
         with open(self.filename, "r") as f:
             line = f.readline()
             if line:
@@ -70,7 +71,7 @@ class DataBase:
             self.user['track_goal'] = track_goal.strip()
         
         self.save()
-
+        self.load()
         return 1
     
 
