@@ -31,6 +31,9 @@ class WindowManager(ScreenManager):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        #button = ObjectProperty()
+        user = StringProperty("None")
         
         db = DataBase("users.txt")
         if os.path.getsize(db.file_path) == 0:
