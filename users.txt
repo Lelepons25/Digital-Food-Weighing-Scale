@@ -1,9 +1,1 @@
-<<<<<<< HEAD
-HGHH;Male;43;43.0;154.0;Low Carb Diet
-=======
-<<<<<<< HEAD
-shin;Male;35;67.0;167.0;Which do you wanna track?
-=======
-sheldon;Female;43;43.0;154.0;Low Carb Diet
->>>>>>> edc752f4e3e645a8c5f6b292bf7cfe56083f19b0
->>>>>>> 403ddb9b13d75a6a1a2e65cc7e39d1455cd71c2d
+test;Male;43;43.0;154.0;Low Carb Diet
