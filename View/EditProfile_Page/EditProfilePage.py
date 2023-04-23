@@ -4,6 +4,7 @@ from kivy.properties import ObjectProperty
 from database import DataBase
 from kivymd.uix.card import MDCard
 from kivymd.uix.label import MDLabel
+import sqlite3
 
 
 Builder.load_file('View\EditProfile_Page\EditProfilePage.kv')
@@ -70,8 +71,15 @@ class EditProfilePage(Screen):
 
     
     def display_mealPlan(self):
-        
-        for i in range(7):
+        conn = sqlite3.connect('mp_maleAdol.db')
+        curr = conn.cursor()
+
+        # Get all rows from the table
+        curr.execute("SELECT * FROM mp_maleAdol")
+        rows = curr.fetchall()
+
+        # Create a card for each row
+        for row in rows:
             card = MDCard(
                 size_hint=(None, None),
                 size=(350, 250),
@@ -81,14 +89,22 @@ class EditProfilePage(Screen):
                 elevation=1,
                 orientation="vertical",
             )
-            label = MDLabel(
-                text=f"Meal Plan for Day {i+1}",
-                halign="center",
-                size_hint_y=None,
-                height=card.height - 50,
-            )
-            card.add_widget(label)
+
+            # Add the meal plan data
+            for i in range(1):
+                meal_label = MDLabel(
+                    text=row[i] + "\n" + row[i+1],
+                    font_size = 6,
+                    halign="center",
+                    size_hint_y=None,
+                    height=card.height,
+                )
+                print(str(meal_label))
+                card.add_widget(meal_label)
+
             self.ids.carousel.add_widget(card)
+
+
 
         
     def enter_editButton(self):
