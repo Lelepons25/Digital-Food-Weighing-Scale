@@ -91,6 +91,7 @@
 
     # Meal Plan
     MDCard:
+        id: card_mealPlan
         size_hint: None, None
         size: 400, 350
         pos_hint: {'x': 0.45, 'top':0.88}
@@ -100,12 +101,25 @@
         orientation: 'vertical'
 
         MDLabel:
+            id: mp_title
             text: "Meal Plans"
             font_size: 20
             halign: 'center'
             size_hint_y: None
             height: self.texture_size[1]
             padding_y: 5
+        
+        MDRectangleFlatButton:
+            id: pinggang_pinoy
+            size_hint: (1 , 0.3)
+            pos_hint: {'center_x':0.5 , 'center_y':0.3}
+            text: 'Pinggang Pinoy'
+            text_color: "black"
+            line_color: "red"
+            on_release:
+                root.enter_pinggangPinoy()
+
+
 
 ########################################################################        
         MDCarousel:
@@ -117,3 +131,5 @@
         on_release:
             app.root.current = "Homepage"
             # root.manager.transition.direction = "right"
+
+
