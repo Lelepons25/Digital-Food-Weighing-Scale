@@ -7,7 +7,7 @@ conn = sqlite3.connect("food_mixtures.db")
 conn.execute('''
     CREATE TABLE ProductsTable (
         food_ID CHAR(100) PRIMARY KEY, 
-        foodName CHAR(100),
+        foodName TEXT,
         altName CHAR(100),
         edible INTEGER NOT NULL,
         water INTEGER NOT NULL,
