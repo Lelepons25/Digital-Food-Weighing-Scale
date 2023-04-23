@@ -6,7 +6,7 @@ conn = sqlite3.connect("root_products.db")
 conn.execute('''
     CREATE TABLE ProductsTable (
         food_ID CHAR(100), 
-        foodName CHAR(100),
+        foodName text,
         altName CHAR(100),
         edible INTEGER NOT NULL,
         water INTEGER NOT NULL,
