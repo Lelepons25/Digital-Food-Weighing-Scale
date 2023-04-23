@@ -4,7 +4,10 @@ from kivy.properties import ObjectProperty
 from database import DataBase
 from kivymd.uix.card import MDCard
 from kivymd.uix.label import MDLabel
+from kivymd.uix.button import MDRectangleFlatButton
+
 import sqlite3
+
 
 
 Builder.load_file('View\EditProfile_Page\EditProfilePage.kv')
@@ -25,7 +28,7 @@ class EditProfilePage(Screen):
         super(EditProfilePage, self).__init__(**kwargs)
         self.manager = manager
         self.display_database()
-        self.display_mealPlan()
+        # self.display_mealPlan()
 
     # Identify which category the user belongs
     def identify_bmiCategory(self, bmi):
@@ -68,8 +71,44 @@ class EditProfilePage(Screen):
         else:
             print("Database is empty.")
 
+
+    def presser(self, instance):
+        print("Pressed")
     
-    def display_mealPlan(self):
+    def enter_pinggangPinoy(self):
+        pp_button = self.ids.pinggang_pinoy
+        # mp_label = self.ids.mp_title
+        self.ids.mp_title.text = "Pinggang Pinoy"
+        self.ids.card_mealPlan.remove_widget(pp_button)
+        # self.ids.card_mealPlan.remove_widget(mp_label)
+
+        
+        # Create Button for pinggang pinoy Day 1 - Day 8
+        # Create a list to store the day buttons
+        self.day_buttons =[] 
+        for i in range (1, 8):
+            dayButton = MDRectangleFlatButton(id = f'day{i}',
+                                            text = f'Day {i}',
+                                            size_hint = (0.8, None),
+                                            text_color = "black",
+                                            line_color = "red",
+                                            pos_hint =  {"center_x": .5})
+            print(dayButton.id)
+            dayButton.bind(on_press = self.display_mealPlan)
+            self.day_buttons.append(dayButton)
+            self.ids.card_mealPlan.add_widget(dayButton)
+
+        # Add back button for this card
+
+
+
+    def display_mealPlan(self, instance):
+
+        # remove the day buttons
+        for dayButton in self.day_buttons:
+            self.ids.card_mealPlan.remove_widget(dayButton)
+
+        print("Here")
         conn = sqlite3.connect('mp_maleAdol.db')
         curr = conn.cursor()
 
@@ -92,20 +131,33 @@ class EditProfilePage(Screen):
             # Add the meal plan data
             for i in range(1):
                 meal_label = MDLabel(
-                    text=row[i] + "\n" + row[i+1],
-                    font_size = 6,
+                    
+                    text = "BREAKFAST" + "\n" 
+                    + row[i] + " - " + row[i + 14] + "\n" 
+                    + row[i + 1] + " - " + row[i + 15] + "\n"
+                    + row[i + 2] + " - " + row[i + 16] + "\n" 
+                    + row[i + 3] + " - " + row[i + 17] + "\n"
+                    + "\n"
+                    + "LUNCH" + "\n"
+                    + row[i + 4]+ " - " + row[i + 18] + "\n" 
+                    + row[i + 5] + " - " + row[i + 19] + "\n"
+                    + row[i + 6] + " - " + row[i + 20] + "\n" 
+                    + row[i + 7] + " - " + row[i + 21] + "\n"
+                    + "\n"
+                    + "SUPPER" + "\n"
+                    + row[i + 8]+ " - " + row[i + 22] + "\n" 
+                    + row[i + 9] + " - " + row[i + 23] + "\n"
+                    + row[i + 10] + " - " + row[i + 24] + "\n" 
+                    + row[i + 11] + " - " + row[i + 25] + "\n",
                     halign="center",
-                    size_hint_y=None,
                     height=card.height,
+                    font_size = 12
                 )
-                print(str(meal_label))
                 card.add_widget(meal_label)
 
             self.ids.carousel.add_widget(card)
 
-
-
-        
+  
     def enter_editButton(self):
         self.manager.current = "ProfilePage"
     
