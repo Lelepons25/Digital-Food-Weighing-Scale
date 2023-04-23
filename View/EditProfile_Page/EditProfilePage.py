@@ -94,69 +94,133 @@ class EditProfilePage(Screen):
                                             text_color = "black",
                                             line_color = "red",
                                             pos_hint =  {"center_x": .5})
-            print(dayButton.id)
             dayButton.bind(on_press = self.display_mealPlan)
             self.day_buttons.append(dayButton)
             self.ids.card_mealPlan.add_widget(dayButton)
 
-        # Add back button for this card
-
 
 
     def display_mealPlan(self, instance):
+        dayClicked = instance.text
 
         # remove the day buttons
         for dayButton in self.day_buttons:
             self.ids.card_mealPlan.remove_widget(dayButton)
 
-        print("Here")
         conn = sqlite3.connect('mp_maleAdol.db')
         curr = conn.cursor()
 
-        # Get all rows from the table
-        curr.execute("SELECT * FROM mp_maleAdol")
-        rows = curr.fetchall()
+        back_button = MDRectangleFlatButton(
+            text="Back",
+            pos_hint={"center_x": 0.5, "center_y": 0.1},
+        )
+        back_button.bind(on_press = self.enter_pinggangPinoy)
+        self.ids.card_mealPlan.add_widget(back_button)
 
-        # Create a card for each row
-        for row in rows:
-            card = MDCard(
-                size_hint=(None, None),
-                size=(350, 250),
-                pos_hint={"center_x": 0.5, "top": 0.96},
-                padding=5,
-                spacing=5,
-                elevation=1,
-                orientation="vertical",
-            )
+        if dayClicked == "Day 1":
+            # Get the first row from the table
+            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1")
+        elif dayClicked == "Day 2":
+            # Get the second row from the table
+            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 1")
+        elif dayClicked == "Day 3":
+            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 2")
+        elif dayClicked == "Day 4":
+            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 3")
+        elif dayClicked == "Day 5":
+            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 4")
+        elif dayClicked == "Day 6":
+            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 5")
+        elif dayClicked == "Day 7":
+            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 6")
 
-            # Add the meal plan data
-            for i in range(1):
-                meal_label = MDLabel(
-                    
-                    text = "BREAKFAST" + "\n" 
-                    + row[i] + " - " + row[i + 14] + "\n" 
-                    + row[i + 1] + " - " + row[i + 15] + "\n"
-                    + row[i + 2] + " - " + row[i + 16] + "\n" 
-                    + row[i + 3] + " - " + row[i + 17] + "\n"
-                    + "\n"
-                    + "LUNCH" + "\n"
-                    + row[i + 4]+ " - " + row[i + 18] + "\n" 
-                    + row[i + 5] + " - " + row[i + 19] + "\n"
-                    + row[i + 6] + " - " + row[i + 20] + "\n" 
-                    + row[i + 7] + " - " + row[i + 21] + "\n"
-                    + "\n"
-                    + "SUPPER" + "\n"
-                    + row[i + 8]+ " - " + row[i + 22] + "\n" 
-                    + row[i + 9] + " - " + row[i + 23] + "\n"
-                    + row[i + 10] + " - " + row[i + 24] + "\n" 
-                    + row[i + 11] + " - " + row[i + 25] + "\n",
-                    halign="center",
-                    height=card.height,
-                    font_size = 12
-                )
-                card.add_widget(meal_label)
+        row = curr.fetchone()
+        if not row:
+            return
 
-            self.ids.carousel.add_widget(card)
+        meal_labels = []
+
+        # Loop through the meal names and descriptions
+        meal_names = ['BREAKFAST', 'LUNCH', 'SUPPER', 'SNACK']
+        for i, meal_name in enumerate(meal_names):
+            meal_label_text = meal_name + '\n\n'
+            for j in range(4):
+                k = i*4 + j
+                if k + 14 < len(row):
+                    meal_label_text += row[k] + ' - ' + row[k+14] + '\n'
+            meal_label_text += '\n'
+            meal_labels.append(MDLabel(
+                text=meal_label_text,
+                halign="center",
+                height=250,
+                font_size=12
+            ))
+
+        # Create cards for the meal plan and add labels to them
+        breakfast_card = MDCard(
+            size_hint=(None, None),
+            size=(350, 250),
+            pos_hint={"center_x": 0.5, "top": 0.96},
+            padding=5,
+            spacing=5,
+            elevation=1,
+            orientation="vertical",
+        )
+        breakfast_card.add_widget(meal_labels[0])
+        lunch_card = MDCard(
+            size_hint=(None, None),
+            size=(350, 250),
+            pos_hint={"center_x": 0.5, "top": 0.96},
+            padding=5,
+            spacing=5,
+            elevation=1,
+            orientation="vertical",
+        )
+        lunch_card.add_widget(meal_labels[1])
+        supper_card = MDCard(
+            size_hint=(None, None),
+            size=(350, 250),
+            pos_hint={"center_x": 0.5, "top": 0.96},
+            padding=5,
+            spacing=5,
+            elevation=1,
+            orientation="vertical",
+        )
+        supper_card.add_widget(meal_labels[2])
+        snack_card = MDCard(
+            size_hint=(None, None),
+            size=(350, 250),
+            pos_hint={"center_x": 0.5, "top": 0.96},
+            padding=5,
+            spacing=5,
+            elevation=1,
+            orientation="vertical",
+        )
+        snack_card.add_widget(meal_labels[3])
+
+        # Add cards to the carousel
+        self.ids.carousel.clear_widgets()
+        self.ids.carousel.add_widget(breakfast_card)
+        self.ids.carousel.add_widget(lunch_card)
+        self.ids.carousel.add_widget(supper_card)
+        self.ids.carousel.add_widget(snack_card)
+
+
+    def clear_mealPlan(self):
+        # remove the meal plan cards and carousel
+        self.ids.carousel.clear_widgets()
+        self.ids.card_mealPlan.clear_widgets()
+
+        # add the day buttons back to the card_mealPlan widget
+        for dayButton in self.day_buttons:
+            self.ids.card_mealPlan.add_widget(dayButton)
+            
+        back_button = MDRectangleFlatButton(
+            text="Back",
+            pos_hint={"center_x": 0.5, "center_y": 0.1},
+            on_release=self.clear_mealPlan,
+        )
+        self.ids.card_mealPlan.add_widget(back_button)
 
   
     def enter_editButton(self):
