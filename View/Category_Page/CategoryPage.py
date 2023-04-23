@@ -26,35 +26,41 @@ class CategoryPage(Screen):
         self.manager = manager
         self.button_id = button_id
         cursor = None
+        #rows = []
 
         if button_id == 'cereals_categ':
             print('Cereals button pressed!')
             with sqlite3.connect("root_products.db") as conn:
                 print('Database connecting...')
-                cursor = conn.execute("SELECT foodName FROM ProductsTable")
+                c = conn.cursor()
+                c.execute("SELECT foodName FROM ProductsTable")
+                conn.commit()
 
         elif button_id == 'starchy_categ':
             print('Starchy foods button pressed!')
             with sqlite3.connect("food_mixtures.db") as conn:
-                print('Database connecting...')
-                cursor = conn.execute("SELECT foodName FROM ProductsTable")
-            
+                c = conn.cursor()
+                c.execute("SELECT foodName FROM ProductsTable")
+                
+
         data = []
         if cursor is not None:
             for row in cursor:
                     data.append(row[0])
             data = [row[0] for row in cursor]
 
-        print(data)
-        for item in data:
-            food = Button(text = item, 
-                    size_hint_y = (None),
-                    size = ("50dp", "50dp"))
-            food.bind(on_press = self.presser)
-            self.ids.foodList.add_widget(food)
+            print(data)
+            for item in data:
+                food = Button(text = item, 
+                        size_hint_y = (None),
+                        size = ("50dp", "50dp"))
+                food.bind(on_press = self.presser)
+                self.ids.foodList.add_widget(food)
 
         if cursor:
             cursor.close()
+
+
 
     
 

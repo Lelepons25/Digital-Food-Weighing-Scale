@@ -67,7 +67,8 @@ class EditProfilePage(Screen):
                 bmiCategory = self.identify_bmiCategory(bmi)
                 self.bmi.text = f"BMI: {bmi:.2f} - {bmiCategory}"
             else:
-                print(f"Invalid line format in file {self.filename}: {first_line}")
+                pass
+                #print(f"Invalid line format in file {self.filename}: {first_line}")
         else:
             print("Database is empty.")
 
