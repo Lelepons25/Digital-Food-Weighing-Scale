@@ -94,7 +94,6 @@ class EditProfilePage(Screen):
                                             text_color = "black",
                                             line_color = "red",
                                             pos_hint =  {"center_x": .5})
-            print(dayButton.id)
             dayButton.bind(on_press = self.display_mealPlan)
             self.day_buttons.append(dayButton)
             self.ids.card_mealPlan.add_widget(dayButton)
@@ -105,21 +104,49 @@ class EditProfilePage(Screen):
 
     def display_mealPlan(self, instance):
 
+        dayClicked = instance.text
+
         # remove the day buttons
         for dayButton in self.day_buttons:
             self.ids.card_mealPlan.remove_widget(dayButton)
 
-        print("Here")
-        conn = sqlite3.connect('mp_maleAdol.db')
-        curr = conn.cursor()
+        if dayClicked == "Day 1":
+            conn = sqlite3.connect('mp_maleAdol.db')
+            curr = conn.cursor()
 
-        # Get all rows from the table
-        curr.execute("SELECT * FROM mp_maleAdol")
-        rows = curr.fetchall()
+             # Get the first row from the table
+            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1")
+            row = curr.fetchone()
 
-        # Create a card for each row
-        for row in rows:
-            card = MDCard(
+            # Create a card for the meal plan
+            breakfast_card = MDCard(
+                size_hint=(None, None),
+                size=(350, 250),
+                pos_hint={"center_x": 0.5, "top": 0.96},
+                padding=5,
+                spacing=5,
+                elevation=1,
+                orientation="vertical",
+            )
+            lunch_card = MDCard(
+                size_hint=(None, None),
+                size=(350, 250),
+                pos_hint={"center_x": 0.5, "top": 0.96},
+                padding=5,
+                spacing=5,
+                elevation=1,
+                orientation="vertical",
+            )
+            supper_card = MDCard(
+                size_hint=(None, None),
+                size=(350, 250),
+                pos_hint={"center_x": 0.5, "top": 0.96},
+                padding=5,
+                spacing=5,
+                elevation=1,
+                orientation="vertical",
+            )
+            snack_card = MDCard(
                 size_hint=(None, None),
                 size=(350, 250),
                 pos_hint={"center_x": 0.5, "top": 0.96},
@@ -129,35 +156,73 @@ class EditProfilePage(Screen):
                 orientation="vertical",
             )
 
-            # Add the meal plan data
-            for i in range(1):
-                meal_label = MDLabel(
-                    
-                    text = "BREAKFAST" + "\n" 
-                    + row[i] + " - " + row[i + 14] + "\n" 
-                    + row[i + 1] + " - " + row[i + 15] + "\n"
-                    + row[i + 2] + " - " + row[i + 16] + "\n" 
-                    + row[i + 3] + " - " + row[i + 17] + "\n"
-                    + "\n"
-                    + "LUNCH" + "\n"
-                    + row[i + 4]+ " - " + row[i + 18] + "\n" 
-                    + row[i + 5] + " - " + row[i + 19] + "\n"
-                    + row[i + 6] + " - " + row[i + 20] + "\n" 
-                    + row[i + 7] + " - " + row[i + 21] + "\n"
-                    + "\n"
-                    + "SUPPER" + "\n"
-                    + row[i + 8]+ " - " + row[i + 22] + "\n" 
-                    + row[i + 9] + " - " + row[i + 23] + "\n"
-                    + row[i + 10] + " - " + row[i + 24] + "\n" 
-                    + row[i + 11] + " - " + row[i + 25] + "\n",
-                    halign="center",
-                    height=card.height,
-                    font_size = 12
-                )
-                card.add_widget(meal_label)
 
-            self.ids.carousel.add_widget(card)
+            # Add the meal plan data for each meal
+            breakfast_label = MDLabel(
+                text="BREAKFAST\n\n" 
+                    + row[0] + " - " + row[14] + "\n" 
+                    + row[1] + " - " + row[15] + "\n"
+                    + row[2] + " - " + row[16] + "\n" 
+                    + row[3] + " - " + row[17] + "\n"
+                    + "\n",
+                halign="center",
+                height=breakfast_card.height,
+                font_size=12
+            )
+            breakfast_card.add_widget(breakfast_label)
 
+            lunch_label = MDLabel(
+                text="LUNCH\n\n" 
+                    + row[4] + " - " + row[18] + "\n" 
+                    + row[5] + " - " + row[19] + "\n"
+                    + row[6] + " - " + row[20] + "\n" 
+                    + row[7] + " - " + row[21] + "\n"
+                    + "\n",
+                halign="center",
+                height=lunch_card.height,
+                font_size=12
+            )
+            lunch_card.add_widget(lunch_label)
+
+            supper_label = MDLabel(
+                text="SUPPER\n\n" 
+                    + row[8] + " - " + row[22] + "\n" 
+                    + row[9] + " - " + row[23] + "\n"
+                    + row[20] + " - " + row[24] + "\n" 
+                    + row[11] + " - " + row[25] + "\n",
+                halign="center",
+                height=supper_card.height,
+                font_size=12
+            )
+            supper_card.add_widget(supper_label)
+
+            snack_label = MDLabel(
+                text="SNACK\n\n" 
+                    + row[12] + " - " + row[26] + "\n" 
+                    + row[13] + " - " + row[27] + "\n",
+                halign="center",
+                height=supper_card.height,
+                font_size=12
+            )
+            snack_card.add_widget(snack_label)
+
+            self.ids.carousel.add_widget(breakfast_card)
+            self.ids.carousel.add_widget(lunch_card)
+            self.ids.carousel.add_widget(supper_card)  
+            self.ids.carousel.add_widget(snack_card)  
+                   
+        elif dayClicked == "Day 2":
+            print("Day 2")
+        elif dayClicked == "Day 3":
+            print("Day 3")
+        elif dayClicked == "Day 4":
+            print("Day 4")
+        elif dayClicked == "Day 5":
+            print("Day 5")
+        elif dayClicked == "Day 6":
+            print("Day 6")
+        elif dayClicked == "Day 7":
+            print("Day 7")
   
     def enter_editButton(self):
         self.manager.current = "ProfilePage"
