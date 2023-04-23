@@ -4,7 +4,8 @@
 
     id: CategoryPage
     name: "CategoryPage"
-    food_list : foodList
+    foodList : foodList
+    #float_buttonList : float_buttonList
 
     # Create the Nutrition Facts
     FloatLayout:
@@ -18,7 +19,10 @@
                 width: 1.2
                 rectangle: (self.x, self.y, self.width, self.height)
                 
-        Label:
+###########################################################################    
+        #   WEIGHT       
+        MDLabel:
+            id: weight_input
             text: '0'
             bold: True
             font_size: 60
@@ -105,6 +109,8 @@
         
         ScrollView:
             size: 400, 420
+
+
             GridLayout:
                 id: foodList
                 size_hint_y: None
@@ -114,9 +120,7 @@
                 spacing: 10, 10
                 padding: 10, 10
         
-    
-            
-
+         
     # Display Nutrition Facts rectangle or box             
     MDCard:
         size_hint: None, None

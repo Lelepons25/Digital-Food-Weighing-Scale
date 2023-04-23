@@ -15,11 +15,11 @@ class Homepage(Screen):
 
     def on_button_press(self, button_id):
         if button_id == 'cereals_categ':
-            print("Cereals category button pressed")
+            print("HOME: Cereals category button pressed")
             category_page = CategoryPage(manager=self.manager, button_id='cereals_categ')
             
         elif button_id == 'starchy_categ':
-            print("Starchy foods category button pressed")
+            print("HOME: Starchy foods category button pressed")
             category_page = CategoryPage(manager=self.manager, button_id='starchy_categ')
 
         if not self.manager.has_screen(category_page.name):
