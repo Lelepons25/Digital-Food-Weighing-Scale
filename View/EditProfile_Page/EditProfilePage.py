@@ -78,10 +78,8 @@ class EditProfilePage(Screen):
     
     def enter_pinggangPinoy(self):
         pp_button = self.ids.pinggang_pinoy
-        # mp_label = self.ids.mp_title
         self.ids.mp_title.text = "Pinggang Pinoy"
         self.ids.card_mealPlan.remove_widget(pp_button)
-        # self.ids.card_mealPlan.remove_widget(mp_label)
 
         
         # Create Button for pinggang pinoy Day 1 - Day 8
@@ -103,40 +101,45 @@ class EditProfilePage(Screen):
     def display_mealPlan(self, instance):
         dayClicked = instance.text
 
+
         # remove the day buttons
         for dayButton in self.day_buttons:
             self.ids.card_mealPlan.remove_widget(dayButton)
 
-        conn = sqlite3.connect('mp_maleAdol.db')
-        curr = conn.cursor()
 
-        back_button = MDRectangleFlatButton(
-            text="Back",
-            pos_hint={"center_x": 0.5, "center_y": 0.1},
-        )
-        back_button.bind(on_press = self.enter_pinggangPinoy)
-        self.ids.card_mealPlan.add_widget(back_button)
+        # read age from the user.txt database
+        with open("users.txt", "r") as f:
+            line = f.readline()
+            fields = line.strip().split(";")
+            sex = str(fields[1])
+            age = int(fields[2])
+        
+        conn = None
+        curr = None
+        table_name = None
 
-        if dayClicked == "Day 1":
-            # Get the first row from the table
-            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1")
-        elif dayClicked == "Day 2":
-            # Get the second row from the table
-            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 1")
-        elif dayClicked == "Day 3":
-            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 2")
-        elif dayClicked == "Day 4":
-            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 3")
-        elif dayClicked == "Day 5":
-            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 4")
-        elif dayClicked == "Day 6":
-            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 5")
-        elif dayClicked == "Day 7":
-            curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 6")
+        if sex == 'Male':
+            if age == 18:
+                table_name = 'mp_maleAdol'
+            elif age in range(19, 60):
+                table_name = 'mp_maleAdults'
+            elif age in range(60, 101):
+                table_name = 'mp_maleElderly'
+        elif sex == 'Female':
+            if age == 18:
+                table_name = 'mp_femaleAdol'
+            elif age in range(19, 60):
+                table_name = 'mp_femaleAdults'
+            elif age in range(60, 101):
+                table_name = 'mp_femaleElderly'
 
-        row = curr.fetchone()
-        if not row:
-            return
+        if table_name:
+            conn = sqlite3.connect(table_name + '.db')
+            curr = conn.cursor()
+            offset = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'].index(dayClicked)
+            curr.execute(f"SELECT * FROM {table_name} LIMIT 1 OFFSET {offset}")
+            row = curr.fetchone()
+
 
         meal_labels = []
 

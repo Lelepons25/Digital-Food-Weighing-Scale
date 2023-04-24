@@ -24,12 +24,4 @@ conn.execute("INSERT into mp_femaleAdol(meal1,meal2,meal3,meal4,meal5,meal6,meal
 conn.execute("INSERT into mp_femaleAdol(meal1,meal2,meal3,meal4,meal5,meal6,meal7,meal8,meal9,meal10,meal11,meal12,meal13, meal14,serv1,serv2,serv3,serv4,serv5,serv6,serv7,serv8,serv9,serv10,serv11,serv12,serv13,serv14) VALUES ('Latundan','Fried Tanigue','Adobong Kangkong Rice','Rice','Stir-fried Beef with Chinese Cabbage and Cauliflower - Lean Beef','Vegetables','Rice','Lansones','Sinampalukang Manok - Chicken leg, small','Vegetables','Rice','Pomelo','AM: Peanut Butter Sandwich','PM: Banana Cue','1 piece of 9x3 cm','1 slice','1-1 ½ cups','1 ½ cups','1 matchbox size','1-1 ½ cups','1 ½ cups','8 pieces, 4x2 cm each','1 piece','1-1 ½ cups','1 ½ cups','3 segments, 8x4x3 cm each','1 piece loaf bread and 2 tsp. peanut butter','1 piece, 9 ½ x 4 cm')")
 
 conn.commit()
-
-cur = conn.execute("SELECT * FROM mp_femaleAdol")
-for row in cur:
-    print("DAY = ", row[0])
-    print("MEAL TYPE = ", row[1])
-    print("FOOD NAME = ", row[2])
-    print("SERVING SIZE = ", row[3], "\n")
-    
-print("Records created successfully")
+conn.close()
