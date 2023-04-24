@@ -23,17 +23,16 @@ class CategoryPage(Screen):
    
         
         self.ids.weight_input.text = "54"
-        buttons = []
         
         if self.button_id == "cereals_categ":
-            buttons = self.display_cereals_buttons()
+            print("cereals_categ branch taken")
+            self.display_cereals_buttons()
         elif self.button_id == "starchy_categ":
-            buttons = self.display_starchy_buttons()
-
-        if buttons:
-            for button in buttons:
-                self.ids.foodList.add_widget(button)
-        
+            print("starchy_categ branch taken")
+            self.display_starchy_buttons()
+        else:
+            print("default branch taken")
+            pass
        
     def display_cereals_buttons(self):
         #remove buttons
@@ -53,16 +52,14 @@ class CategoryPage(Screen):
                     size = ("50dp", "50dp"))
             food.bind(on_press = self.presser)
             #self.food_buttons.append(foodList)
-            #self.ids.foodList.add_widget(food)
-            buttons.append(food)
+            self.ids.foodList.add_widget(food)
+            #buttons.append(food)
             print(type(record[0]))
             print(record[0])
             print(food)
-            print(buttons)
 
         c.close()
         conn.close()
-        return buttons
 
 
     def display_starchy_buttons(self):
@@ -81,15 +78,14 @@ class CategoryPage(Screen):
                     size = ("50dp", "50dp"))
             food.bind(on_press = self.presser)
             #self.food_buttons.append(foodList)
-            #self.ids.foodList.add_widget(food)
-            buttons.append(food)
+            self.ids.foodList.add_widget(food)
+            #buttons.append(food)
             print(type(record[0]))
             print(record[0])
             print(food)
 
         c.close()
         conn.close()
-        return buttons
     def reset(self):
         self.ids.foodList.clear_widgets()
         self.manager.current = "Homepage"
