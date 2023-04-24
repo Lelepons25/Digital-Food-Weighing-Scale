@@ -1,0 +1,28 @@
+import sqlite3
+import pandas as pd
+
+conn = sqlite3.connect("mp_maleElderly.db")
+
+conn.execute('''
+    CREATE TABLE mp_maleElderly (
+    meal1 TEXT, meal2 TEXT, meal3 TEXT, meal4 TEXT, 
+    meal5 TEXT, meal6 TEXT, meal7 TEXT, meal8 TEXT, 
+    meal9 TEXT, meal10 TEXT, meal11 TEXT, meal12 TEXT, 
+    meal13 TEXT, meal14 TEXT, 
+    serv1 TEXT, serv2 TEXT, serv3 TEXT, serv4 TEXT, 
+    serv5 TEXT, serv6 TEXT, serv7 TEXT, serv8 TEXT, 
+    serv9 TEXT, serv10 TEXT, serv11 TEXT, serv12 TEXT, 
+    serv13 TEXT, serv14 TEXT
+    );''')
+
+
+conn.execute("INSERT into mp_maleElderly(meal1,meal2,meal3,meal4,meal5,meal6,meal7,meal8,meal9,meal10,meal11,meal12,meal13, meal14,serv1,serv2,serv3,serv4,serv5,serv6,serv7,serv8,serv9,serv10,serv11,serv12,serv13,serv14) VALUES ('Lakatan','Fried Bangus','Camote Tops Salad with Tomatoes','Rice','Chicken Tinola - Chicken Breast','Vegetables','Rice','Mango','Fried Galunggong','Pinakbet','Rice','Watermelon','AM: Suman sa ibos','PM: Boiled Camote','1 piece of 9x3 cm','2 slices','1 cup','1 cup','2 pieces','1 cup','1 cup','1 slice of 12x7 cm','2 pieces small size','1 cup','1 cup','1 slice of 12x6x3 cm','2 pieces, 8x4x2 cm each','1 piece of 11 cm long x 4 ½cm diameter')")
+conn.execute("INSERT into mp_maleElderly(meal1,meal2,meal3,meal4,meal5,meal6,meal7,meal8,meal9,meal10,meal11,meal12,meal13, meal14,serv1,serv2,serv3,serv4,serv5,serv6,serv7,serv8,serv9,serv10,serv11,serv12,serv13,serv14) VALUES ('Pineapple','Chicken Adobo - Chicken Breast','Steamed Carrots, Sayote and Baguio Beans','Rice','Sinigang na Turcillo -Turcillo','Vegetables','Rice','Papaya','Tofu Steak','Chopsuey','Rice','Dalanghita','AM: Boiled Corn','PM: Pancit Guisado','1 slice of 10x6x2cm','2 pieces','1 cup','1 cup','2 slices','1 cup','1 cup','1 slice of 10x6x2 cm','2 pieces, 6x6x2 cm each','1 cup','1 cup','2 pieces, 6 cm diameter','2 pieces, 12x4 cm','1 cup')")
+conn.execute("INSERT into mp_maleElderly(meal1,meal2,meal3,meal4,meal5,meal6,meal7,meal8,meal9,meal10,meal11,meal12,meal13, meal14,serv1,serv2,serv3,serv4,serv5,serv6,serv7,serv8,serv9,serv10,serv11,serv12,serv13,serv14) VALUES ('Dalandan','Tuna Sandwich with Cabbage and Tomatoes - Flaked Tuna','Cabbage and Tomatoes','Loaf Bread','Beef Steak','Adobong Sitaw','Rice','Pineapple','Fried Chicken Leg,small','Steamed Alugbati and Saluyot','Rice','Rambutan','AM: Kababayan','PM: Kutsinta','2 pieces, 6 cm diameter','¼ cup','1 cup','4 slices','2 matchbox sizes','1 cup','1 cup','1 slice of 10x6x2 cm','2 pieces','1 cup','1 cup','8 pieces, 3 cm diameter each','4 pieces, 4 ½ cm diameter x 1 ½ cm thickness','2 pieces, 6 cm diameter x 2 ½ cm')")
+conn.execute("INSERT into mp_maleElderly(meal1,meal2,meal3,meal4,meal5,meal6,meal7,meal8,meal9,meal10,meal11,meal12,meal13, meal14,serv1,serv2,serv3,serv4,serv5,serv6,serv7,serv8,serv9,serv10,serv11,serv12,serv13,serv14) VALUES ('Papaya','Homemade Pork Tocino','Pako Salad','Rice','Ginataang Dalagang Bukid with Pechay - Dalagang Bukid','Pechay','Rice','Red Guava','Beef Bulalo - Lean Beef','Vegetables','Rice','Latundan','AM: Pan de Coco','PM: Suman Cassava','1 slice of 10x6x2 cm','2 matchbox sizes','1 cup','1 cup','2 pieces small size','1 cup','1 cup','2 pieces, 4 cm diameter','2 matchbox sizes','1 cup','1 cup','1 piece of 9x3 cm','2 piece, 7x6 cm','1 piece of 15x3x2 cm')")
+conn.execute("INSERT into mp_maleElderly(meal1,meal2,meal3,meal4,meal5,meal6,meal7,meal8,meal9,meal10,meal11,meal12,meal13, meal14,serv1,serv2,serv3,serv4,serv5,serv6,serv7,serv8,serv9,serv10,serv11,serv12,serv13,serv14) VALUES ('Mango','Chicken Arroz Caldo with Carrots and Malunggay - Chicken Breast','Vegetables','Rice','Pork Nilaga - Lean Pork','Vegetables','Rice','Boiled Saba','Fried Tilapia','Bulanglang','Rice','Apple','AM: Ensaymada','PM: Puto, white','1 slice of 12x7 cm','2 matchbox sizes','1 cup','1 cup','2 matchbox sizes','1 cup','1 cup','1 piece of 10x4 cm','2 pieces medium size','1 cup','1 cup','1 piece of 6 cm diameter','2 pieces of 8 ½ cm diameter x 2 cm thick','2 slices of 9 ½x 3 x 3 ½ cm')")
+conn.execute("INSERT into mp_maleElderly(meal1,meal2,meal3,meal4,meal5,meal6,meal7,meal8,meal9,meal10,meal11,meal12,meal13, meal14,serv1,serv2,serv3,serv4,serv5,serv6,serv7,serv8,serv9,serv10,serv11,serv12,serv13,serv14) VALUES ('Melon Beef & Veggie Patty','Lean Ground Beef ','Vegetables','Pan de sal','Chicken Barbecue - Chicken Breast','Sweet Corn, and Sayote','Rice','Indian Mango','Porkchop','Dinengdeng','Rice','Pear','AM: Spanish Bread','PM: Turon','1 slice of 12x10x3 cm','4 Tbsps. ground beef ½ cup','1 cup','4 small pieces','2 pieces','1 cup','1 cup','1 piece of 6 cm diameter','2 matchbox sizes','1 cup','1 cup','1 piece of 6 cm diameter','2 pieces, 10x4 cm','1 piece, 9 ½ x 3 ½ x 1 cm')")
+conn.execute("INSERT into mp_maleElderly(meal1,meal2,meal3,meal4,meal5,meal6,meal7,meal8,meal9,meal10,meal11,meal12,meal13, meal14,serv1,serv2,serv3,serv4,serv5,serv6,serv7,serv8,serv9,serv10,serv11,serv12,serv13,serv14) VALUES ('Latundan','Fried Tanigue','Adobong Kangkong Rice','Rice','Stir-fried Beef with Chinese Cabbage and Cauliflower - Lean Beef','Vegetables','Rice','Lansones','Sinampalukang Manok - Chicken leg, small','Vegetables','Rice','Pomelo','AM: Peanut Butter Sandwich','PM: Banana Cue','1 piece of 9x3 cm','1 slice small size','1 cup','1 cup','2 matchbox sizes','1 cup','1 cup','8 pieces, 4x2 cm each','2 pieces','1 cup','1 cup','3 segments, 8x4x3 cm each','2 pieces loaf bread and 2 tsp. peanut butter','2 pieces, 9 ½ x 4 cm')")
+
+
+conn.commit()

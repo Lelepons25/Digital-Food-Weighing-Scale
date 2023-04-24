@@ -116,8 +116,9 @@ class EditProfilePage(Screen):
         
         curr = None
         # Check the sex and age of the user
+        
+        # MALE ADOL
         if (sex == "Male" and age == 18):
-            print("here")
             conn = sqlite3.connect('mp_maleAdol.db')
             curr = conn.cursor()
             if dayClicked == "Day 1":
@@ -138,6 +139,54 @@ class EditProfilePage(Screen):
                 curr.execute("SELECT * FROM mp_maleAdol LIMIT 1 OFFSET 6")
 
             row = curr.fetchone()
+
+        # MALE ADULTS
+        elif (sex == "Male" and 19 >= age <=59):
+            conn = sqlite3.connect('mp_maleAdults.db')
+            curr = conn.cursor()
+            if dayClicked == "Day 1":
+                # Get the first row from the table
+                curr.execute("SELECT * FROM mp_maleAdults LIMIT 1")
+            elif dayClicked == "Day 2":
+                # Get the second row from the table
+                curr.execute("SELECT * FROM mp_maleAdults LIMIT 1 OFFSET 1")
+            elif dayClicked == "Day 3":
+                curr.execute("SELECT * FROM mp_maleAdults LIMIT 1 OFFSET 2")
+            elif dayClicked == "Day 4":
+                curr.execute("SELECT * FROM mp_maleAdults LIMIT 1 OFFSET 3")
+            elif dayClicked == "Day 5":
+                curr.execute("SELECT * FROM mp_maleAdults LIMIT 1 OFFSET 4")
+            elif dayClicked == "Day 6":
+                curr.execute("SELECT * FROM mp_maleAdults LIMIT 1 OFFSET 5")
+            elif dayClicked == "Day 7":
+                curr.execute("SELECT * FROM mp_maleAdults LIMIT 1 OFFSET 6")
+
+            row = curr.fetchone()
+        
+        # MALE ELDERLY
+        elif (sex == "Male" and 60 >= age <=100):
+            conn = sqlite3.connect('mp_maleElderly.db')
+            curr = conn.cursor()
+            if dayClicked == "Day 1":
+                # Get the first row from the table
+                curr.execute("SELECT * FROM mp_maleElderly LIMIT 1")
+            elif dayClicked == "Day 2":
+                # Get the second row from the table
+                curr.execute("SELECT * FROM mp_maleElderly LIMIT 1 OFFSET 1")
+            elif dayClicked == "Day 3":
+                curr.execute("SELECT * FROM mp_maleElderly LIMIT 1 OFFSET 2")
+            elif dayClicked == "Day 4":
+                curr.execute("SELECT * FROM mp_maleElderly LIMIT 1 OFFSET 3")
+            elif dayClicked == "Day 5":
+                curr.execute("SELECT * FROM mp_maleElderly LIMIT 1 OFFSET 4")
+            elif dayClicked == "Day 6":
+                curr.execute("SELECT * FROM mp_maleElderly LIMIT 1 OFFSET 5")
+            elif dayClicked == "Day 7":
+                curr.execute("SELECT * FROM mp_maleElderly LIMIT 1 OFFSET 6")
+
+            row = curr.fetchone()       
+
+        # FEMALE ADOL
         elif (sex == "Female" and age == 18):
             conn = sqlite3.connect('mp_femaleAdol.db')
             curr = conn.cursor()
@@ -159,9 +208,54 @@ class EditProfilePage(Screen):
                 curr.execute("SELECT * FROM mp_femaleAdol LIMIT 1 OFFSET 6")
 
             row = curr.fetchone()
+
+        # FEMALE ADULTS
+        elif (sex == "Female" and 19 >= age <=59):
+            conn = sqlite3.connect('mp_femaleAdults.db')
+            curr = conn.cursor()
+            if dayClicked == "Day 1":
+                # Get the first row from the table
+                curr.execute("SELECT * FROM mp_femaleAdults LIMIT 1")
+            elif dayClicked == "Day 2":
+                # Get the second row from the table
+                curr.execute("SELECT * FROM mp_femaleAdults LIMIT 1 OFFSET 1")
+            elif dayClicked == "Day 3":
+                curr.execute("SELECT * FROM mp_femaleAdults LIMIT 1 OFFSET 2")
+            elif dayClicked == "Day 4":
+                curr.execute("SELECT * FROM mp_femaleAdults LIMIT 1 OFFSET 3")
+            elif dayClicked == "Day 5":
+                curr.execute("SELECT * FROM mp_femaleAdults LIMIT 1 OFFSET 4")
+            elif dayClicked == "Day 6":
+                curr.execute("SELECT * FROM mp_femaleAdults LIMIT 1 OFFSET 5")
+            elif dayClicked == "Day 7":
+                curr.execute("SELECT * FROM mp_femaleAdults LIMIT 1 OFFSET 6")
+
+            row = curr.fetchone()
+
+        # FEMALE ELDERLY
+        elif (sex == "Female" and 60 >= age <=100):
+            conn = sqlite3.connect('mp_femaleElderly.db')
+            curr = conn.cursor()
+            if dayClicked == "Day 1":
+                # Get the first row from the table
+                curr.execute("SELECT * FROM mp_femaleElderly LIMIT 1")
+            elif dayClicked == "Day 2":
+                # Get the second row from the table
+                curr.execute("SELECT * FROM mp_femaleElderly LIMIT 1 OFFSET 1")
+            elif dayClicked == "Day 3":
+                curr.execute("SELECT * FROM mp_femaleElderly LIMIT 1 OFFSET 2")
+            elif dayClicked == "Day 4":
+                curr.execute("SELECT * FROM mp_femaleElderly LIMIT 1 OFFSET 3")
+            elif dayClicked == "Day 5":
+                curr.execute("SELECT * FROM mp_femaleElderly LIMIT 1 OFFSET 4")
+            elif dayClicked == "Day 6":
+                curr.execute("SELECT * FROM mp_femaleElderly LIMIT 1 OFFSET 5")
+            elif dayClicked == "Day 7":
+                curr.execute("SELECT * FROM mp_femaleElderly LIMIT 1 OFFSET 6")
+
+            row = curr.fetchone()
+        
             
-
-
 
         if not row:
             return
