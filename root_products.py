@@ -79,4 +79,4 @@ for row in cur:
     print("EDIBLE = ", row[3], "\n")
     
 print("Records created successfully")
-conn.close()
+#conn.close()
