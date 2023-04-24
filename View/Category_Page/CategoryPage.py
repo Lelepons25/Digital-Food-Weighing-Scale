@@ -16,27 +16,15 @@ Builder.load_file('View\Category_Page\CategoryPage.kv')
 
 class CategoryPage(Screen):
     #foodList = ObjectProperty(None)
-    def __init__(self, manager, button_id, **kwargs):
+    
+    def __init__(self, manager = None, **kwargs):
         super(CategoryPage, self).__init__(**kwargs)
         self.manager = manager
-        self.button_id = button_id
-   
-        
         self.ids.weight_input.text = "54"
-        
-        if self.button_id == "cereals_categ":
-            print("cereals_categ branch taken")
-            self.display_cereals_buttons()
-        elif self.button_id == "starchy_categ":
-            print("starchy_categ branch taken")
-            self.display_starchy_buttons()
-        else:
-            print("default branch taken")
-            pass
+
        
     def display_cereals_buttons(self):
         #remove buttons
-        self.ids.foodList.clear_widgets()
         print('CATEG: Cereals button pressed!')
         conn =sqlite3.connect('root_products.db')
         c = conn.cursor()
@@ -50,7 +38,7 @@ class CategoryPage(Screen):
             food = Button(text = str(record[0]), 
                     size_hint_y = (None),
                     size = ("50dp", "50dp"))
-            food.bind(on_press = self.presser)
+            food.bind(on_press = self.displayCerealValues)
             #self.food_buttons.append(foodList)
             self.ids.foodList.add_widget(food)
             #buttons.append(food)
@@ -86,6 +74,12 @@ class CategoryPage(Screen):
 
         c.close()
         conn.close()
+
+    def displayCerealValues(self, instance):
+        foodClicked = instance.text
+
+
+
     def reset(self):
         self.ids.foodList.clear_widgets()
         self.manager.current = "Homepage"

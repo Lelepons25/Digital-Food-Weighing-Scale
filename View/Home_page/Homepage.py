@@ -9,23 +9,22 @@ class Homepage(Screen):
 
     def __init__(self, **kwargs):
         super(Homepage, self).__init__(**kwargs)
-        self.button_id = None
+        self.button_id = ''
         self.ids.weight_input.text = "54"
+        self.category_page = CategoryPage()
+
 
 
     def on_button_press(self, button_id):
         if button_id == 'cereals_categ':
             print("HOME: Cereals category button pressed")
-            category_page = CategoryPage(manager=self.manager, button_id='cereals_categ')
+            self.category_page.display_cereals_buttons()
+            
             
         elif button_id == 'starchy_categ':
             print("HOME: Starchy foods category button pressed")
-            category_page = CategoryPage(manager=self.manager, button_id='starchy_categ')
-
-        if not self.manager.has_screen(category_page.name):
-            self.manager.add_widget(category_page)
-
-        self.manager.current = category_page.name
+            self.category_page.display_starchy_buttons()
+        
           
     def enter_topButton(self, button):
         if button == "Profile":
