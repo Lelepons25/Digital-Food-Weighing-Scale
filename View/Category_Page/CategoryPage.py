@@ -25,9 +25,9 @@ class CategoryPage(Screen):
         self.ids.weight_input.text = "54"
         buttons = []
         
-        if self.button_id == 'cereals_categ':
+        if self.button_id == "cereals_categ":
             buttons = self.display_cereals_buttons()
-        elif self.button_id == 'starchy_categ':
+        elif self.button_id == "starchy_categ":
             buttons = self.display_starchy_buttons()
 
         if buttons:
@@ -58,6 +58,7 @@ class CategoryPage(Screen):
             print(type(record[0]))
             print(record[0])
             print(food)
+            print(buttons)
 
         c.close()
         conn.close()
