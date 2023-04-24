@@ -39,7 +39,7 @@ class WindowManager(ScreenManager):
         else:
             self.current ="Homepage"
             
-        self.Homepage_widget = Homepage(manager = self)
+        self.Homepage_widget = Homepage(manager = self) 
         self.CategoryPage_widget = CategoryPage(manager = self, button_id='button')
         self.MealPlanPage_widget = MealPlanPage(manager = self)
         self.ProfilePage_widget = ProfilePage(manager = self)

@@ -45,10 +45,6 @@ class EditProfilePage(Screen):
         else:
             return "Obese"
     
-    # Identify which meal to be loaded
-    def identify_mealPlan(self):
-        print(self.age)
-
     def display_database(self):
         print("INSIDE")
         first_line = db.load()
@@ -73,14 +69,48 @@ class EditProfilePage(Screen):
             print("Database is empty.")
 
 
-    def presser(self, instance):
-        print("Pressed")
-    
-    def enter_pinggangPinoy(self):
-        pp_button = self.ids.pinggang_pinoy
-        self.ids.mp_title.text = "Pinggang Pinoy"
-        self.ids.card_mealPlan.remove_widget(pp_button)
+    def enter_foodExchange(self):
+        self.clear_mealPlan()
+        self.ids.mp_title.text = "Food Exchange List in Meal Planning"
 
+        # Display the list
+        conn = sqlite3.connect('mp_foodExchange.db')
+        curr = conn.cursor()
+        curr.execute("SELECT * FROM mp_foodExchange")
+        rows = curr.fetchall()
+
+        foodExchange_card = MDCard(
+            size_hint=(None, None),
+            size=(360, 290),
+            pos_hint={"center_x": 0.5, "top": 0.96},
+            padding=5,
+            spacing=5,
+            elevation=1,
+            orientation="vertical",
+        )
+        
+        # create label to display the database contents
+        label_text = ""
+        for row in rows:
+            label_text += f"{row[0]}, Serving Size: {row[9]}\n"
+            label_text += f"{row[1]}, Serving Size: {row[10]}\n"
+            label_text += f"{row[2]}, Serving Size: {row[11]}\n"
+            label_text += f"{row[3]}, Serving Size: {row[12]}\n"
+            label_text += f"{row[4]}, Serving Size: {row[13]}\n"
+            label_text += f"{row[5]}, Serving Size: {row[14]}\n"
+            label_text += f"{row[6]}, Serving Size: {row[15]}\n"
+            label_text += f"{row[7]}, Serving Size: {row[16]}\n"
+            label_text += f"{row[8]}, Serving Size: {row[17]}\n\n"
+
+        label = MDLabel(text= label_text)
+        foodExchange_card.add_widget(label)  # add label to card
+        self.ids.card_mealPlan.add_widget(foodExchange_card)  # add card to screen
+
+         
+
+    def enter_pinggangPinoy(self):
+        self.clear_mealPlan()
+        self.ids.mp_title.text = "Pinggang Pinoy"
         
         # Create Button for pinggang pinoy Day 1 - Day 8
         # Create a list to store the day buttons
@@ -95,7 +125,6 @@ class EditProfilePage(Screen):
             dayButton.bind(on_press = self.display_mealPlan)
             self.day_buttons.append(dayButton)
             self.ids.card_mealPlan.add_widget(dayButton)
-
 
 
     def display_mealPlan(self, instance):
@@ -210,20 +239,12 @@ class EditProfilePage(Screen):
 
 
     def clear_mealPlan(self):
-        # remove the meal plan cards and carousel
-        self.ids.carousel.clear_widgets()
-        self.ids.card_mealPlan.clear_widgets()
-
-        # add the day buttons back to the card_mealPlan widget
-        for dayButton in self.day_buttons:
-            self.ids.card_mealPlan.add_widget(dayButton)
-            
-        back_button = MDRectangleFlatButton(
-            text="Back",
-            pos_hint={"center_x": 0.5, "center_y": 0.1},
-            on_release=self.clear_mealPlan,
-        )
-        self.ids.card_mealPlan.add_widget(back_button)
+        # remove the meal plan buttons
+        fe_button = self.ids.food_exchange
+        pp_button = self.ids.pinggang_pinoy
+        self.ids.card_mealPlan.remove_widget(fe_button)
+        self.ids.card_mealPlan.remove_widget(pp_button)
+        
 
   
     def enter_editButton(self):
