@@ -128,7 +128,17 @@
             line_color: "red"
             on_release:
                 root.enter_foodExchange()
-
+        
+        MDRectangleFlatButton:
+            id: user_mealPlan
+            size_hint: (1 , 0.3)
+            pos_hint: {'center_x':0.5 , 'center_y':0.3}
+            text: 'Personal meal plan'
+            text_color: "black"
+            line_color: "red"
+            on_release:
+                root.enter_userMealPlan()
+        
 
 
 
