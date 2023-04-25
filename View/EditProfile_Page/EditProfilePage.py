@@ -163,7 +163,8 @@ class EditProfilePage(Screen):
                 table_name = 'mp_femaleElderly'
 
         if table_name:
-            conn = sqlite3.connect(table_name + '.db')
+            db_path = f'mp_database/{table_name}.db'
+            conn = sqlite3.connect(db_path)
             curr = conn.cursor()
             offset = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'].index(dayClicked)
             curr.execute(f"SELECT * FROM {table_name} LIMIT 1 OFFSET {offset}")

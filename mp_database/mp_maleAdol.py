@@ -1,7 +1,7 @@
 import sqlite3
 import pandas as pd
 
-conn = sqlite3.connect("mp_maleAdol.db")
+conn = sqlite3.connect("mp_database\mp_maleAdol.db")
 
 conn.execute('''
     CREATE TABLE mp_maleAdol (
