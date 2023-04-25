@@ -126,6 +126,7 @@
             
             on_press:
                 root.on_button_press('cereals_categ')
+                app.root.current = "CategoryPage"
                 # root.manager.transition.direction = "left"
             
             Image:
@@ -141,6 +142,7 @@
             background_color: 0,0,1,0
             on_press: 
                 root.on_button_press('starchy_categ')
+                app.root.current = "CategoryPage"
                 # root.manager.transition.direction = "left"
             
             Image:
