@@ -4,8 +4,6 @@
 
     id: CategoryPage
     name: "CategoryPage"
-    foodList : foodList
-    #float_buttonList : float_buttonList
 
     # Create the Nutrition Facts
     FloatLayout:
@@ -102,23 +100,17 @@
 
     # Fix Food List
 
-    FloatLayout:
+    MDCard:
+        id: card_foodList
 
         size_hint: (0.65, 0.7)
-        pos_hint:{'x':0.01, 'top':0.8}
+        pos_hint:{'x':0.01, 'top':0.75}
+        elevation: 1
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
         
-        ScrollView:
-            size: 400, 420
 
-
-            GridLayout:
-                id: foodList
-                size_hint_y: None
-                height: self.minimum_height
-                width: 400
-                cols: 2
-                spacing: 10, 10
-                padding: 10, 10
         
          
     # Display Nutrition Facts rectangle or box             

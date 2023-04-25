@@ -1,14 +1,13 @@
 from kivy.uix.screenmanager import Screen
-from kivymd.uix.list import TwoLineListItem
 from kivy.lang import Builder
-from kivy.uix.button import Button
 from kivy.uix.label import Label
 import pandas as pd
 import sqlite3
 from kivy.uix.scrollview import ScrollView
-from kivy.uix.gridlayout import GridLayout
 from kivy.properties import ObjectProperty
-from kivy.uix.button import Button
+from kivy.uix.floatlayout import FloatLayout
+from kivymd.uix.button import MDRectangleFlatButton
+from kivy.metrics import dp
 from functools import partial
 
 Builder.load_file('View\Category_Page\CategoryPage.kv')
@@ -30,6 +29,7 @@ class CategoryPage(Screen):
         c = conn.cursor()
         c.execute("SELECT foodName FROM ProductsTable")
         records = c.fetchall()
+<<<<<<< HEAD
         print(records)
         c.close()
         conn.close()
@@ -75,6 +75,30 @@ class CategoryPage(Screen):
 
         c.close()
         conn.close()
+=======
+        
+        
+        layout = FloatLayout(size_hint_y=None, height=dp(40*10), pos_hint = {"center_x": 0.5, "top": 0.96} )
+        y_value = 0.6 # initialize y value
+        for record in records:
+            food = MDRectangleFlatButton(
+                id=f'{record}',
+                text= str(record[0]),
+                size_hint=(0.8, None),
+                height=dp(40),
+                text_color="black",
+                line_color="red",
+                pos_hint={"center_x": 0.5, "top": y_value},
+                padding=(0, 0, 10, 0)
+            )
+            layout.add_widget(food)
+            y_value -= 0.1 # decrease y value for next button
+            
+        # Add the layout to a scrollview
+        scrollview = ScrollView(size_hint=(None, None), size = (400, 280))
+        scrollview.add_widget(layout)
+        self.ids.card_foodList.add_widget(scrollview)
+>>>>>>> 85311403ff72b5bdac34a45f2fdb744778e08c20
 
     def displayCerealValues(self, instance):
         foodClicked = instance.text

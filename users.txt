@@ -1,1 +1,1 @@
-lelelele;Male;43;43.0;143.0;Low Carb Diet
+cross;Male;70;54.0;154.0;Low Carb Diet

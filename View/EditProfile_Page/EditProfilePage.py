@@ -5,6 +5,11 @@ from database import DataBase
 from kivymd.uix.card import MDCard
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDRectangleFlatButton
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.scrollview import ScrollView
+from kivy.metrics import dp
+from kivy.core.window import Window
 
 import sqlite3
 
@@ -74,7 +79,7 @@ class EditProfilePage(Screen):
         self.ids.mp_title.text = "Food Exchange List in Meal Planning"
 
         # Display the list
-        conn = sqlite3.connect('mp_foodExchange.db')
+        conn = sqlite3.connect('mp_database\mp_foodExchange.db')
         curr = conn.cursor()
         curr.execute("SELECT * FROM mp_foodExchange")
         rows = curr.fetchall()
@@ -106,7 +111,41 @@ class EditProfilePage(Screen):
         foodExchange_card.add_widget(label)  # add label to card
         self.ids.card_mealPlan.add_widget(foodExchange_card)  # add card to screen
 
-         
+    def enter_userMealPlan(self):
+        self.clear_mealPlan()
+        self.ids.mp_title.text = "Personal Meal Plan"
+
+        # Create dynamic buttons and add them to a layout
+        conn =sqlite3.connect('root_products.db')
+        c = conn.cursor()
+        c.execute("SELECT foodName FROM ProductsTable")
+        records = c.fetchall()
+        
+        
+        layout = FloatLayout(size_hint_y=None, height=dp(40*10), pos_hint = {"center_x": 0.5, "top": 0.96} )
+        y_value = 0.6 # initialize y value
+        for record in records:
+            food = MDRectangleFlatButton(
+                id=f'{record}',
+                text= str(record[0]),
+                size_hint=(0.8, None),
+                height=dp(40),
+                text_color="black",
+                line_color="red",
+                pos_hint={"center_x": 0.5, "top": y_value},
+                padding=(0, 0, 10, 0)
+            )
+            layout.add_widget(food)
+            y_value -= 0.1 # decrease y value for next button
+
+
+        # Add the layout to a scrollview
+        scrollview = ScrollView(size_hint=(None, None), size = (400, 280))
+        scrollview.add_widget(layout)
+        self.ids.card_mealPlan.add_widget(scrollview)
+
+
+
 
     def enter_pinggangPinoy(self):
         self.clear_mealPlan()
@@ -163,7 +202,8 @@ class EditProfilePage(Screen):
                 table_name = 'mp_femaleElderly'
 
         if table_name:
-            conn = sqlite3.connect(table_name + '.db')
+            db_path = f'mp_database/{table_name}.db'
+            conn = sqlite3.connect(db_path)
             curr = conn.cursor()
             offset = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'].index(dayClicked)
             curr.execute(f"SELECT * FROM {table_name} LIMIT 1 OFFSET {offset}")
@@ -242,10 +282,10 @@ class EditProfilePage(Screen):
         # remove the meal plan buttons
         fe_button = self.ids.food_exchange
         pp_button = self.ids.pinggang_pinoy
+        ump_button = self.ids.user_mealPlan
         self.ids.card_mealPlan.remove_widget(fe_button)
         self.ids.card_mealPlan.remove_widget(pp_button)
-        
-
+        self.ids.card_mealPlan.remove_widget(ump_button)
   
     def enter_editButton(self):
         self.manager.current = "ProfilePage"
