@@ -17,7 +17,7 @@ Builder.load_file('View\Category_Page\CategoryPage.kv')
 class CategoryPage(Screen):
     #foodList = ObjectProperty(None)
     
-    def __init__(self, manager = None, **kwargs):
+    def __init__(self, manager, **kwargs):
         super(CategoryPage, self).__init__(**kwargs)
         self.manager = manager
         self.ids.weight_input.text = "54"
@@ -31,12 +31,14 @@ class CategoryPage(Screen):
         c.execute("SELECT foodName FROM ProductsTable")
         records = c.fetchall()
         print(records)
-        buttons = []
+        c.close()
+        conn.close()
+        #buttons = []
         #word =[tuple(row) for row in rows]
         for record in records:
             #word = record[0]
             food = Button(text = str(record[0]), 
-                    size_hint_y = (None),
+                    size_hint_y = 0.5,
                     size = ("50dp", "50dp"))
             food.bind(on_press = self.displayCerealValues)
             #self.food_buttons.append(foodList)
@@ -46,12 +48,11 @@ class CategoryPage(Screen):
             print(record[0])
             print(food)
 
-        c.close()
-        conn.close()
+        
 
 
     def display_starchy_buttons(self):
-        self.ids.foodList.clear_widgets()
+       # self.ids.foodList.clear_widgets()
         print('CATEG: Starchy foods button pressed!')
         conn=sqlite3.connect('food_mixtures.db')
         c = conn.cursor()
