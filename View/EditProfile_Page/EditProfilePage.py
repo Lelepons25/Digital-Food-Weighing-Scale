@@ -120,7 +120,7 @@ class EditProfilePage(Screen):
         c = conn.cursor()
         c.execute("SELECT foodName FROM ProductsTable")
         records = c.fetchall()
-        
+        print(type(records))
         
         layout = FloatLayout(size_hint_y=None, height=dp(40*10), pos_hint = {"center_x": 0.5, "top": 0.96} )
         y_value = 0.6 # initialize y value
@@ -135,6 +135,7 @@ class EditProfilePage(Screen):
                 pos_hint={"center_x": 0.5, "top": y_value},
                 padding=(0, 0, 10, 0)
             )
+            print(type(record))
             layout.add_widget(food)
             y_value -= 0.1 # decrease y value for next button
 
