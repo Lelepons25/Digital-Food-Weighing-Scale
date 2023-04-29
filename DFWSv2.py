@@ -37,22 +37,33 @@ class WindowManager(ScreenManager):
         if os.path.getsize(db.file_path) == 0:
             self.current = "ProfilePage"
         else:
-            self.current ="Homepage"
+            # Create a new instance of the Homepage class
+            self.Homepage_widget = Homepage(manager = self)
+            # Add the Homepage widget to the ScreenManager
+            self.ids.Homepage.add_widget(self.Homepage_widget)
+            # Set the current screen to the Homepage
+            self.current = "Homepage"
             
-        self.Homepage_widget = Homepage(manager = self)
-        self.CategoryPage_widget = CategoryPage(manager = self, button_id="")
-        self.Homepage_widget = Homepage(manager = self) 
         self.MealPlanPage_widget = MealPlanPage(manager = self)
         self.ProfilePage_widget = ProfilePage(manager = self)
         self.EditProfilePage_widget = EditProfilePage(manager = self)
         self.MorePage_widget = MorePage(manager = self)
 
-        self.ids.Homepage.add_widget(self.Homepage_widget)
-        self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
         self.ids.MealPlanPage.add_widget(self.MealPlanPage_widget)
         self.ids.ProfilePage.add_widget(self.ProfilePage_widget)
         self.ids.EditProfilePage.add_widget(self.EditProfilePage_widget)
         self.ids.MorePage.add_widget(self.MorePage_widget)
+    def generateCategoryPageScreen(self, table_name):
+         # Remove the CategoryPage widget if it already exists
+        if hasattr(self, 'CategoryPage_widget'):
+            self.ids.CategoryPage.remove_widget(self.CategoryPage_widget)
+        # Create a new instance of the CategoryPage class with the specified category
+        self.CategoryPage_widget = CategoryPage(manager=self, table_name=table_name)
+        # Add the CategoryPage widget to the ScreenManager
+        self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
+        # Switch to the CategoryPage screen
+        self.current = "CategoryPage"
+
 
 class DFWS(MDApp):
 

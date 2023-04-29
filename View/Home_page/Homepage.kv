@@ -1,3 +1,5 @@
+#:import Factory kivy.factory.Factory
+
 <Homepage>
     name: "Homepage"
 
@@ -124,10 +126,12 @@
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             
-            on_release:
-                root.on_button_press('cereals_categ')
+            on_press:
+                app.root.generateCategoryPageScreen('FoodMixtures')
+                #root.CategoryPage('FoodMixtures')
                 #app.root.current = "CategoryPage"
-                # root.manager.transition.direction = "left"
+                #Factory.CategoryPage().display_cereals_buttons()
+                #root.manager.transition.direction = "left"
             
             Image:
                 id: cereals_icon
@@ -141,7 +145,7 @@
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             on_release: 
-                root.on_button_press('starchy_categ')
+                app.root.generateCategoryPageScreen('Roots')
                 #app.root.current = "CategoryPage"
                 # root.manager.transition.direction = "left"
             
@@ -156,7 +160,7 @@
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             on_release:
-                app.root.current = "CategoryPage"
+                app.root.generateCategoryPageScreen('Nuts')
                 # root.manager.transition.direction = "left"
 
             Image:
@@ -198,7 +202,7 @@
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             on_release:
-                app.root.current = "CategoryPage"
+                app.root.generateCategoryPageScreen('Eggs')
                 # root.manager.transition.direction = "left"
             
             Image:
@@ -212,7 +216,7 @@
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             on_release:
-                app.root.current = "CategoryPage"
+                app.root.generateCategoryPageScreen('Milk')
                 # root.manager.transition.direction = "left"
             
             Image:

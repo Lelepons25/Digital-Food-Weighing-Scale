@@ -70,6 +70,7 @@
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Save'
+            
     
     MDCard:
         size_hint: None, None
@@ -98,19 +99,26 @@
             pos_hint: {'x': 0}
             size_hint_x: 1
 
+##############################################################
     # Fix Food List
 
-    MDCard:
-        id: card_foodList
+    FloatLayout:
 
         size_hint: (0.65, 0.7)
-        pos_hint:{'x':0.01, 'top':0.75}
-        elevation: 1
-        padding: 10
-        spacing: 10
-        orientation: 'vertical'
-        
+        pos_hint:{'x':0.01, 'top':0.8}
 
+        ScrollView:
+            size: 400, 420
+
+            GridLayout:
+                id: foodList
+                size_hint_y: None
+                height: self.minimum_height
+                width: 400
+                cols: 2
+                spacing: 10, 10
+                padding: 10, 10
+##############################################################
         
          
     # Display Nutrition Facts rectangle or box             

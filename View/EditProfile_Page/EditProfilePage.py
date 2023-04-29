@@ -169,6 +169,7 @@ class EditProfilePage(Screen):
 
     def display_mealPlan(self, instance):
         dayClicked = instance.text
+        print(dayClicked)
 
 
         # remove the day buttons
