@@ -20,10 +20,9 @@ class Homepage(Screen):
             #category_page.display_cereals_buttons()
             self.manager.current = "CategoryPage"
             
-        elif button_id == 'starchy_categ':
+        elif button_id == "starchy_categ":
             print("HOME: Starchy foods category button pressed")
-            category_page = CategoryPage(manager=self.manager)
-            category_page.display_starchy_buttons()
+            category_page = CategoryPage(manager=self.manager, button_id="starchy_categ")
             self.manager.current = "CategoryPage"
         
         

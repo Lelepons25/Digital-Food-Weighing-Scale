@@ -22,6 +22,11 @@ class CategoryPage(Screen):
         self.button_id = button_id
         self.ids.weight_input.text = "54"
         records = ''
+        self.food_buttons = []
+        
+        for food in self.food_buttons:
+            self.ids.card_mealPlan.remove_widget(food)
+
         if self.button_id == "cereals_categ":
             print(type(records))
             print("INSIDE IF ELSE")
@@ -29,8 +34,8 @@ class CategoryPage(Screen):
         elif self.button_id == "starchy_categ":
             self.display_starchy_buttons()
         
-        
-        layout = FloatLayout(size_hint_y=None, height=dp(40*10), pos_hint = {"center_x": 0.5, "top": 0.96} )
+       
+        layout = FloatLayout(size_hint_y=None, height=dp(30*10), pos_hint = {"center_x": 0.5, "top": 0.96} )
         y_value = 0.6 # initialize y value
         for record in records:
             food = MDRectangleFlatButton(
@@ -44,18 +49,20 @@ class CategoryPage(Screen):
                 padding=(0, 0, 10, 0)
             )
             print(type(record))
+            print(record[0])
             layout.add_widget(food)
+            self.food_buttons.append(food)
             y_value -= 0.1 # decrease y value for next button
             
         # Add the layout to a scrollview
-        scrollview = ScrollView(size_hint=(None, None), size = (400, 280))
+        scrollview = ScrollView(size_hint=(None, None), size = (500, 250))
         scrollview.add_widget(layout)
         self.ids.card_foodList.add_widget(scrollview)
     
     def display_cereals_buttons(self):
         #remove buttons
         print('CATEG: Cereals button pressed!')
-        conn =sqlite3.connect('root_products.db')
+        conn = sqlite3.connect('food_category\root_products.db')
         c = conn.cursor()
         c.execute("SELECT foodName FROM ProductsTable")
         records = c.fetchall()
@@ -70,12 +77,11 @@ class CategoryPage(Screen):
     def display_starchy_buttons(self):
        # self.ids.foodList.clear_widgets()
         print('CATEG: Starchy foods button pressed!')
-        conn=sqlite3.connect('food_mixtures.db')
+        conn=sqlite3.connect('food_category\food_mixtures.db')
         c = conn.cursor()
         c.execute("SELECT foodName FROM ProductsTable")
         records = c.fetchall()
 
-        
         layout = FloatLayout(size_hint_y=None, height=dp(40*10), pos_hint = {"center_x": 0.5, "top": 0.96} )
         y_value = 0.6 # initialize y value
         for record in records:
