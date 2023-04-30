@@ -11,7 +11,7 @@ from functools import partial
 
 
 Builder.load_file('View\Category_Page\CategoryPage.kv')
-
+conn = sqlite3.connect('food_category.db')
 
 class CategoryPage(Screen):
     foodList = ObjectProperty(None)
@@ -30,7 +30,7 @@ class CategoryPage(Screen):
         self.food_buttons =[] 
 
         print("ON ENTER PAGE")
-        conn = sqlite3.connect('food_category.db')
+        
         # Connect to the database
         c = conn.cursor()
 
@@ -67,7 +67,6 @@ class CategoryPage(Screen):
         self.ids.food_calcium.text = ""
         self.ids.food_iron.text = ""
         offset = self.records.index(row_data)
-        conn = sqlite3.connect('food_category.db')
         c = conn.cursor()
         c.execute(f"SELECT * FROM {self.table_name} LIMIT 1 OFFSET {offset}")
         record = c.fetchone()
@@ -91,8 +90,7 @@ class CategoryPage(Screen):
         self.ids.food_iron.text = str(iron)
 
         c.close()
-        conn.close()
-
+    
     
     def reset(self):
         self.ids.foodList.clear_widgets()
