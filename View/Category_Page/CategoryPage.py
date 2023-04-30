@@ -37,7 +37,7 @@ class CategoryPage(Screen):
         # Fetch the data from the database
         c.execute(f"SELECT foodName FROM {self.table_name}")
         self.records = c.fetchall()
-        print(self.records)
+
 
         self.data = []
         for record in self.records:

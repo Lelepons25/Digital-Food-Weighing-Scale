@@ -127,10 +127,7 @@
             background_color: 0,0,1,0
             
             on_press:
-                app.root.generateCategoryPageScreen('FoodMixtures')
-                #root.CategoryPage('FoodMixtures')
-                #app.root.current = "CategoryPage"
-                #Factory.CategoryPage().display_cereals_buttons()
+                app.root.generateCategoryPageScreen('Cereals')
                 #root.manager.transition.direction = "left"
             
             Image:
@@ -146,7 +143,6 @@
             background_color: 0,0,1,0
             on_release: 
                 app.root.generateCategoryPageScreen('Roots')
-                #app.root.current = "CategoryPage"
                 # root.manager.transition.direction = "left"
             
             Image:
@@ -203,7 +199,7 @@
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             on_release:
-                app.root.current = "CategoryPage"
+                app.root.generateCategoryPageScreen('Meat')
                 # root.manager.transition.direction = "left"
             
             Image:
@@ -217,7 +213,7 @@
             size_hint: (.2, .2)
             background_color: 0,0,1,0
             on_release:
-                app.root.current = "CategoryPage"
+                app.root.generateCategoryPageScreen('Seafood')
                 # root.manager.transition.direction = "left"
             
             Image:
