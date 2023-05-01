@@ -26,6 +26,7 @@ class CategoryPage(Screen):
         self.ids.weight_input.text = "54"
         self.table_name = table_name
         self.ids.foodList.clear_widgets()
+        self.kCal = 0
         self.on_enter()
         # Get a reference to the progress bar widget
         self.progress_bar = self.ids.cal_tracker_bar
@@ -70,7 +71,7 @@ class CategoryPage(Screen):
         c.execute(f"SELECT * FROM {self.table_name} LIMIT 1 OFFSET {offset}")
         record = c.fetchone()
 
-        kCal = record[5]
+        self.kCal = record[5]
         tFat = record[7]
         chole = record[3]
         sodium = record[16]
@@ -79,7 +80,7 @@ class CategoryPage(Screen):
         calcium = record[12]
         iron = record[14]
 
-        self.ids.food_calories.text = f"Calories                    {str(kCal)}"
+        self.ids.food_calories.text = f"Calories                    {str(self.kCal)}"
         self.ids.food_fat.text = f"Total Fat (g)              {str(tFat)}"
         self.ids.food_choles.text =  f"Cholesterol (mg)      {str(chole)}"
         self.ids.food_sodium.text =  f"Sodium (mg)             {str(sodium)}"
@@ -113,10 +114,10 @@ class CategoryPage(Screen):
             popup = Popup(title='Error', content=content, size_hint=(None, None), size=(400, 200))
             popup.open()
             return
-        calories = float(calories)
+        cal = float(self.kCal)
 
         # if with decimals: totalCal = round(((weight / 100) * calories), 2) //2 decimal point
-        totalCal = round((weight / 100) * calories)
+        totalCal = round((weight / 100) * cal)
         # Show a success message using a pop-up
         content = Label(text=f'The amount of calorie is {totalCal} \n and has been saved to progress bar and history.',  halign='center')
         popup = Popup(title='Successfully saved!', content=content, size_hint=(None, None), size=(500, 200))
