@@ -79,14 +79,14 @@ class CategoryPage(Screen):
         calcium = record[12]
         iron = record[14]
 
-        self.ids.food_calories.text = str(kCal)
-        self.ids.food_fat.text = str(tFat)
-        self.ids.food_choles.text = str(chole)
-        self.ids.food_sodium.text = str(sodium)
-        self.ids.food_carbo.text = str(tCarbo)
-        self.ids.food_protein.text = str(protein)
-        self.ids.food_calcium.text = str(calcium)
-        self.ids.food_iron.text = str(iron)
+        self.ids.food_calories.text = f"Calories                    {str(kCal)}"
+        self.ids.food_fat.text = f"Total Fat (g)              {str(tFat)}"
+        self.ids.food_choles.text =  f"Cholesterol (mg)      {str(chole)}"
+        self.ids.food_sodium.text =  f"Sodium (mg)             {str(sodium)}"
+        self.ids.food_carbo.text =  f"Total Carbo (g)         {str(tCarbo)}"
+        self.ids.food_protein.text =  f"Protein (g)                 {str(protein)}"
+        self.ids.food_calcium.text =  f"Calcium (mg)            {str(calcium)}"
+        self.ids.food_iron.text = f"Iron (mg)                    {str(iron)}"
         c.close()
     
     def reset(self):
