@@ -11,7 +11,7 @@ import os
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager
 from kivy.lang import Builder
-from kivy.properties import StringProperty, ObjectProperty
+from kivy.properties import StringProperty, ObjectProperty, NumericProperty
 
 # import
 from View.Home_page.Homepage import Homepage
@@ -82,13 +82,24 @@ class WindowManager(ScreenManager):
 
 
 class DFWS(MDApp):
-
+    progress_value = NumericProperty(0)
+    
     def on_start(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
 
     def build(self):      
         return WindowManager()
+    
+    def update_progress_value(self, value):
+        # Update the progress value and save it to the global variable
+        self.progress_value = value
+        
+
+    def get_progress_value(self):
+        # Retrieve the progress value from the global variable
+        return self.progress_value
+
 
 
 

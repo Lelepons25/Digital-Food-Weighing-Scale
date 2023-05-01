@@ -10,7 +10,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.metrics import dp
 from kivy.core.window import Window
-
+from kivymd.app import MDApp
 import sqlite3
 
 
@@ -276,4 +276,17 @@ class EditProfilePage(Screen):
         self.user_height.text = "Height: "
         self.track_goal.text = "Track: "
         self.bmi.text = "Bmi: "
+<<<<<<< HEAD
         self.activity_level.text = "Activity: "
+=======
+
+    def update_progress_bar(self):
+        # Get a reference to the app object
+        app = MDApp.get_running_app()
+
+        # Get the progress value from the app object
+        progress_value = app.get_progress_value()
+
+        # Update the progress bar widget
+        self.ids.progress_bar.value = progress_value
+>>>>>>> b7589158ea6c1850e83ae3301e1df383ee3720b4
