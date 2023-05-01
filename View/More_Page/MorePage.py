@@ -5,4 +5,5 @@ Builder.load_file('View\More_Page\MorePage.kv')
 
 # More Page displays the other categories
 class MorePage(Screen):
+    print("here")
     pass
