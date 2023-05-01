@@ -8,16 +8,16 @@ Builder.load_file('View\Home_page\Homepage.kv')
 # Register the CategoryPage class
 
 class Homepage(Screen):
+    def on_pre_enter(self):
+        app = MDApp.get_running_app()
+        progress_value = app.get_progress_value()
+        self.ids.cal_tracker.text = f"{progress_value}% Progress"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.ids.weight_input.text = "9"
         self.ids.tracker.text = "Carbohydrate Intake Tracker"
-        app = MDApp.get_running_app()
-        progress_value = app.progress_value
-        print(progress_value)
-
-        self.ids.cal_tracker.text = f"{progress_value}% Progress"
+       
         
    
     def enter_topButton(self, button):
