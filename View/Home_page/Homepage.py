@@ -12,6 +12,7 @@ class Homepage(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.ids.weight_input.text = "9"
+        self.ids.tracker.text = "Carbohydrate Intake Tracker"
         app = MDApp.get_running_app()
         progress_value = app.progress_value
         print(progress_value)
