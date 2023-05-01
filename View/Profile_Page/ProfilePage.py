@@ -15,13 +15,6 @@ Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
 db = DataBase("users.txt")
 
-def restart_program():
-    # Kill the current process
-    subprocess.call([sys.executable, "-c", "import os; os.kill(os.getpid(), 9)"])
-
-    # Start a new instance of the program
-    subprocess.Popen([sys.executable] + sys.argv)
-
 
 class ProfilePage(Screen):
     user_name = ObjectProperty(None)
@@ -93,31 +86,26 @@ class ProfilePage(Screen):
             # Check the length of the name 
             if len(self.user_name.text) >= 4 and len(self.user_name.text)<=50:
             # Check if age is a valid positive integer
-                if self.age.text.isdigit() and 2 < int(self.age.text) < 100:
+                if self.age.text.isdigit() and 18 < int(self.age.text) < 100:
                     # Check if user weight and height are valid positive integers
-                    if self.user_weight.text.isdigit() and int(self.user_weight.text) > 0 and int(self.user_weight.text) < 400:
+                    if self.user_weight.text.isdigit() and int(self.user_weight.text) > 30 and int(self.user_weight.text) < 400:
                         if self.user_height.text.isdigit() and int(self.user_height.text) > 0 and int(self.user_height.text) <300:
                         # Add user to the database
                             if os.path.getsize(db.file_path) == 0:
                                 db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
                                 self.reset()
-                                EditProfile_Page = EditProfilePage()
-                                EditProfile_Page.display_database()
                                 self.manager.current = "Homepage"
                             else :
                                 db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
-                                restart()
                                 self.reset()
-                                # restart_program()
-                                EditProfile_Page = EditProfilePage()
-                                EditProfile_Page.display_database()
+                                self.manager.get_screen("EditProfilePage").on_enter()
                                 self.manager.current = "EditProfilePage"
                         else: 
                             invalidForm("Input height in cm raging from 50 - 300")
                     else:
-                        invalidForm("Input weight in kg raging from 2 - 400")
+                        invalidForm("Input weight in kg raging from 30 - 400")
                 else:
-                    invalidForm("Input age between 0 - 100")
+                    invalidForm("Age Limit: 18 - 100")
             else:
                 invalidForm("Input name with 4-50 characters")
         else:

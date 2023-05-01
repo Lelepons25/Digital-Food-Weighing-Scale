@@ -32,8 +32,9 @@ class EditProfilePage(Screen):
     def __init__(self, manager = None, **kwargs):
         super(EditProfilePage, self).__init__(**kwargs)
         self.manager = manager
-        self.display_database()
-        # self.display_mealPlan()
+        # self.display_database()
+        self.on_enter()
+       
 
     # Identify which category the user belongs
     def identify_bmiCategory(self, bmi):
@@ -50,8 +51,9 @@ class EditProfilePage(Screen):
         else:
             return "Obese"
     
-    def display_database(self):
+    def on_enter(self):
         print("INSIDE")
+        super().on_enter()
         first_line = db.load()
         if first_line:
             fields = first_line.strip().split(";")
@@ -115,35 +117,6 @@ class EditProfilePage(Screen):
         self.clear_mealPlan()
         self.ids.mp_title.text = "Personal Meal Plan"
 
-        # Create dynamic buttons and add them to a layout
-        conn =sqlite3.connect('root_products.db')
-        c = conn.cursor()
-        c.execute("SELECT foodName FROM ProductsTable")
-        records = c.fetchall()
-        print(type(records))
-        
-        layout = FloatLayout(size_hint_y=None, height=dp(40*10), pos_hint = {"center_x": 0.5, "top": 0.96} )
-        y_value = 0.6 # initialize y value
-        for record in records:
-            food = MDRectangleFlatButton(
-                id=f'{record}',
-                text= str(record[0]),
-                size_hint=(0.8, None),
-                height=dp(40),
-                text_color="black",
-                line_color="red",
-                pos_hint={"center_x": 0.5, "top": y_value},
-                padding=(0, 0, 10, 0)
-            )
-            print(type(record))
-            layout.add_widget(food)
-            y_value -= 0.1 # decrease y value for next button
-
-
-        # Add the layout to a scrollview
-        scrollview = ScrollView(size_hint=(None, None), size = (400, 280))
-        scrollview.add_widget(layout)
-        self.ids.card_mealPlan.add_widget(scrollview)
 
 
 
