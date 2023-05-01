@@ -140,89 +140,40 @@
         # Edit: add holder with id on the right side
         MDLabel:
             text: "Serving Size"
+            id: food_serving_size
         
         MDLabel:
             text: "Calories"
+            id: food_calories
         
         MDLabel:
             text: "Total Fat (g)"
+            id: food_fat
         
         MDLabel:
             text: "Cholesterol (mg)"
+            id: food_choles
         
         MDLabel:
             text: "Sodium (mg)"
+            id: food_sodium
         
         MDLabel:
             text: "Total Carbohydrate (g)"
+            id: food_carbo
 
         MDLabel:
             text: "Protein (g)"
+            id: food_protein
         
         MDLabel:
             text: "Calcium (mg)"
+            id: food_calcium
         
         MDLabel:
             text: "Iron (mg)"
-    
-    MDCard:
-        size_hint: None, None
-        size: 97,248 
-        pos_hint: {'x': 0.84, 'top':0.63}
-        padding: 5
-        spacing: 5
-        orientation: 'vertical'
-
-        MDLabel: # This is empty
-            text: " "
-            halign: 'center'
-        
-        # Label Text
-        MDLabel:
-            text: " 0 "
-            id: food_serving_size
-            halign: "right"
-        
-        MDLabel:
-            text: " 0 "
-            id: food_calories
-            halign: "right"
-        
-        MDLabel:
-            text: " 0 "
-            id: food_fat
-            halign: "right"
-        
-        MDLabel:
-            text: " 0 "
-            id: food_choles
-            halign: "right"
-        
-        MDLabel:
-            text: " 0 "
-            id: food_sodium
-            halign: "right"
-        
-        MDLabel:
-            text: " 0 "
-            id: food_carbo
-            halign: "right"
-        
-        MDLabel:
-            text: " 0 "
-            id: food_protein
-            halign: "right"
-        
-        MDLabel:
-            text: " 0 "
-            id: food_calcium
-            halign: "right"
-        
-        MDLabel:
-            text: " 0 "
             id: food_iron
-            halign: "right"
-
+    
     # Return button
     MDRectangleFlatIconButton:
         on_release:
