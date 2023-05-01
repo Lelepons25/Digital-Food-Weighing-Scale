@@ -25,7 +25,6 @@ class DataBase:
             print("Database is empty.")
 
     def load(self):
-        print("Loading")
         with open(self.filename, "r") as f:
             line = f.readline()
             if line:

@@ -46,13 +46,20 @@ class WindowManager(ScreenManager):
             
         self.MealPlanPage_widget = MealPlanPage(manager = self)
         self.ProfilePage_widget = ProfilePage(manager = self)
-        self.EditProfilePage_widget = EditProfilePage(manager = self)
         self.MorePage_widget = MorePage(manager = self)
 
         self.ids.MealPlanPage.add_widget(self.MealPlanPage_widget)
         self.ids.ProfilePage.add_widget(self.ProfilePage_widget)
-        self.ids.EditProfilePage.add_widget(self.EditProfilePage_widget)
         self.ids.MorePage.add_widget(self.MorePage_widget)
+
+    def generateEditProfilePageScreen(self):
+        if hasattr(self, 'EditProfilePage_widget'):
+            self.ids.EditProfilePage.remove_widget(self.EditProfilePage_widget)
+        self.EditProfilePage_widget = EditProfilePage(manager=self)
+        self.ids.EditProfilePage.add_widget(self.EditProfilePage_widget)
+        self.current = "EditProfilePage"
+
+
     def generateCategoryPageScreen(self, table_name):
          # Remove the CategoryPage widget if it already exists
         if hasattr(self, 'CategoryPage_widget'):
@@ -71,8 +78,7 @@ class DFWS(MDApp):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
 
-    def build(self): 
-           
+    def build(self):      
         return WindowManager()
 
 

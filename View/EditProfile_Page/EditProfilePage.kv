@@ -100,6 +100,7 @@
         spacing: 10
         orientation: 'vertical'
 
+
         MDLabel:
             id: mp_title
             text: "Meal Plans"
@@ -109,6 +110,7 @@
             height: self.texture_size[1]
             padding_y: 5
         
+
         MDRectangleFlatButton:
             id: pinggang_pinoy
             size_hint: (1 , 0.3)
@@ -140,14 +142,23 @@
                 root.enter_userMealPlan()
         
 
-
-
 ########################################################################        
         MDCarousel:
             # List or Card of Meal Plans
             id: carousel
 
-    # Return
+        
+    # Back for the MDCard
+    MDRectangleFlatIconButton:
+        text: "Return"
+        icon: "keyboard-return"
+        text_color: "red"
+        icon_color: "red"
+        pos_hint: {"x": 0.83, "top": 0.13}
+        on_release:
+            app.root.generateEditProfilePageScreen()
+
+    # Return to Homepage
     MDRectangleFlatIconButton:
         on_release:
             app.root.current = "Homepage"
