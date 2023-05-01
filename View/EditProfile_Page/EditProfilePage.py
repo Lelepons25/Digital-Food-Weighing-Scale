@@ -29,6 +29,7 @@ class EditProfilePage(Screen):
     track_goal = ObjectProperty(None)
     bmi = ObjectProperty(None)
     activity_level = ObjectProperty(None)
+    goal_intake = ObjectProperty(None)
 
     def __init__(self, manager = None, **kwargs):
         super(EditProfilePage, self).__init__(**kwargs)
@@ -52,6 +53,36 @@ class EditProfilePage(Screen):
         else:
             return "Obese"
     
+    def compute_calIntake(self, age, sex, user_weight, user_height, activity_level):
+        bmr = None
+        tdee = None
+
+        # COMPUTE FOR BMR
+        if sex == "Male":
+            bmr = 88.362 + (13.397 * float(user_weight)) + (4.799 * float(user_height)) - (5.677 * age)
+        elif sex == "Female":
+            bmr = 447.593 + (9.247 * float(user_weight)) + (3.098 * float(user_height)) - (4.330 * age)
+
+        print(bmr)
+        
+        # COMPUTE FOR TDEE
+        if activity_level == "Sedentary":
+            tdee = bmr * 1.2
+        elif activity_level == "Lightly active":
+            tdee = bmr * 1.375
+        elif activity_level == "Moderately active":
+            tdee = bmr * 1.55
+        elif activity_level == "Very active":
+            tdee = bmr * 1.725
+        elif activity_level == "Extra active":
+            tdee = bmr * 1.9
+        
+        return tdee
+     
+
+
+        
+    
     def on_enter(self):
         print("INSIDE")
         super().on_enter()
@@ -61,16 +92,32 @@ class EditProfilePage(Screen):
             print(fields)
             if len(fields) == 7:
                 user_name, sex, age, user_weight, user_height, track_goal, activity_level = fields
+
+                # COMPUTE BMI
+                bmi = float(user_weight) / ((float(user_height)/100) ** 2)
+                bmiCategory = self.identify_bmiCategory(bmi)
+
+                
+                # check which track goal user used:
+                if track_goal == "Calorie Deficit":                
+                    # COMPUTE TDEE 
+                    tdee = self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level)
+                    self.goal_intake.text = f"Goal Intake: {tdee:.2f}"
+                else:
+                    print("Carb")
+                    
+
+                # DISPLAY
                 self.user_name.text = f"Name: {user_name}"
                 self.sex.text = f"Sex: {sex}"
                 self.age.text = f"Age: {age}"
                 self.user_weight.text = f"Weight: {user_weight} kg"
                 self.user_height.text = f"Height: {user_height} cm"
                 self.track_goal.text = f"Track: {track_goal}"
-                bmi = float(user_weight) / ((float(user_height)/100) ** 2)
-                bmiCategory = self.identify_bmiCategory(bmi)
                 self.bmi.text = f"BMI: {bmi:.2f} - {bmiCategory}"
                 self.activity_level.text = f"Activity Level: {activity_level}"
+
+
             else:
                 pass
                 #print(f"Invalid line format in file {self.filename}: {first_line}")
@@ -118,10 +165,6 @@ class EditProfilePage(Screen):
     def enter_userMealPlan(self):
         self.clear_mealPlan()
         self.ids.mp_title.text = "Personal Meal Plan"
-
-
-
-
 
     def enter_pinggangPinoy(self):
         self.clear_mealPlan()

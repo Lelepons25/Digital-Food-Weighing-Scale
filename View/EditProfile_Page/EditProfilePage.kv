@@ -9,6 +9,7 @@
     track_goal: track_goal
     bmi: bmi
     activity_level: activity_level
+    goal_intake: goal_intake
 
 
     # Profile
@@ -86,12 +87,19 @@
             font_size: 14
             pos_hint: {"x": 0.07}
         
+        MDLabel:
+            id: goal_intake
+            text: "Goal Intake:"
+            size_hint_x: 30
+            font_size: 14
+            pos_hint: {"x": 0.07}
+
         MDRoundFlatButton:
             text: "Edit"
             font_size: 12
             pos_hint: {"center_x": 0.5}
             on_release:
-                root.enter_editButton()
+                app.root.generateProfilePageScreen()
 
         Widget:
             size_hint_y: None
@@ -143,7 +151,7 @@
             id: user_mealPlan
             size_hint: (1 , 0.3)
             pos_hint: {'center_x':0.5 , 'center_y':0.3}
-            text: 'Personal meal plan'
+            text: 'Food History'
             text_color: "black"
             line_color: "red"
             on_release:
