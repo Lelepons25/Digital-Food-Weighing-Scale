@@ -1,1 +1,1 @@
-Cross;Male;43;43.0;154.0;Calorie Deficit
+change;Male;43;43.0;143.0;Low Carb Diet;Very active

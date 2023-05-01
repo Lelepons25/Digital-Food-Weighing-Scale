@@ -28,6 +28,7 @@ class EditProfilePage(Screen):
     user_height = ObjectProperty(None)
     track_goal = ObjectProperty(None)
     bmi = ObjectProperty(None)
+    activity_level = ObjectProperty(None)
 
     def __init__(self, manager = None, **kwargs):
         super(EditProfilePage, self).__init__(**kwargs)
@@ -58,8 +59,8 @@ class EditProfilePage(Screen):
         if first_line:
             fields = first_line.strip().split(";")
             print(fields)
-            if len(fields) == 6:
-                user_name, sex, age, user_weight, user_height, track_goal = fields
+            if len(fields) == 7:
+                user_name, sex, age, user_weight, user_height, track_goal, activity_level = fields
                 self.user_name.text = f"Name: {user_name}"
                 self.sex.text = f"Sex: {sex}"
                 self.age.text = f"Age: {age}"
@@ -69,6 +70,7 @@ class EditProfilePage(Screen):
                 bmi = float(user_weight) / ((float(user_height)/100) ** 2)
                 bmiCategory = self.identify_bmiCategory(bmi)
                 self.bmi.text = f"BMI: {bmi:.2f} - {bmiCategory}"
+                self.activity_level.text = f"Activity Level: {activity_level}"
             else:
                 pass
                 #print(f"Invalid line format in file {self.filename}: {first_line}")
@@ -274,3 +276,4 @@ class EditProfilePage(Screen):
         self.user_height.text = "Height: "
         self.track_goal.text = "Track: "
         self.bmi.text = "Bmi: "
+        self.activity_level.text = "Activity: "

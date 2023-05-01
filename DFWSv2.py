@@ -37,6 +37,7 @@ class WindowManager(ScreenManager):
         if os.path.getsize(db.file_path) == 0:
             self.current = "ProfilePage"
         else:
+            print("Check")
             # Create a new instance of the Homepage class
             self.Homepage_widget = Homepage(manager = self)
             # Add the Homepage widget to the ScreenManager
@@ -52,6 +53,14 @@ class WindowManager(ScreenManager):
         self.ids.ProfilePage.add_widget(self.ProfilePage_widget)
         self.ids.MorePage.add_widget(self.MorePage_widget)
 
+    def generateHomePageScreen(self):
+        if hasattr(self, 'Homepage_widget'):
+            self.ids.Homepage.remove_widget(self.Homepage_widget)
+        self.Homepage_widget = Homepage(manager=self)
+        self.ids.Homepage.add_widget(self.Homepage_widget)
+        self.current = "Homepage"
+
+        
     def generateEditProfilePageScreen(self):
         if hasattr(self, 'EditProfilePage_widget'):
             self.ids.EditProfilePage.remove_widget(self.EditProfilePage_widget)
