@@ -17,7 +17,26 @@ class Homepage(Screen):
         super().__init__(**kwargs)
         self.ids.weight_input.text = "9"
         self.ids.tracker.text = "Carbohydrate Intake Tracker"
+<<<<<<< HEAD
        
+=======
+        self.on_enter()
+        # self.ids.cal_tracker.text = f"{progress_value}% Progress"
+
+    
+    def on_enter(self):
+        # Check which to track from user.txt database
+        with open("users.txt", "r") as f:
+            line = f.readline()
+            fields = line.strip().split(";")
+            track_goal = str(fields[5])
+        
+
+        if track_goal == "Calorie Deficit" or track_goal == "Default":
+            self.ids.tracker.text = "Calorie Deficit Tracker"
+        elif track_goal == "Low Carb Diet":
+            self.ids.tracker.text = "Low Carb Diet Tracker"
+>>>>>>> 45794e505e73c419d0f9c4dbedca3151ed8d26e2
         
    
     def enter_topButton(self, button):
@@ -28,11 +47,12 @@ class Homepage(Screen):
             popup = Popup(title='Error', content=content, size_hint=(None, None), size=(400, 200))
             popup.open()
             return
-            print("Save")
         elif button == "Clear":
             print("Clear")
 
     def update_progress_bar(self):
+
+
         # Get a reference to the app object
         app = MDApp.get_running_app()
 

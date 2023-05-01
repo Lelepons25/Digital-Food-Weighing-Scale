@@ -7,6 +7,7 @@
     user_weight: user_weight
     user_height: user_height
     track_goal: track_goal
+    activity_level: activity_level
 
     MDCard:
         size_hint: None, None
@@ -85,13 +86,22 @@
         Spinner:
             id: track_goal
             text: "Which do you wanna track?"
-            values: ["Calorie Deficit", "Low Carb Diet"]
+            values: ["Calorie Deficit", "Low Carb Diet", "Default"]
             size_hint_x: None
             size: 200, 50
             # font_size: 14
             pos_hint: {"center_x": 0.5}
 
             on_text: root.get_trackgoal_spinner(track_goal.text)
+
+        Spinner:
+            id: activity_level
+            text: "Your physical activity level"
+            values: ["Sedentary", "Lightly active", "Moderately active", "Very active", "Extra active"]
+            size_hint_x: None
+            size: 200, 50
+            pos_hint: {"center_x": 0.5}
+            on_text: root.get_activitylevel_spinner(activity_level.text)
 
 
         # SAVE
@@ -100,7 +110,6 @@
             font_size: 12
             pos_hint: {"center_x": 0.5}
             on_release:
-                # root.manager.transition.direction = "left"
                 root.saveProfile()
         Widget:
             size_hint_y: None

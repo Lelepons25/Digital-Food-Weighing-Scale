@@ -9,15 +9,16 @@ class DataBase:
         first_line = self.load()
         if first_line:
             fields = first_line.strip().split(";")
-            if len(fields) == 6:
-                user_name, sex, age, user_weight, user_height, track_goal= fields
+            if len(fields) == 7:
+                user_name, sex, age, user_weight, user_height, track_goal, activity_level= fields
                 self.user = {
                     'user_name': user_name,
                     'sex': sex,
                     'age': int(age),
                     'user_weight': float(user_weight),
                     'user_height': float(user_height),
-                    'track_goal': track_goal
+                    'track_goal': track_goal,
+                    'activity_level': activity_level
                 }
             else:
                 print(f"Invalid line format in file {self.filename}: {first_line}")
@@ -39,7 +40,7 @@ class DataBase:
         else:
             return None
 
-    def add_user(self, user_name, sex, age, user_weight, user_height, track_goal):
+    def add_user(self, user_name, sex, age, user_weight, user_height, track_goal, activity_level):
         if self.user:
             print("This database can only accept one user.")
             return -1
@@ -50,12 +51,13 @@ class DataBase:
                 'age': int(age),
                 'user_weight': float(user_weight),
                 'user_height': float(user_height),
-                'track_goal': track_goal
+                'track_goal': track_goal,
+                'activity_level': activity_level
             }
             self.save()
             return 1
         
-    def update_user(self, user_name, sex=None, age=None, user_weight=None, user_height=None, track_goal=None):
+    def update_user(self, user_name, sex=None, age=None, user_weight=None, user_height=None, track_goal=None, activity_level=None):
         if user_name:
             self.user['user_name'] = user_name.strip()
         if sex:
@@ -68,6 +70,8 @@ class DataBase:
             self.user['user_height'] = float(user_height)
         if track_goal:
             self.user['track_goal'] = track_goal.strip()
+        if activity_level:
+            self.user['activity_level'] = activity_level.strip()
         
         self.save()
         self.load()
@@ -83,5 +87,6 @@ class DataBase:
                     + str(self.user['age']) + ";" 
                     + str(self.user['user_weight']) + ";" 
                     + str(self.user['user_height']) + ";"
-                    + self.user['track_goal'] + "\n" 
+                    + self.user['track_goal'] + ";"
+                    + self.user['activity_level'] + "\n" 
                 )

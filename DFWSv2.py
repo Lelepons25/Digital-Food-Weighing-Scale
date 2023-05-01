@@ -16,7 +16,6 @@ from kivy.properties import StringProperty, ObjectProperty, NumericProperty
 # import
 from View.Home_page.Homepage import Homepage
 from View.Category_Page.CategoryPage import CategoryPage
-from View.MealPlan_Page.MealPlanPage import MealPlanPage
 from View.Profile_Page.ProfilePage import ProfilePage
 from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from View.More_Page.MorePage import MorePage
@@ -35,23 +34,30 @@ class WindowManager(ScreenManager):
         
         db = DataBase("users.txt")
         if os.path.getsize(db.file_path) == 0:
-            self.current = "ProfilePage"
+            self.generateProfilePageScreen()
         else:
-            # Create a new instance of the Homepage class
-            self.Homepage_widget = Homepage(manager = self)
-            # Add the Homepage widget to the ScreenManager
-            self.ids.Homepage.add_widget(self.Homepage_widget)
-            # Set the current screen to the Homepage
-            self.current = "Homepage"
+            print("Check")
+            self.generateHomePageScreen()
             
-        self.MealPlanPage_widget = MealPlanPage(manager = self)
-        self.ProfilePage_widget = ProfilePage(manager = self)
         self.MorePage_widget = MorePage(manager = self)
 
-        self.ids.MealPlanPage.add_widget(self.MealPlanPage_widget)
-        self.ids.ProfilePage.add_widget(self.ProfilePage_widget)
         self.ids.MorePage.add_widget(self.MorePage_widget)
 
+    def generateProfilePageScreen(self):
+        if hasattr(self, 'ProfilePage_widget'):
+            self.ids.ProfilePage.remove_widget(self.ProfilePage_widget)
+        self.ProfilePage_widget = ProfilePage(manager=self)
+        self.ids.ProfilePage.add_widget(self.ProfilePage_widget)
+        self.current = "ProfilePage"
+
+    def generateHomePageScreen(self):
+        if hasattr(self, 'Homepage_widget'):
+            self.ids.Homepage.remove_widget(self.Homepage_widget)
+        self.Homepage_widget = Homepage(manager=self)
+        self.ids.Homepage.add_widget(self.Homepage_widget)
+        self.current = "Homepage"
+
+        
     def generateEditProfilePageScreen(self):
         if hasattr(self, 'EditProfilePage_widget'):
             self.ids.EditProfilePage.remove_widget(self.EditProfilePage_widget)

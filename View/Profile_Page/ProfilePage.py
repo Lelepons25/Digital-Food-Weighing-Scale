@@ -23,6 +23,7 @@ class ProfilePage(Screen):
     user_weight = ObjectProperty(None)
     user_height = ObjectProperty(None)
     track_goal = ObjectProperty(None)
+    activity_level = ObjectProperty(None)
 
     # Inherits the manager attribute for screen manager
     def __init__(self, manager = None, **kwargs):
@@ -78,11 +79,14 @@ class ProfilePage(Screen):
     
     def get_trackgoal_spinner(self, value):
         self.track_goal.text = value
+    
+    def get_activitylevel_spinner(self, value):
+        self.activity_level.text = value
 
     # Add info of the user
     def saveProfile(self):
         # Check if all required fields are filled
-        if self.user_name.text and self.sex.text and self.age.text and self.user_weight.text and self.user_height.text and self.track_goal.text:
+        if self.user_name.text and self.sex.text and self.age.text and self.user_weight.text and self.user_height.text and self.track_goal.text and self.activity_level.text:
             # Check the length of the name 
             if len(self.user_name.text) >= 4 and len(self.user_name.text)<=50:
             # Check if age is a valid positive integer
@@ -92,14 +96,13 @@ class ProfilePage(Screen):
                         if self.user_height.text.isdigit() and int(self.user_height.text) > 0 and int(self.user_height.text) <300:
                         # Add user to the database
                             if os.path.getsize(db.file_path) == 0:
-                                db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
+                                db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text, self.activity_level.text)
                                 self.reset()
-                                self.manager.current = "Homepage"
+                                self.manager.generateHomePageScreen()
                             else :
-                                db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text)
+                                db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text, self.activity_level.text)
                                 self.reset()
-                                self.manager.get_screen("EditProfilePage").on_enter()
-                                self.manager.current = "EditProfilePage"
+                                self.manager.generateEditProfilePageScreen()
                         else: 
                             invalidForm("Input height in cm raging from 50 - 300")
                     else:
