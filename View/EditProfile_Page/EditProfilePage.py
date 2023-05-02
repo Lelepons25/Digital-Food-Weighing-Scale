@@ -32,7 +32,6 @@ class EditProfilePage(Screen):
     def __init__(self, manager = None, **kwargs):
         super(EditProfilePage, self).__init__(**kwargs)
         self.manager = manager
-        # self.display_database()
         self.on_enter()
        
 
@@ -195,10 +194,9 @@ class EditProfilePage(Screen):
                 table_name = 'mp_femaleElderly'
         
 
+        conn = sqlite3.connect("mp_database\\mealplan.db")
+        curr = conn.cursor()
         if table_name:
-            db_path = f'mp_database/{table_name}.db'
-            conn = sqlite3.connect(db_path)
-            curr = conn.cursor()
             offset = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'].index(dayClicked)
             curr.execute(f"SELECT * FROM {table_name} LIMIT 1 OFFSET {offset}")
             row = curr.fetchone()
