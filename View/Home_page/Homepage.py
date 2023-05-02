@@ -34,10 +34,7 @@ class Homepage(Screen):
         self.ids.cal_tracker.text = f"{progress_value}% Progress"
 
         # Check which to track from user.txt database
-        with open("users.txt", "r") as f:
-            line = f.readline()
-            fields = line.strip().split(";")
-            track_goal = str(fields[5])
+        
         
         if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
             self.ids.tracker.text = "Calorie Intake Tracker"
@@ -47,11 +44,6 @@ class Homepage(Screen):
         conn.commit()
         conn.close()
 
-        if track_goal == "Calorie Deficit" or track_goal == "Default":
-            self.ids.tracker.text = "Calorie Deficit Tracker"
-        elif track_goal == "Low Carb Diet":
-            self.ids.tracker.text = "Low Carb Diet Tracker"
->>>>>>> 45794e505e73c419d0f9c4dbedca3151ed8d26e2
         
    
     def enter_topButton(self, button):
