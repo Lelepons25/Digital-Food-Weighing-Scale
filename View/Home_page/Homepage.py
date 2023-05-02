@@ -9,15 +9,15 @@ Builder.load_file('View\Home_page\Homepage.kv')
 import sqlite3
 
 class Homepage(Screen):
-    def on_pre_enter(self):
-        app = MDApp.get_running_app()
-        progress_value = app.get_progress_value()
-        self.ids.cal_tracker.text = f"{progress_value}% Progress"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.ids.weight_input.text = "9"
         self.ids.tracker.text = "Carbohydrate Intake Tracker"
+        wm = self.manager
+        progress_value = wm.progress_value
+        print(progress_value)
+        self.ids.cal_tracker.text = f"{progress_value}% Progress"
         self.on_enter()
         # self.ids.cal_tracker.text = f"{progress_value}% Progress"
 
@@ -28,6 +28,16 @@ class Homepage(Screen):
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
 
+        wm = self.manager
+        progress_value = wm.progress_value
+        print(progress_value)
+        self.ids.cal_tracker.text = f"{progress_value}% Progress"
+
+        # Check which to track from user.txt database
+        with open("users.txt", "r") as f:
+            line = f.readline()
+            fields = line.strip().split(";")
+            track_goal = str(fields[5])
         
         if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
             self.ids.tracker.text = "Calorie Intake Tracker"
@@ -37,6 +47,11 @@ class Homepage(Screen):
         conn.commit()
         conn.close()
 
+        if track_goal == "Calorie Deficit" or track_goal == "Default":
+            self.ids.tracker.text = "Calorie Deficit Tracker"
+        elif track_goal == "Low Carb Diet":
+            self.ids.tracker.text = "Low Carb Diet Tracker"
+>>>>>>> 45794e505e73c419d0f9c4dbedca3151ed8d26e2
         
    
     def enter_topButton(self, button):
@@ -50,17 +65,7 @@ class Homepage(Screen):
         elif button == "Clear":
             print("Clear")
 
-    def update_progress_bar(self):
-
-
-        # Get a reference to the app object
-        app = MDApp.get_running_app()
-
-        # Get the progress value from the app object
-        progress_value = app.get_progress_value()
-
-        # Update the progress bar widget
-        self.ids.progress_bar.value = progress_value
+ 
 
 
 

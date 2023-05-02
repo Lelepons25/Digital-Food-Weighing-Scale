@@ -32,11 +32,10 @@ class CategoryPage(Screen):
         
         
     def on_enter(self):
-        app = MDApp.get_running_app()
-        progress_value = app.progress_value
+        wm = self.manager
+        progress_value = wm.progress_value
         print(progress_value)
         self.ids.cal_tracker.text = f"{progress_value}% Progress"
-
         self.food_buttons =[] 
         # Connect to the database
         c = conn.cursor()
@@ -139,8 +138,8 @@ class CategoryPage(Screen):
         progress_percent = int((self.total_calories / self.progress_bar.max) / 100)
         self.ids.cal_tracker.text = f"{progress_percent}% Progress"
         
-        app = MDApp.get_running_app()
-        app.progress_value = progress_percent
-        print(app.progress_value)
-        app.update_progress_value(progress_percent)
+        wm = self.manager
+        wm.progress_value = progress_percent
+        print(wm.progress_value)
+        wm.update_progress_value(progress_percent)
         

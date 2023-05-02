@@ -25,7 +25,7 @@ import sqlite3
 Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
-    
+    progress_value = NumericProperty(0)
 
     def __init__(self, **kwargs):
         
@@ -81,17 +81,6 @@ class WindowManager(ScreenManager):
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
         # Switch to the CategoryPage screen
         self.current = "CategoryPage"
-
-
-class DFWS(MDApp):
-    progress_value = NumericProperty(0)
-    
-    def on_start(self):
-        self.theme_cls.theme_style = "Light"
-        self.theme_cls.primary_palette = "Blue"
-
-    def build(self):      
-        return WindowManager()
     
     def update_progress_value(self, value):
         # Update the progress value and save it to the global variable
@@ -101,6 +90,20 @@ class DFWS(MDApp):
     def get_progress_value(self):
         # Retrieve the progress value from the global variable
         return self.progress_value
+
+
+class DFWS(MDApp):
+
+    def on_start(self):
+        self.theme_cls.theme_style = "Light"
+        self.theme_cls.primary_palette = "Blue"
+
+    def build(self):      
+        return WindowManager()
+    
+    
+
+
 
 
 DFWS().run()
