@@ -12,16 +12,18 @@
         orientation: 'vertical'
 
         # CLEAR 
-        Button:
-            id: clear
+        MDRoundFlatIconButton:
+            id: help
+            icon: "help"
             size_hint: (0.7, 0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'CLEAR'
+            text: 'Help'
             background_color: utils.get_color_from_hex('#FF3333')
         
         # TARE
-        Button:
+        MDRoundFlatIconButton:
             id: tare
+            icon: "weight-gram"
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Tare'
@@ -36,8 +38,9 @@
         orientation: 'vertical'
 
         # PROFILE
-        Button:
+        MDRoundFlatIconButton:
             id: profile
+            icon: "face-man-profile"
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Profile'
@@ -46,8 +49,9 @@
                 app.root.generateEditProfilePageScreen()
                 
         # SAVE
-        Button:
+        MDRoundFlatIconButton:
             id: save
+            icon: "content-save"
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Save'

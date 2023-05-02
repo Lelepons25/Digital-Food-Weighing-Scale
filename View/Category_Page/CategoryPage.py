@@ -12,8 +12,6 @@ from kivy.properties import StringProperty, NumericProperty
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
 
-
-
 Builder.load_file('View\Category_Page\CategoryPage.kv')
 conn = sqlite3.connect('food_category.db')
 
@@ -51,7 +49,7 @@ class CategoryPage(Screen):
             self.data.append(record[:17])
         # Add the buttons to the screen
         for record in self.records:
-            food = MDRectangleFlatButton(text=str(record[0]), size_hint_y=None, height='50dp')
+            food = MDRectangleFlatButton(text=str(record[0]), size_hint = (1, 0.3), height='50dp', text_color = "black", line_color = "blue")
             food.bind(on_press=lambda instance, record=record: self.displayFoodValues(instance, record))
             self.ids.foodList.add_widget(food)
             self.food_buttons.append(food)
@@ -135,8 +133,7 @@ class CategoryPage(Screen):
         # Update the progress bar value and label text
         self.progress_bar.value = self.total_calories
         self.update_progress_label()
-
-         
+ 
     def update_progress_label(self):
         # Update the progress bar label text based on the total calories and the maximum value of the progress bar
         progress_percent = int((self.total_calories / self.progress_bar.max) / 100)
