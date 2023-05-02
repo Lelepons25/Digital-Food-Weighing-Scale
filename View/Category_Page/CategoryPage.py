@@ -10,6 +10,7 @@ from functools import partial
 from kivy.uix.popup import Popup
 from kivy.properties import StringProperty, NumericProperty
 from kivymd.app import MDApp
+from kivymd.uix.button import MDRectangleFlatButton
 
 
 
@@ -50,7 +51,7 @@ class CategoryPage(Screen):
             self.data.append(record[:17])
         # Add the buttons to the screen
         for record in self.records:
-            food = Button(text=str(record[0]), size_hint_y=None, height='50dp')
+            food = MDRectangleFlatButton(text=str(record[0]), size_hint_y=None, height='50dp')
             food.bind(on_press=lambda instance, record=record: self.displayFoodValues(instance, record))
             self.ids.foodList.add_widget(food)
             self.food_buttons.append(food)
@@ -58,6 +59,7 @@ class CategoryPage(Screen):
         c.close()
 
     def displayFoodValues(self, instance, row_data):
+        self.ids.food_edible.text = ""
         self.ids.food_calories.text = ""
         self.ids.food_fat.text = ""
         self.ids.food_choles.text = ""
@@ -71,6 +73,7 @@ class CategoryPage(Screen):
         c.execute(f"SELECT * FROM {self.table_name} LIMIT 1 OFFSET {offset}")
         record = c.fetchone()
 
+        ep = record[3]
         self.kCal = record[5]
         tFat = record[7]
         chole = record[3]
@@ -80,6 +83,7 @@ class CategoryPage(Screen):
         calcium = record[12]
         iron = record[14]
 
+        self.ids.food_edible.text = f"Edible Portion                 {str(ep)}%"
         self.ids.food_calories.text = f"Calories                    {str(self.kCal)}"
         self.ids.food_fat.text = f"Total Fat (g)              {str(tFat)}"
         self.ids.food_choles.text =  f"Cholesterol (mg)      {str(chole)}"

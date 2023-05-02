@@ -79,8 +79,8 @@ class EditProfilePage(Screen):
             self.bmi.text = f"BMI: {row[7]:.2f} - {bmiCategory}"
 
             print(track_goal)
-            if track_goal == "Calorie Deficit" or track_goal == "Default":
-                self.goal_intake.text = f"Suggested Carolie Intake Goal: {int(row[8])}"
+            if track_goal == "Calories" or track_goal == "Default":
+                self.goal_intake.text = f"Suggested Carolie Intake Goal: {int(row[8])} kcal"
             else:
                 self.goal_intake.text = f"Suggested Carbohydrate Intake range:  \n {int(row[9])} grams - {int(row[10])} grams"
         else:
@@ -167,6 +167,9 @@ class EditProfilePage(Screen):
         cursor.execute("SELECT sex, age FROM user")
         rows = cursor.fetchall()
 
+        conn.commit()
+        conn.close()
+
         for row in rows:
             sex = row[0]
             age = row[1]
@@ -191,8 +194,6 @@ class EditProfilePage(Screen):
             elif age in range(60, 101):
                 table_name = 'mp_femaleElderly'
         
-        conn.commit()
-        conn.close()
 
         if table_name:
             db_path = f'mp_database/{table_name}.db'

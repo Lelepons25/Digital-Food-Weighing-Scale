@@ -135,7 +135,7 @@ class ProfilePage(Screen):
                             bmi = user_weight / ((user_height/100) ** 2)
                         
                             # check track goal:
-                            if track_goal == "Calorie Deficit":                
+                            if track_goal == "Calories" or track_goal == "Default":                
                                 # COMPUTE TDEE 
                                 tdee = self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level)
                                 carbs_min = None

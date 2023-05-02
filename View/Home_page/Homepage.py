@@ -29,10 +29,10 @@ class Homepage(Screen):
         track_goal = cursor.fetchone()
 
         
-        if str(track_goal[0]) == "Calorie Deficit" or str(track_goal[0]) == "Default":
-            self.ids.tracker.text = "Calorie Deficit Tracker"
-        elif str(track_goal[0]) == "Low Carb Diet":
-            self.ids.tracker.text = "Low Carb Diet Tracker"
+        if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
+            self.ids.tracker.text = "Calorie Intake Tracker"
+        elif str(track_goal[0]) == "Carbohydrates":
+            self.ids.tracker.text = "Carbohydrates Intake Tracker"
 
         conn.commit()
         conn.close()
