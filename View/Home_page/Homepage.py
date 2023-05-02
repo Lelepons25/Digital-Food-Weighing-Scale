@@ -5,7 +5,8 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
 Builder.load_file('View\Home_page\Homepage.kv')
-# Register the CategoryPage class
+
+import sqlite3
 
 class Homepage(Screen):
     def on_pre_enter(self):
@@ -17,26 +18,25 @@ class Homepage(Screen):
         super().__init__(**kwargs)
         self.ids.weight_input.text = "9"
         self.ids.tracker.text = "Carbohydrate Intake Tracker"
-<<<<<<< HEAD
-       
-=======
         self.on_enter()
         # self.ids.cal_tracker.text = f"{progress_value}% Progress"
 
     
     def on_enter(self):
-        # Check which to track from user.txt database
-        with open("users.txt", "r") as f:
-            line = f.readline()
-            fields = line.strip().split(";")
-            track_goal = str(fields[5])
-        
+        conn = sqlite3.connect('user_database\\userDB.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
+        track_goal = cursor.fetchone()
 
-        if track_goal == "Calorie Deficit" or track_goal == "Default":
+        
+        if str(track_goal[0]) == "Calorie Deficit" or str(track_goal[0]) == "Default":
             self.ids.tracker.text = "Calorie Deficit Tracker"
-        elif track_goal == "Low Carb Diet":
+        elif str(track_goal[0]) == "Low Carb Diet":
             self.ids.tracker.text = "Low Carb Diet Tracker"
->>>>>>> 45794e505e73c419d0f9c4dbedca3151ed8d26e2
+
+        conn.commit()
+        conn.close()
+
         
    
     def enter_topButton(self, button):

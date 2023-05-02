@@ -2,18 +2,17 @@ from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
-from database import DataBase
 from kivy.lang import Builder
 from kivy.uix.vkeyboard import VKeyboard
 from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from kivy.core.window import Window
 
+import sqlite3
+
 import os
-import sys
-import subprocess
 Builder.load_file("View\Profile_Page\ProfilePage.kv")
 
-db = DataBase("users.txt")
+
 
 
 class ProfilePage(Screen):
@@ -83,6 +82,33 @@ class ProfilePage(Screen):
     def get_activitylevel_spinner(self, value):
         self.activity_level.text = value
 
+
+
+    def compute_calIntake(self, age, sex, user_weight, user_height, activity_level):
+        bmr = None
+        tdee = None
+
+        # COMPUTE FOR BMR
+        if sex == "Male":
+            bmr = 88.362 + (13.397 * float(user_weight)) + (4.799 * float(user_height)) - (5.677 * age)
+        elif sex == "Female":
+            bmr = 447.593 + (9.247 * float(user_weight)) + (3.098 * float(user_height)) - (4.330 * age)
+
+        # COMPUTE FOR TDEE
+        if activity_level == "Sedentary":
+            tdee = bmr * 1.2
+        elif activity_level == "Lightly active":
+            tdee = bmr * 1.375
+        elif activity_level == "Moderately active":
+            tdee = bmr * 1.55
+        elif activity_level == "Very active":
+            tdee = bmr * 1.725
+        elif activity_level == "Extra active":
+            tdee = bmr * 1.9
+        
+        return tdee
+
+
     # Add info of the user
     def saveProfile(self):
         # Check if all required fields are filled
@@ -95,14 +121,51 @@ class ProfilePage(Screen):
                     if self.user_weight.text.isdigit() and int(self.user_weight.text) > 30 and int(self.user_weight.text) < 400:
                         if self.user_height.text.isdigit() and int(self.user_height.text) > 0 and int(self.user_height.text) <300:
                         # Add user to the database
-                            if os.path.getsize(db.file_path) == 0:
-                                db.add_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text, self.activity_level.text)
-                                self.reset()
+                            user_name = self.user_name.text
+                            sex = self.sex.text
+                            age = int(self.age.text)
+                            user_weight = float(self.user_weight.text)
+                            user_height = float(self.user_height.text)
+                            track_goal = self.track_goal.text
+                            activity_level = self.activity_level.text
+
+
+
+                            # COMPUTE BMI
+                            bmi = user_weight / ((user_height/100) ** 2)
+                        
+                            # check track goal:
+                            if track_goal == "Calorie Deficit":                
+                                # COMPUTE TDEE 
+                                tdee = self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level)
+                                carbs_min = None
+                                carbs_max = None
+                            else:
+                                tdee = self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level)
+                                carbs_min = (tdee * 0.45)/4
+                                carbs_max = (tdee * 0.65)/4
+                        
+                            # Connect to the database
+                            conn = sqlite3.connect('user_database\\userDB.db')
+                            cursor = conn.cursor()
+
+                            # Check if the database is empty
+                            cursor.execute("SELECT COUNT(*) FROM user")
+                            result = cursor.fetchone()
+
+                            if result[0] == 0:
+                                # User does not exist, insert new row
+                                cursor.execute("INSERT INTO user (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max))
+                                conn.commit()
+                                conn.close()    
                                 self.manager.generateHomePageScreen()
-                            else :
-                                db.update_user(self.user_name.text, self.sex.text, int(self.age.text), float(self.user_weight.text), float(self.user_height.text), self.track_goal.text, self.activity_level.text)
-                                self.reset()
+                            else:
+                                # User exists, update existing row
+                                cursor.execute("UPDATE user SET user_name=?, sex=?, age=?, user_weight=?, user_height=?, track_goal=?, activity_level=?, bmi=?, tdee=?, carbs_min=?, carbs_max=?", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max))
+                                conn.commit()
+                                conn.close()
                                 self.manager.generateEditProfilePageScreen()
+
                         else: 
                             invalidForm("Input height in cm raging from 50 - 300")
                     else:

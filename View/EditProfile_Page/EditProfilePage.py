@@ -1,7 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
-from database import DataBase
 from kivymd.uix.card import MDCard
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDRectangleFlatButton
@@ -16,7 +15,6 @@ import sqlite3
 
 
 Builder.load_file('View\EditProfile_Page\EditProfilePage.kv')
-db = DataBase("users.txt")
 
 class EditProfilePage(Screen):
     
@@ -53,77 +51,43 @@ class EditProfilePage(Screen):
         else:
             return "Obese"
     
-    def compute_calIntake(self, age, sex, user_weight, user_height, activity_level):
-        bmr = None
-        tdee = None
 
-        # COMPUTE FOR BMR
-        if sex == "Male":
-            bmr = 88.362 + (13.397 * float(user_weight)) + (4.799 * float(user_height)) - (5.677 * age)
-        elif sex == "Female":
-            bmr = 447.593 + (9.247 * float(user_weight)) + (3.098 * float(user_height)) - (4.330 * age)
-
-        print(bmr)
-        
-        # COMPUTE FOR TDEE
-        if activity_level == "Sedentary":
-            tdee = bmr * 1.2
-        elif activity_level == "Lightly active":
-            tdee = bmr * 1.375
-        elif activity_level == "Moderately active":
-            tdee = bmr * 1.55
-        elif activity_level == "Very active":
-            tdee = bmr * 1.725
-        elif activity_level == "Extra active":
-            tdee = bmr * 1.9
-        
-        return tdee
-     
-
-
-        
-    
     def on_enter(self):
-        print("INSIDE")
+        print("INSIDE EditProfilePage")
         super().on_enter()
-        first_line = db.load()
-        if first_line:
-            fields = first_line.strip().split(";")
-            print(fields)
-            if len(fields) == 7:
-                user_name, sex, age, user_weight, user_height, track_goal, activity_level = fields
 
-                # COMPUTE BMI
-                bmi = float(user_weight) / ((float(user_height)/100) ** 2)
-                bmiCategory = self.identify_bmiCategory(bmi)
+        conn = sqlite3.connect("user_database\\userDB.db")
+        curr = conn.cursor()
 
-                
-                # check which track goal user used:
-                if track_goal == "Calorie Deficit":                
-                    # COMPUTE TDEE 
-                    tdee = self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level)
-                    self.goal_intake.text = f"Goal Intake: {tdee:.2f}"
-                else:
-                    print("Carb")
-                    
+        curr.execute("SELECT * FROM user")
+        row = curr.fetchone()
 
-                # DISPLAY
-                self.user_name.text = f"Name: {user_name}"
-                self.sex.text = f"Sex: {sex}"
-                self.age.text = f"Age: {age}"
-                self.user_weight.text = f"Weight: {user_weight} kg"
-                self.user_height.text = f"Height: {user_height} cm"
-                self.track_goal.text = f"Track: {track_goal}"
-                self.bmi.text = f"BMI: {bmi:.2f} - {bmiCategory}"
-                self.activity_level.text = f"Activity Level: {activity_level}"
+        bmi = row[7]
+        track_goal = row[5]
 
+        bmiCategory = self.identify_bmiCategory(bmi)
 
+        if row is not None:
+            # DISPLAY
+            self.user_name.text = f"Name: {row[0]}"
+            self.sex.text = f"Sex: {row[1]}"
+            self.age.text = f"Age: {row[2]}"
+            self.user_weight.text = f"Weight: {row[3]} kg"
+            self.user_height.text = f"Height: {row[4]} cm"
+            self.track_goal.text = f"Track: {row[5]}"
+            self.activity_level.text = f"Activity Level: {row[6]}"
+            self.bmi.text = f"BMI: {row[7]:.2f} - {bmiCategory}"
+
+            print(track_goal)
+            if track_goal == "Calorie Deficit" or track_goal == "Default":
+                self.goal_intake.text = f"Suggested Carolie Intake Goal: {int(row[8])}"
             else:
-                pass
-                #print(f"Invalid line format in file {self.filename}: {first_line}")
+                self.goal_intake.text = f"Suggested Carbohydrate Intake range:  \n {int(row[9])} grams - {int(row[10])} grams"
         else:
-            print("Database is empty.")
-
+            print("Database is empty")
+        
+        conn.commit()
+        conn.close()
 
     def enter_foodExchange(self):
         self.clear_mealPlan()
@@ -162,6 +126,9 @@ class EditProfilePage(Screen):
         foodExchange_card.add_widget(label)  # add label to card
         self.ids.card_mealPlan.add_widget(foodExchange_card)  # add card to screen
 
+        conn.commit()
+        conn.close()
+
     def enter_userMealPlan(self):
         self.clear_mealPlan()
         self.ids.mp_title.text = "Personal Meal Plan"
@@ -195,12 +162,15 @@ class EditProfilePage(Screen):
             self.ids.card_mealPlan.remove_widget(dayButton)
 
 
-        # read age from the user.txt database
-        with open("users.txt", "r") as f:
-            line = f.readline()
-            fields = line.strip().split(";")
-            sex = str(fields[1])
-            age = int(fields[2])
+        conn = sqlite3.connect("user_database\\userDB.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT sex, age FROM user")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            sex = row[0]
+            age = row[1]
+        
         
         conn = None
         curr = None
@@ -220,6 +190,9 @@ class EditProfilePage(Screen):
                 table_name = 'mp_femaleAdults'
             elif age in range(60, 101):
                 table_name = 'mp_femaleElderly'
+        
+        conn.commit()
+        conn.close()
 
         if table_name:
             db_path = f'mp_database/{table_name}.db'
