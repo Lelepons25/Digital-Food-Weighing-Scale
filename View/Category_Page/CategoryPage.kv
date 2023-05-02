@@ -47,6 +47,7 @@
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Tare'
+            background_color: utils.get_color_from_hex('#33B7FF')
         
     MDCard:
         size_hint: None, None
@@ -61,15 +62,16 @@
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Profile'
+            background_color: utils.get_color_from_hex('#33B7FF')
             on_release:
-                app.root.current = "EditProfilePage"
-                # root.manager.transition.direction = "left"
+                app.root.generateEditProfilePageScreen()
 
         Button:
             id: save
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Save'
+            background_color: utils.get_color_from_hex('#33B7FF')
             on_release: root.saveFood()
             
     
@@ -140,8 +142,8 @@
         # Label Text
         # Edit: add holder with id on the right side
         MDLabel:
-            text: "Serving Size"
-            id: food_serving_size
+            text: "Edible Portion"
+            id: food_edible
         
         MDLabel:
             text: "Calories"

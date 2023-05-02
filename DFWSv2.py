@@ -20,8 +20,7 @@ from View.Profile_Page.ProfilePage import ProfilePage
 from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from View.More_Page.MorePage import MorePage
 
-from database import DataBase
-
+import sqlite3
 
 Builder.load_file("dfwsv2.kv")
 
@@ -31,16 +30,23 @@ class WindowManager(ScreenManager):
     def __init__(self, **kwargs):
         
         super().__init__(**kwargs)
-        
-        db = DataBase("users.txt")
-        if os.path.getsize(db.file_path) == 0:
+
+        conn = sqlite3.connect('user_database\\userDB.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM user")
+        count = cursor.fetchone()
+
+        if count[0] == 0:
             self.generateProfilePageScreen()
         else:
-            print("Check")
             self.generateHomePageScreen()
             
+    def generateMorePageScreen(self):
+        if hasattr(self, 'MorePage_widget'):
+            self.ids.MorePage.remove_widget(self.MorePage_widget)
         self.MorePage_widget = MorePage(manager = self)
         self.ids.MorePage.add_widget(self.MorePage_widget)
+        self.current = "MorePage"
 
     def generateProfilePageScreen(self):
         if hasattr(self, 'ProfilePage_widget'):

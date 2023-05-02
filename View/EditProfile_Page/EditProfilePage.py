@@ -1,7 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
-from database import DataBase
 from kivymd.uix.card import MDCard
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDRectangleFlatButton
@@ -16,7 +15,6 @@ import sqlite3
 
 
 Builder.load_file('View\EditProfile_Page\EditProfilePage.kv')
-db = DataBase("users.txt")
 
 class EditProfilePage(Screen):
     
@@ -29,11 +27,11 @@ class EditProfilePage(Screen):
     track_goal = ObjectProperty(None)
     bmi = ObjectProperty(None)
     activity_level = ObjectProperty(None)
+    goal_intake = ObjectProperty(None)
 
     def __init__(self, manager = None, **kwargs):
         super(EditProfilePage, self).__init__(**kwargs)
         self.manager = manager
-        # self.display_database()
         self.on_enter()
        
 
@@ -52,31 +50,43 @@ class EditProfilePage(Screen):
         else:
             return "Obese"
     
-    def on_enter(self):
-        print("INSIDE")
-        super().on_enter()
-        first_line = db.load()
-        if first_line:
-            fields = first_line.strip().split(";")
-            print(fields)
-            if len(fields) == 7:
-                user_name, sex, age, user_weight, user_height, track_goal, activity_level = fields
-                self.user_name.text = f"Name: {user_name}"
-                self.sex.text = f"Sex: {sex}"
-                self.age.text = f"Age: {age}"
-                self.user_weight.text = f"Weight: {user_weight} kg"
-                self.user_height.text = f"Height: {user_height} cm"
-                self.track_goal.text = f"Track: {track_goal}"
-                bmi = float(user_weight) / ((float(user_height)/100) ** 2)
-                bmiCategory = self.identify_bmiCategory(bmi)
-                self.bmi.text = f"BMI: {bmi:.2f} - {bmiCategory}"
-                self.activity_level.text = f"Activity Level: {activity_level}"
-            else:
-                pass
-                #print(f"Invalid line format in file {self.filename}: {first_line}")
-        else:
-            print("Database is empty.")
 
+    def on_enter(self):
+        print("INSIDE EditProfilePage")
+        super().on_enter()
+
+        conn = sqlite3.connect("user_database\\userDB.db")
+        curr = conn.cursor()
+
+        curr.execute("SELECT * FROM user")
+        row = curr.fetchone()
+
+        bmi = row[7]
+        track_goal = row[5]
+
+        bmiCategory = self.identify_bmiCategory(bmi)
+
+        if row is not None:
+            # DISPLAY
+            self.user_name.text = f"Name: {row[0]}"
+            self.sex.text = f"Sex: {row[1]}"
+            self.age.text = f"Age: {row[2]}"
+            self.user_weight.text = f"Weight: {row[3]} kg"
+            self.user_height.text = f"Height: {row[4]} cm"
+            self.track_goal.text = f"Track: {row[5]}"
+            self.activity_level.text = f"Activity Level: {row[6]}"
+            self.bmi.text = f"BMI: {row[7]:.2f} - {bmiCategory}"
+
+            print(track_goal)
+            if track_goal == "Calories" or track_goal == "Default":
+                self.goal_intake.text = f"Suggested Carolie Intake Goal: {int(row[8])} kcal"
+            else:
+                self.goal_intake.text = f"Suggested Carbohydrate Intake range:  \n {int(row[9])} grams - {int(row[10])} grams"
+        else:
+            print("Database is empty")
+        
+        conn.commit()
+        conn.close()
 
     def enter_foodExchange(self):
         self.clear_mealPlan()
@@ -115,13 +125,12 @@ class EditProfilePage(Screen):
         foodExchange_card.add_widget(label)  # add label to card
         self.ids.card_mealPlan.add_widget(foodExchange_card)  # add card to screen
 
+        conn.commit()
+        conn.close()
+
     def enter_userMealPlan(self):
         self.clear_mealPlan()
         self.ids.mp_title.text = "Personal Meal Plan"
-
-
-
-
 
     def enter_pinggangPinoy(self):
         self.clear_mealPlan()
@@ -152,12 +161,18 @@ class EditProfilePage(Screen):
             self.ids.card_mealPlan.remove_widget(dayButton)
 
 
-        # read age from the user.txt database
-        with open("users.txt", "r") as f:
-            line = f.readline()
-            fields = line.strip().split(";")
-            sex = str(fields[1])
-            age = int(fields[2])
+        conn = sqlite3.connect("user_database\\userDB.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT sex, age FROM user")
+        rows = cursor.fetchall()
+
+        conn.commit()
+        conn.close()
+
+        for row in rows:
+            sex = row[0]
+            age = row[1]
+        
         
         conn = None
         curr = None
@@ -177,11 +192,11 @@ class EditProfilePage(Screen):
                 table_name = 'mp_femaleAdults'
             elif age in range(60, 101):
                 table_name = 'mp_femaleElderly'
+        
 
+        conn = sqlite3.connect("mp_database\\mealplan.db")
+        curr = conn.cursor()
         if table_name:
-            db_path = f'mp_database/{table_name}.db'
-            conn = sqlite3.connect(db_path)
-            curr = conn.cursor()
             offset = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'].index(dayClicked)
             curr.execute(f"SELECT * FROM {table_name} LIMIT 1 OFFSET {offset}")
             row = curr.fetchone()
