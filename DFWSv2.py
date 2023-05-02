@@ -39,11 +39,14 @@ class WindowManager(ScreenManager):
         if count[0] == 0:
             self.generateProfilePageScreen()
         else:
-            print("Check")
             self.generateHomePageScreen()
             
+    def generateMorePageScreen(self):
+        if hasattr(self, 'MorePage_widget'):
+            self.ids.MorePage.remove_widget(self.MorePage_widget)
         self.MorePage_widget = MorePage(manager = self)
         self.ids.MorePage.add_widget(self.MorePage_widget)
+        self.current = "MorePage"
 
     def generateProfilePageScreen(self):
         if hasattr(self, 'ProfilePage_widget'):
@@ -98,8 +101,6 @@ class DFWS(MDApp):
     def get_progress_value(self):
         # Retrieve the progress value from the global variable
         return self.progress_value
-
-
 
 
 DFWS().run()
