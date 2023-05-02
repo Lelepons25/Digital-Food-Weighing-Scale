@@ -11,21 +11,25 @@
         spacing: 5
         orientation: 'vertical'
 
-        # CLEAR 
-        Button:
-            id: clear
-            size_hint: (0.7, 0.7)
+        # SAVE
+        MDRoundFlatIconButton:
+            id: save
+            icon: "content-save"
+            size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'CLEAR'
-            background_color: utils.get_color_from_hex('#FF3333')
+            text: 'Save'
+            text_color: "black"
+            on_release:
+                root.enter_topButton("Save")
         
         # TARE
-        Button:
+        MDRoundFlatIconButton:
             id: tare
+            icon: "weight-gram"
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Tare'
-            background_color: utils.get_color_from_hex('#33B7FF')
+            text_color: "black"
         
     MDCard:
         size_hint: None, None
@@ -36,24 +40,30 @@
         orientation: 'vertical'
 
         # PROFILE
-        Button:
+        MDRoundFlatIconButton:
             id: profile
+            icon: "face-man-profile"
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Profile'
-            background_color: utils.get_color_from_hex('#33B7FF')
+            text_color: "black"
+
             on_release:
                 app.root.generateEditProfilePageScreen()
-                
-        # SAVE
-        Button:
-            id: save
-            size_hint: (0.7,0.7)
+        
+        # HELP
+        MDRoundFlatIconButton:
+            id: help
+            icon: "help"
+            size_hint: (0.7, 0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'Save'
-            background_color: utils.get_color_from_hex('#33B7FF')
+            text: 'Help'
+            text_color: "black"
+
             on_release:
-                root.enter_topButton("Save")
+                app.root.generateHelpPageScreen()
+                
+
     
     MDCard:
         size_hint: None, None
@@ -75,7 +85,7 @@
 
         MDLabel:
             id: cal_tracker
-            text: f"{root.manager.progress_value}% Progress"
+            # text: f"{root.manager.progress_value}% Progress"
 
         ProgressBar:
             id: cal_tracker_bar

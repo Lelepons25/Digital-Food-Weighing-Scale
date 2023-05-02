@@ -50,7 +50,7 @@ class CategoryPage(Screen):
             self.data.append(record[:17])
         # Add the buttons to the screen
         for record in self.records:
-            food = MDRectangleFlatButton(text=str(record[0]), size_hint_y=None, height='50dp')
+            food = MDRectangleFlatButton(text=str(record[0]), size_hint = (1, 0.3), height='50dp', text_color = "black", line_color = "blue")
             food.bind(on_press=lambda instance, record=record: self.displayFoodValues(instance, record))
             self.ids.foodList.add_widget(food)
             self.food_buttons.append(food)
