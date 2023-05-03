@@ -34,7 +34,6 @@ class Homepage(Screen):
         elif str(track_goal[0]) == "Carbohydrates":
             self.ids.tracker.text = "Carbohydrates Intake Tracker"
 
-        conn.commit()
         conn.close()
 
         

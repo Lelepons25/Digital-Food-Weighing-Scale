@@ -128,9 +128,39 @@ class EditProfilePage(Screen):
         conn.commit()
         conn.close()
 
-    def enter_userMealPlan(self):
+    def enter_userFoodHistory(self):
         self.clear_mealPlan()
-        self.ids.mp_title.text = "Personal Meal Plan"
+        self.ids.mp_title.text = "Food History"
+
+        conn = sqlite3.connect('mp_database\\food_history.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM food_history")
+        self.history = cursor.fetchall()
+        
+        # Check how many days
+        cursor.execute("SELECT current_date FROM food_history")
+        dates = cursor.fetchall()
+
+        for date in dates:
+            print("Date: ", date[0])
+            current_date = date[0][3:]
+            # print(current_date)
+
+        for row in self.history:
+            food = MDRectangleFlatButton(id = f'food{row[0]}',
+                                         text = f'{row[1]}   Intake: {row[3]}',
+                                         size_hint = (0.8, None),
+                                         text_color = "black",
+                                         line_color = "blue",
+                                         pos_hint =  {"center_x": .5},
+                                         halign = "left")
+            self.ids.card_mealPlan.add_widget(food)
+        
+        conn.close()
+
+
+
+
 
     def enter_pinggangPinoy(self):
         self.clear_mealPlan()
@@ -274,13 +304,10 @@ class EditProfilePage(Screen):
         # remove the meal plan buttons
         fe_button = self.ids.food_exchange
         pp_button = self.ids.pinggang_pinoy
-        ump_button = self.ids.user_mealPlan
+        ump_button = self.ids.user_foodHistory
         self.ids.card_mealPlan.remove_widget(fe_button)
         self.ids.card_mealPlan.remove_widget(pp_button)
         self.ids.card_mealPlan.remove_widget(ump_button)
-  
-    def enter_editButton(self):
-        self.manager.current = "ProfilePage"
     
 
     def reset(self): 
