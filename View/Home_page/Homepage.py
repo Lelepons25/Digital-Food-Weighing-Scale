@@ -32,12 +32,6 @@ class Homepage(Screen):
         progress_value = wm.progress_value
         print(progress_value)
         self.ids.cal_tracker.text = f"{progress_value}% Progress"
-
-        # Check which to track from user.txt database
-        with open("users.txt", "r") as f:
-            line = f.readline()
-            fields = line.strip().split(";")
-            track_goal = str(fields[5])
         
         if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
             self.ids.tracker.text = "Calorie Intake Tracker"
