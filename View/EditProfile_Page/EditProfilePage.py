@@ -78,7 +78,7 @@ class EditProfilePage(Screen):
             self.bmi.text = f"BMI: {row[7]:.2f} - {bmiCategory}"
 
             print(track_goal)
-            if track_goal == "Calories" or track_goal == "Default":
+            if track_goal == "Calories":
                 self.goal_intake.text = f"Suggested Carolie Intake Goal: {int(row[8])} kcal"
             else:
                 self.goal_intake.text = f"Suggested Carbohydrate Intake range:  \n {int(row[9])} grams - {int(row[10])} grams"

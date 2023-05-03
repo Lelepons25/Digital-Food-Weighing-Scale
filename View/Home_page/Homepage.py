@@ -29,7 +29,7 @@ class Homepage(Screen):
         track_goal = cursor.fetchone()
 
         
-        if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
+        if str(track_goal[0]) == "Calories":
             self.ids.tracker.text = "Calorie Intake Tracker"
         elif str(track_goal[0]) == "Carbohydrates":
             self.ids.tracker.text = "Carbohydrates Intake Tracker"

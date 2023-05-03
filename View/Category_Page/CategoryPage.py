@@ -11,6 +11,7 @@ from kivy.uix.popup import Popup
 from kivy.properties import StringProperty, NumericProperty
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
+import re
 
 
 
@@ -31,8 +32,7 @@ class CategoryPage(Screen):
         self.on_enter()
         # Get a reference to the progress bar widget
         self.progress_bar = self.ids.cal_tracker_bar
-        
-        
+          
     def on_enter(self):
         wm = self.manager
         progress_value = wm.progress_value
@@ -40,6 +40,7 @@ class CategoryPage(Screen):
         self.ids.cal_tracker.text = f"{progress_value}% Progress"
         self.food_buttons =[] 
         # Connect to the database
+        conn = sqlite3.connect('food_category.db')
         c = conn.cursor()
         # Fetch the data from the database
         c.execute(f"SELECT foodName FROM {self.table_name}")
@@ -56,6 +57,22 @@ class CategoryPage(Screen):
             self.food_buttons.append(food)
         # Close the database connection
         c.close()
+
+        conn = sqlite3.connect('user_database\\userDB.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
+        track_goal = cursor.fetchone()
+
+        
+        if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
+            self.ids.tracker.text = "Calorie Intake Tracker"
+        elif str(track_goal[0]) == "Carbohydrates":
+            self.ids.tracker.text = "Carbohydrates Intake Tracker"
+
+        conn.close()
+
+
+
 
     def displayFoodValues(self, instance, row_data):
         self.ids.food_edible.text = ""
@@ -98,44 +115,61 @@ class CategoryPage(Screen):
         self.manager.current = "Homepage"
     
     def saveFood (self):
-        weight_input = self.ids.weight_input
-        calories_input = self.ids.food_calories
+         
 
-        weight = weight_input.text.strip()
-        if weight == '0':
-            # Show an error message using a pop-up
-            content = Label(text='No weight has been detected.')
-            popup = Popup(title='Error', content=content, size_hint=(None, None), size=(400, 200))
-            popup.open()
-            return
-        weight = float(weight)
+        weight_input = self.ids.weight_input.text
+        weight_input = float(weight_input)
+        tracker_text = self.ids.tracker.text
+        edible_text = self.ids.food_edible.text
 
-        calories = calories_input.text.strip()
-        if calories == '0':
-            # Show an error message using a pop-up
-            content = Label(text='Please enter a calories value.')
-            popup = Popup(title='Error', content=content, size_hint=(None, None), size=(400, 200))
-            popup.open()
-            return
-        cal = float(self.kCal)
+        # Check which to track/save
+        if tracker_text == "Calorie Intake Tracker":
+            track_field = self.ids.food_calories
+        elif tracker_text == "Carbohydrates Intake Tracker":
+            track_field = self.ids.food_carbo
+        else:
+            print("Error")
 
-        # if with decimals: totalCal = round(((weight / 100) * calories), 2) //2 decimal point
-        totalCal = round((weight / 100) * cal)
-        # Show a success message using a pop-up
-        content = Label(text=f'The amount of calorie is {totalCal} \n and has been saved to progress bar and history.',  halign='center')
-        popup = Popup(title='Successfully saved!', content=content, size_hint=(None, None), size=(500, 200))
-        popup.open()
+        if 'track_field' in locals():
+            track_text = track_field.text.strip()
+            # Remove all non-numeric characters and the first period (if it exists)
+            track_text = re.sub(r'[^\d.]+', '', track_text)
+            print(track_text)
 
-        print(totalCal)
+            edible_text = edible_text.strip()
+            edible_text = ''.join(filter(str.isdigit, edible_text))
 
+            # CONVERT string to float
+            track_text = float(track_text)
+            edible_text = float(edible_text)
+
+
+        if not track_text and not edible_text:
+            popupMessage("No food has been selected.")
+        elif weight_input == '0':
+            popupMessage("No weight has been detected.")
+        else:
+            # COMPUTATION
+            weight_ep = (edible_text / 100) * weight_input
+            food_intake = (track_text / 100) * weight_ep
+
+            print("edible_text:" + str(edible_text))
+            print("track_text:" + str(track_text))
+            print("weight_input:" + str(weight_input))
+            print("weight_ep:" + str(weight_ep)) 
+            print("Food Intake:")
+            print(food_intake)
+
+        
+    
         # Update the total calories for the category
-        self.total_calories += totalCal
+        # self.total_calories += totalCal
+
 
         # Update the progress bar value and label text
         self.progress_bar.value = self.total_calories
         self.update_progress_label()
 
-         
     def update_progress_label(self):
         # Update the progress bar label text based on the total calories and the maximum value of the progress bar
         progress_percent = int((self.total_calories / self.progress_bar.max) / 100)
@@ -143,6 +177,13 @@ class CategoryPage(Screen):
         
         wm = self.manager
         wm.progress_value = progress_percent
-        print(wm.progress_value)
         wm.update_progress_value(progress_percent)
-        
+
+
+def popupMessage(message):
+    pop = Popup(title = "Error",
+                content = Label(text = message),
+                size_hint = (None, None),
+                size = (400, 200)
+    )
+    pop.open() 
