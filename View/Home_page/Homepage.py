@@ -28,17 +28,19 @@ class Homepage(Screen):
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
 
+<<<<<<< HEAD
         wm = self.manager
         progress_value = wm.progress_value
         print(progress_value)
         self.ids.cal_tracker.text = f"{progress_value}% Progress"
+=======
+>>>>>>> 257d7b2c4fe7c911089c7c0e46292763988fceeb
         
-        if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
+        if str(track_goal[0]) == "Calories":
             self.ids.tracker.text = "Calorie Intake Tracker"
         elif str(track_goal[0]) == "Carbohydrates":
             self.ids.tracker.text = "Carbohydrates Intake Tracker"
 
-        conn.commit()
         conn.close()
 
         

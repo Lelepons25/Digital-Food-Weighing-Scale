@@ -44,7 +44,7 @@
             text: 'Save'
             text_color: "black"
             on_release:
-                root.enter_topButton("Save")
+                root.saveFood()
         
         # TARE
         MDRoundFlatIconButton:
@@ -98,6 +98,7 @@
 
         MDLabel:
             text: "Calorie Tracker"
+            id: tracker
             font_size: 16
             halign: 'center'
             size_hint_y: None
@@ -193,5 +194,4 @@
     # Return button
     MDRectangleFlatIconButton:
         on_release:
-            app.root.current = "Homepage"
-            # root.manager.transition.direction = "right"
+            app.root.generateHomePageScreen()
