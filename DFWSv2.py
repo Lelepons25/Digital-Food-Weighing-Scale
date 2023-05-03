@@ -26,6 +26,7 @@ import sqlite3
 Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
+    
     progress_value = NumericProperty(0)
 
     def __init__(self, **kwargs):
