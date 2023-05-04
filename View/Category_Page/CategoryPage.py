@@ -11,6 +11,9 @@ from kivy.uix.popup import Popup
 from kivy.properties import StringProperty, NumericProperty
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
+from datetime import datetime
+
+import re
 
 Builder.load_file('View\Category_Page\CategoryPage.kv')
 conn = sqlite3.connect('food_category.db')
@@ -29,15 +32,17 @@ class CategoryPage(Screen):
         self.on_enter()
         # Get a reference to the progress bar widget
         self.progress_bar = self.ids.cal_tracker_bar
-        
-        
+          
     def on_enter(self):
         wm = self.manager
         progress_value = wm.progress_value
-        print(progress_value)
+        self.displayProgressBar()
+
         self.ids.cal_tracker.text = f"{progress_value}% Progress"
         self.food_buttons =[] 
+        
         # Connect to the database
+        conn = sqlite3.connect('food_category.db')
         c = conn.cursor()
         # Fetch the data from the database
         c.execute(f"SELECT foodName FROM {self.table_name}")
@@ -46,6 +51,7 @@ class CategoryPage(Screen):
         self.data = []
         for record in self.records:
             self.data.append(record[:17])
+        
         # Add the buttons to the screen
         for record in self.records:
             food = MDRectangleFlatButton(text=str(record[0]), size_hint = (1, 0.3), height='50dp', text_color = "black", line_color = "blue")
@@ -55,7 +61,29 @@ class CategoryPage(Screen):
         # Close the database connection
         c.close()
 
+
+
+    
+    def displayProgressBar(self):
+
+        # DISPLAY FOR PROGRESS BAR
+        conn = sqlite3.connect('user_database\\userDB.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
+        track_goal = cursor.fetchone()
+
+        
+        if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
+            self.ids.tracker.text = "Calorie Intake Tracker"
+        elif str(track_goal[0]) == "Carbohydrates":
+            self.ids.tracker.text = "Carbohydrates Intake Tracker"
+
+        conn.close()
+
+
+
     def displayFoodValues(self, instance, row_data):
+
         self.ids.food_edible.text = ""
         self.ids.food_calories.text = ""
         self.ids.food_fat.text = ""
@@ -70,6 +98,8 @@ class CategoryPage(Screen):
         c.execute(f"SELECT * FROM {self.table_name} LIMIT 1 OFFSET {offset}")
         record = c.fetchone()
 
+        self.foodId = record[0]
+        self.foodName = record[1]
         ep = record[3]
         self.kCal = record[5]
         tFat = record[7]
@@ -96,43 +126,96 @@ class CategoryPage(Screen):
         self.manager.current = "Homepage"
     
     def saveFood (self):
-        weight_input = self.ids.weight_input
-        calories_input = self.ids.food_calories
+         
+        weight_input = self.ids.weight_input.text
+        weight_input = float(weight_input)
+        tracker_text = self.ids.tracker.text
+        edible_text = self.ids.food_edible.text
 
-        weight = weight_input.text.strip()
-        if weight == '0':
-            # Show an error message using a pop-up
-            content = Label(text='No weight has been detected.')
-            popup = Popup(title='Error', content=content, size_hint=(None, None), size=(400, 200))
-            popup.open()
-            return
-        weight = float(weight)
+        # Check which to track/save
+        if tracker_text == "Calorie Intake Tracker":
+            track_field = self.ids.food_calories
+        elif tracker_text == "Carbohydrates Intake Tracker":
+            track_field = self.ids.food_carbo
+        else:
+            print("Error")
 
-        calories = calories_input.text.strip()
-        if calories == '0':
-            # Show an error message using a pop-up
-            content = Label(text='Please enter a calories value.')
-            popup = Popup(title='Error', content=content, size_hint=(None, None), size=(400, 200))
-            popup.open()
-            return
-        cal = float(self.kCal)
+        if 'track_field' in locals():
+            track_text = track_field.text.strip()
+            # Remove all non-numeric characters and the first period (if it exists)
+            track_text = re.sub(r'[^\d.]+', '', track_text)
+            print(track_text)
 
-        # if with decimals: totalCal = round(((weight / 100) * calories), 2) //2 decimal point
-        totalCal = round((weight / 100) * cal)
-        # Show a success message using a pop-up
-        content = Label(text=f'The amount of calorie is {totalCal} \n and has been saved to progress bar and history.',  halign='center')
-        popup = Popup(title='Successfully saved!', content=content, size_hint=(None, None), size=(500, 200))
-        popup.open()
+            edible_text = edible_text.strip()
+            edible_text = ''.join(filter(str.isdigit, edible_text))
 
-        print(totalCal)
 
+        if not track_text and not edible_text:
+            popupMessage("No food has been selected.")
+        elif weight_input == '0':
+            popupMessage("No weight has been detected.")
+        else:
+            track_text = float(track_text)
+            edible_text = float(edible_text)
+
+            # COMPUTATION
+            weight_ep = (edible_text / 100) * weight_input
+            food_intake = (track_text / 100) * weight_ep
+            
+            # GET the current time and date
+            current_time = datetime.now().time().strftime('%H:%M')
+            current_date = datetime.now().date().strftime('%m/%d')
+
+
+
+
+
+            print("Current Time =", current_time)
+            print("Current Date =", current_date)
+
+            print("edible_text:" + str(edible_text))
+            print("track_text:" + str(track_text))
+            print("weight_input:" + str(weight_input))
+            print("weight_ep:" + str(weight_ep)) 
+            print("Food Intake:")
+            print(food_intake)
+            
+            # Store to the database
+            conn = sqlite3.connect('mp_database\\food_history.db')
+            cursor = conn.cursor()
+
+            cursor.execute(''' CREATE TABLE IF NOT EXISTS food_history (
+                foodID TEXT,
+                foodName TEXT,
+                weight_input TEXT,
+                food_intake TEXT,
+                current_time TEXT,
+                current_date TEXT
+            )
+            ''')
+
+            cursor.execute("INSERT INTO food_history(foodID, foodName, weight_input, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?, ?)", (self.foodId, self.foodName, weight_input, food_intake, current_time, current_date))
+            conn.commit()
+            conn.close()
+
+            popupMessage("Food Saved!", food_intake)
+
+        
+
+        
+    
         # Update the total calories for the category
-        self.total_calories += totalCal
+        # self.total_calories += totalCal
 
-        # Update the progress bar value and label text
+
+      # Update the progress bar value and label text
         self.progress_bar.value = self.total_calories
         self.update_progress_label()
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> a6e25999f15d924392c529cac85cec3c1e86776f
     def update_progress_label(self):
         # Update the progress bar label text based on the total calories and the maximum value of the progress bar
         progress_percent = int((self.total_calories / self.progress_bar.max) / 100)
@@ -140,6 +223,22 @@ class CategoryPage(Screen):
         
         wm = self.manager
         wm.progress_value = progress_percent
-        print(wm.progress_value)
         wm.update_progress_value(progress_percent)
-        
+
+
+def popupMessage(message, food_intake = None):
+
+    if message == "Food Saved!":
+        pop = Popup(title = "Success",
+                    content = Label(text = f"{message} \nFood Intake: {food_intake}"),
+                    size_hint = (None, None),
+                    size = (400, 200)
+        )
+        pop.open()
+    else:
+        pop = Popup(title = "Error",
+                    content = Label(text = message),
+                    size_hint = (None, None),
+                    size = (400, 200)
+        )
+        pop.open() 

@@ -35,19 +35,25 @@
         spacing: 5
         orientation: 'vertical'
 
-        Button:
-            id: clear
-            size_hint: (0.7, 0.7)
+        # SAVE
+        MDRoundFlatIconButton:
+            id: save
+            icon: "content-save"
+            size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'CLEAR'
-            background_color: utils.get_color_from_hex('#ff3333')
+            text: 'Save'
+            text_color: "black"
+            on_release:
+                root.saveFood()
         
-        Button:
+        # TARE
+        MDRoundFlatIconButton:
             id: tare
+            icon: "weight-gram"
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Tare'
-            background_color: utils.get_color_from_hex('#33B7FF')
+            text_color: "black"
         
     MDCard:
         size_hint: None, None
@@ -57,22 +63,29 @@
         spacing: 5
         orientation: 'vertical'
 
-        Button:
+        # PROFILE
+        MDRoundFlatIconButton:
             id: profile
+            icon: "face-man-profile"
             size_hint: (0.7,0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Profile'
-            background_color: utils.get_color_from_hex('#33B7FF')
+            text_color: "black"
+
             on_release:
                 app.root.generateEditProfilePageScreen()
-
-        Button:
-            id: save
-            size_hint: (0.7,0.7)
+        
+        # HELP
+        MDRoundFlatIconButton:
+            id: help
+            icon: "help"
+            size_hint: (0.7, 0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'Save'
-            background_color: utils.get_color_from_hex('#33B7FF')
-            on_release: root.saveFood()
+            text: 'Help'
+            text_color: "black"
+            
+            on_release:
+                app.root.generateHelpPageScreen()
             
     
     MDCard:
@@ -85,6 +98,7 @@
 
         MDLabel:
             text: "Calorie Tracker"
+            id: tracker
             font_size: 16
             halign: 'center'
             size_hint_y: None
@@ -180,5 +194,4 @@
     # Return button
     MDRectangleFlatIconButton:
         on_release:
-            app.root.current = "Homepage"
-            # root.manager.transition.direction = "right"
+            app.root.generateHomePageScreen()

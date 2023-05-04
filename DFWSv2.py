@@ -19,12 +19,14 @@ from View.Category_Page.CategoryPage import CategoryPage
 from View.Profile_Page.ProfilePage import ProfilePage
 from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from View.More_Page.MorePage import MorePage
+from View.Help_Page.HelpPage import HelpPage
 
 import sqlite3
 
 Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
+    
     progress_value = NumericProperty(0)
 
     def __init__(self, **kwargs):
@@ -70,6 +72,13 @@ class WindowManager(ScreenManager):
         self.ids.EditProfilePage.add_widget(self.EditProfilePage_widget)
         self.current = "EditProfilePage"
 
+    def generateHelpPageScreen(self):
+        if hasattr(self, 'HelpPage_widget'):
+            self.ids.HelpPage.remove_widget(self.HelpPage_widget)
+        self.HelpPage_widget = HelpPage(manager=self)
+        self.ids.HelpPage.add_widget(self.HelpPage_widget)
+        self.current = "HelpPage"
+
 
     def generateCategoryPageScreen(self, table_name):
          # Remove the CategoryPage widget if it already exists
@@ -90,7 +99,6 @@ class WindowManager(ScreenManager):
     def get_progress_value(self):
         # Retrieve the progress value from the global variable
         return self.progress_value
-
 
 class DFWS(MDApp):
 
