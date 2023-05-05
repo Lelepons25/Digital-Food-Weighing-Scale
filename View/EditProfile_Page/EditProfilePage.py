@@ -53,7 +53,6 @@ class EditProfilePage(Screen):
     
 
     def on_enter(self):
-        print("INSIDE EditProfilePage")
         super().on_enter()
 
         conn = sqlite3.connect("user_database\\userDB.db")
