@@ -4,14 +4,15 @@ from kivy.properties import ObjectProperty
 from kivymd.uix.card import MDCard
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDRectangleFlatButton
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.scrollview import ScrollView
 from kivy.metrics import dp
 from kivy.core.window import Window
 from kivymd.app import MDApp
 import sqlite3
-
+from kivymd.uix.list import ThreeLineAvatarIconListItem, IconRightWidget
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.boxlayout import BoxLayout
+from kivy.graphics import Color, Rectangle
+from kivy.uix.floatlayout import FloatLayout
 
 
 Builder.load_file('View\EditProfile_Page\EditProfilePage.kv')
@@ -129,36 +130,26 @@ class EditProfilePage(Screen):
         conn.close()
 
     def enter_userFoodHistory(self):
+        
         self.clear_mealPlan()
-        self.ids.mp_title.text = "Food History"
 
-        conn = sqlite3.connect('mp_database\\food_history.db')
+        conn = sqlite3.connect('mp_database/food_history.db')
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM food_history")
-        self.history = cursor.fetchall()
-        
-        # Check how many days
-        cursor.execute("SELECT current_date FROM food_history")
-        dates = cursor.fetchall()
+        food_rows = cursor.fetchall()
 
-        for date in dates:
-            print("Date: ", date[0])
-            current_date = date[0][3:]
-            # print(current_date)
-
-        for row in self.history:
-            food = MDRectangleFlatButton(id = f'food{row[0]}',
-                                         text = f'{row[1]}   Intake: {row[3]}',
-                                         size_hint = (0.8, None),
-                                         text_color = "black",
-                                         line_color = "blue",
-                                         pos_hint =  {"center_x": .5},
-                                         halign = "left")
-            self.ids.card_mealPlan.add_widget(food)
+    # Add each list item to the layout
+        for row in food_rows:
+            historyList = ThreeLineAvatarIconListItem(
+                IconRightWidget(icon="minus"),
+                text=row[4],
+                secondary_text=row[1],
+                tertiary_text=row[2]
+            )
+            self.ids.food_history.add_widget(historyList)
         
+
         conn.close()
-
-
 
 
 
@@ -176,8 +167,8 @@ class EditProfilePage(Screen):
                                             text_color = "black",
                                             line_color = "red",
                                             pos_hint =  {"center_x": .5})
-            dayButton.bind(on_press = self.display_mealPlan)
             self.day_buttons.append(dayButton)
+            dayButton.bind(on_release = self.display_mealPlan)
             self.ids.card_mealPlan.add_widget(dayButton)
 
 
@@ -301,14 +292,18 @@ class EditProfilePage(Screen):
 
 
     def clear_mealPlan(self):
+
         # remove the meal plan buttons
         fe_button = self.ids.food_exchange
         pp_button = self.ids.pinggang_pinoy
         ump_button = self.ids.user_foodHistory
+
         self.ids.card_mealPlan.remove_widget(fe_button)
         self.ids.card_mealPlan.remove_widget(pp_button)
         self.ids.card_mealPlan.remove_widget(ump_button)
-    
+
+        # update the size of the MDCard
+        self.ids.card_mealPlan.size = (400, 350) 
 
     def reset(self): 
         self.user_name.text = "Name: "

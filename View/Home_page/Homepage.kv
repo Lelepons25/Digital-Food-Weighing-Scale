@@ -11,16 +11,6 @@
         spacing: 5
         orientation: 'vertical'
 
-<<<<<<< HEAD
-        # CLEAR 
-        MDRoundFlatIconButton:
-            id: help
-            icon: "help"
-            size_hint: (0.7, 0.7)
-            pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'Help'
-            background_color: utils.get_color_from_hex('#FF3333')
-=======
         # SAVE
         MDRoundFlatIconButton:
             id: save
@@ -31,7 +21,7 @@
             text_color: "black"
             on_release:
                 root.enter_topButton("Save")
->>>>>>> a6e25999f15d924392c529cac85cec3c1e86776f
+
         
         # TARE
         MDRoundFlatIconButton:
@@ -61,27 +51,18 @@
 
             on_release:
                 app.root.generateEditProfilePageScreen()
-<<<<<<< HEAD
-                
-        # SAVE
+
+        # HISTORY
         MDRoundFlatIconButton:
-            id: save
-            icon: "content-save"
-            size_hint: (0.7,0.7)
-=======
-        
-        # HELP
-        MDRoundFlatIconButton:
-            id: help
-            icon: "help"
+            id: foodHistory
+            icon: "history"
             size_hint: (0.7, 0.7)
->>>>>>> a6e25999f15d924392c529cac85cec3c1e86776f
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'Help'
+            text: 'History'
             text_color: "black"
 
             on_release:
-                app.root.generateHelpPageScreen()
+                app.root.generateFoodHistoryPageScreen()
                 
 
     
