@@ -14,8 +14,7 @@ from kivymd.uix.button import MDRectangleFlatButton
 from datetime import datetime
 
 import re
-
-
+import time
 
 Builder.load_file('View\Category_Page\CategoryPage.kv')
 conn = sqlite3.connect('food_category.db')
@@ -146,7 +145,6 @@ class CategoryPage(Screen):
             track_text = track_field.text.strip()
             # Remove all non-numeric characters and the first period (if it exists)
             track_text = re.sub(r'[^\d.]+', '', track_text)
-            print(track_text)
 
             edible_text = edible_text.strip()
             edible_text = ''.join(filter(str.isdigit, edible_text))
@@ -165,54 +163,27 @@ class CategoryPage(Screen):
             food_intake = (track_text / 100) * weight_ep
             
             # GET the current time and date
-            current_time = datetime.now().time().strftime('%H:%M')
-            current_date = datetime.now().date().strftime('%m/%d')
+            current_time = datetime.now().strftime('%H:%M:%S')
+            current_date = datetime.now().strftime('%Y-%m-%d')
 
-
-
-
-
-            print("Current Time =", current_time)
-            print("Current Date =", current_date)
-
-            print("edible_text:" + str(edible_text))
-            print("track_text:" + str(track_text))
-            print("weight_input:" + str(weight_input))
-            print("weight_ep:" + str(weight_ep)) 
-            print("Food Intake:")
-            print(food_intake)
-            
-            # Store to the database
             conn = sqlite3.connect('mp_database\\food_history.db')
             cursor = conn.cursor()
 
-            cursor.execute(''' CREATE TABLE IF NOT EXISTS food_history (
-                foodID TEXT,
-                foodName TEXT,
-                weight_input TEXT,
-                food_intake TEXT,
-                current_time TEXT,
-                current_date TEXT
-            )
-            ''')
 
-            cursor.execute("INSERT INTO food_history(foodID, foodName, weight_input, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?, ?)", (self.foodId, self.foodName, weight_input, food_intake, current_time, current_date))
+ 
+            cursor.execute('''CREATE TABLE IF NOT EXISTS food_history (foodId TEXT, 
+                                                            foodName TEXT, 
+                                                            food_intake TEXT, 
+                                                            current_time TEXT, 
+                                                            current_date TEXT)''')
+
+            cursor.execute("INSERT INTO food_history (foodId, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+
+            
             conn.commit()
             conn.close()
 
             popupMessage("Food Saved!", food_intake)
-
-        
-
-        
-    
-        # Update the total calories for the category
-        # self.total_calories += totalCal
-
-
-      # Update the progress bar value and label text
-        self.progress_bar.value = self.total_calories
-        self.update_progress_label()
 
     def update_progress_label(self):
         # Update the progress bar label text based on the total calories and the maximum value of the progress bar

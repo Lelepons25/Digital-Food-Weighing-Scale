@@ -20,6 +20,7 @@ from View.Profile_Page.ProfilePage import ProfilePage
 from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from View.More_Page.MorePage import MorePage
 from View.Help_Page.HelpPage import HelpPage
+from View.FoodHistory_Page.FoodHistoryPage import FoodHistoryPage
 
 import sqlite3
 
@@ -78,6 +79,13 @@ class WindowManager(ScreenManager):
         self.HelpPage_widget = HelpPage(manager=self)
         self.ids.HelpPage.add_widget(self.HelpPage_widget)
         self.current = "HelpPage"
+    
+    def generateFoodHistoryPageScreen(self):
+        if hasattr(self, 'FoodHistoryPage_widget'):
+            self.ids.FoodHistoryPage.remove_widget(self.FoodHistoryPage_widget)
+        self.FoodHistoryPage_widget = FoodHistoryPage(manager=self)
+        self.ids.FoodHistoryPage.add_widget(self.FoodHistoryPage_widget)
+        self.current = "FoodHistoryPage"
 
 
     def generateCategoryPageScreen(self, table_name):

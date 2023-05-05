@@ -1,0 +1,44 @@
+<FoodHistoryPage>
+
+    MDCard:
+        size_hint: None, None
+        size: 150, 50
+        pos_hint: {'x': 0.04, 'top':0.96}
+
+        MDLabel:
+            text: "Food History"
+            bold: True
+            font_size: 20
+            halign: 'left'
+            padding_y: 5
+
+    MDCard:
+        size_hint: None, None
+        size: 400, 300
+        pos_hint: {'x': 0.04, 'top':0.8}
+        elevation: 1
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+
+        ScrollView:
+            size: 400, 350
+            pos_hint: {'center_x': 0.5}
+
+
+            GridLayout:
+                id: food_history
+                size_hint_y: None
+                height: self.minimum_height
+                width: 400
+                cols: 1
+                spacing: 10, 10
+                padding: 10, 10
+
+
+
+
+
+    MDRectangleFlatIconButton:
+        on_release:
+            app.root.current = "Homepage"

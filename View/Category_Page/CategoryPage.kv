@@ -45,6 +45,7 @@
             text_color: "black"
             on_release:
                 root.saveFood()
+
         
         # TARE
         MDRoundFlatIconButton:
@@ -74,28 +75,47 @@
 
             on_release:
                 app.root.generateEditProfilePageScreen()
-        
-        # HELP
+
+        # HISTORY
         MDRoundFlatIconButton:
-            id: help
-            icon: "help"
+            id: foodHistory
+            icon: "history"
             size_hint: (0.7, 0.7)
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
-            text: 'Help'
+            text: 'History'
             text_color: "black"
-            
+
+            on_release:
+                app.root.generateFoodHistoryPageScreen()
+                
+
+    MDCard:
+        size_hint: None, None
+        size: 50, 80
+        pos_hint: {'x': 0.65, 'top':0.96}
+        orientation: 'vertical'
+        
+        # HELP
+        MDFloatingActionButton:
+            id: help
+            icon: "help-circle"
+            pos_hint: {'center_x':0.5 , 'top':0.96}
+            md_bg_color: app.theme_cls.primary_color
+
             on_release:
                 app.root.generateHelpPageScreen()
-            
+
+
     
     MDCard:
         size_hint: None, None
-        size: 270, 80
-        pos_hint: {'x': 0.65, 'top':0.96}
+        size: 200, 80
+        pos_hint: {'x': 0.72, 'top':0.96}
         padding: 5
         spacing: 5
         orientation: 'vertical'
 
+        # CALORIE TRACKER
         MDLabel:
             text: "Calorie Tracker"
             id: tracker
@@ -107,7 +127,7 @@
 
         MDLabel:
             id: cal_tracker
-            text: "O% Progress"
+            # text: f"{root.manager.progress_value}% Progress"
 
         ProgressBar:
             id: cal_tracker_bar
@@ -115,7 +135,7 @@
             max: 1
             pos_hint: {'x': 0}
             size_hint_x: 1
-
+    
 ##############################################################
     # Fix Food List
 
