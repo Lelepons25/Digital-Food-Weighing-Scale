@@ -17,21 +17,20 @@ import re
 import time
 
 Builder.load_file('View\Category_Page\CategoryPage.kv')
-conn = sqlite3.connect('food_category.db')
+
 
 class CategoryPage(Screen):
     foodList = ObjectProperty(None)
     total_calories = NumericProperty(0)
     
-    def __init__(self , table_name, manager = None, **kwargs):
+    def __init__(self , databaseName, manager = None, **kwargs):
         super(CategoryPage, self).__init__(**kwargs)
         self.manager = manager
         self.ids.weight_input.text = "54"
-        self.table_name = table_name
+        self.databaseName = databaseName
         self.ids.foodList.clear_widgets()
         self.kCal = 0
         self.on_enter()
-        # Get a reference to the progress bar widget
         self.progress_bar = self.ids.cal_tracker_bar
           
     def on_enter(self):
@@ -41,12 +40,10 @@ class CategoryPage(Screen):
 
         self.ids.cal_tracker.text = f"{progress_value}% Progress"
         self.food_buttons =[] 
-        
-        # Connect to the database
-        conn = sqlite3.connect('food_category.db')
+        conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
         c = conn.cursor()
         # Fetch the data from the database
-        c.execute(f"SELECT foodName FROM {self.table_name}")
+        c.execute(f"SELECT foodName FROM Products")
         self.records = c.fetchall()
 
         self.data = []
@@ -95,8 +92,9 @@ class CategoryPage(Screen):
         self.ids.food_calcium.text = ""
         self.ids.food_iron.text = ""
         offset = self.records.index(row_data)
+        conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
         c = conn.cursor()
-        c.execute(f"SELECT * FROM {self.table_name} LIMIT 1 OFFSET {offset}")
+        c.execute(f"SELECT * FROM Products LIMIT 1 OFFSET {offset}")
         record = c.fetchone()
 
         self.foodId = record[0]

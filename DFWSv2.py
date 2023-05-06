@@ -3,9 +3,9 @@ from kivy.config import Config
 # you can use 0 or 1 && True or False
 Config.set('graphics', 'resizable', '0')
 # fix the width of the window   
-Config.set('graphics', 'width', '800')
+Config.set('graphics', 'width', '860')
 # fix the height of the window
-Config.set('graphics', 'height', '420')
+Config.set('graphics', 'height', '480')
 
 import os
 from kivymd.app import MDApp
@@ -88,24 +88,18 @@ class WindowManager(ScreenManager):
         self.current = "FoodHistoryPage"
 
 
-    def generateCategoryPageScreen(self, table_name):
-         # Remove the CategoryPage widget if it already exists
+    def generateCategoryPageScreen(self, databaseName):
         if hasattr(self, 'CategoryPage_widget'):
             self.ids.CategoryPage.remove_widget(self.CategoryPage_widget)
-        # Create a new instance of the CategoryPage class with the specified category
-        self.CategoryPage_widget = CategoryPage(manager=self, table_name=table_name)
-        # Add the CategoryPage widget to the ScreenManager
+        self.CategoryPage_widget = CategoryPage(manager=self, databaseName= databaseName)
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
-        # Switch to the CategoryPage screen
         self.current = "CategoryPage"
     
     def update_progress_value(self, value):
-        # Update the progress value and save it to the global variable
         self.progress_value = value
         
 
     def get_progress_value(self):
-        # Retrieve the progress value from the global variable
         return self.progress_value
 
 class DFWS(MDApp):
