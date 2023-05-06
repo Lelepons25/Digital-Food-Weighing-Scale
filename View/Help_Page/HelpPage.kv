@@ -1,5 +1,41 @@
-
 <HelpPage>
+
+    MDCard:
+        size_hint: None, None
+        size: 150, 50
+        pos_hint: {'x': 0.04, 'top':0.96}
+
+        MDLabel:
+            text: "Help"
+            bold: True
+            font_size: 20
+            halign: 'left'
+            padding_y: 5
+        
+    
+    MDCard:
+        size_hint: None, None
+        size: 250, 300
+        pos_hint: {'x': 0.04, 'top':0.8}
+        elevation: 1
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+                
+        MDLabel:
+            text: "Getting Started"
+            bold: True
+            font_size: 14
+            halign: 'left'
+            padding_y: 5
+
+        ScrollView:
+            size: 400, 350
+            pos_hint: {'center_x': 0.5}
+    
+
+
+
     MDRectangleFlatIconButton:
         on_release:
             app.root.current = "Homepage"

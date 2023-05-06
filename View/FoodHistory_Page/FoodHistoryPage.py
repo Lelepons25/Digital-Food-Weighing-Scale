@@ -38,7 +38,6 @@ class FoodHistoryPage(Screen):
 
             historyList.foodId = row[0]
             historyList.bind(on_press=self.delete_history)
-
             self.ids.food_history.add_widget(historyList)
 
         conn.close()

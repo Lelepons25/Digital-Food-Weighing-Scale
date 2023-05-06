@@ -77,11 +77,10 @@ class EditProfilePage(Screen):
             self.activity_level.text = f"Activity Level: {row[6]}"
             self.bmi.text = f"BMI: {row[7]:.2f} - {bmiCategory}"
 
-            print(track_goal)
             if track_goal == "Calories":
-                self.goal_intake.text = f"Suggested Carolie Intake Goal: {int(row[8])} kcal"
+                self.goal_intake.text = f"Carolie Intake Goal: {int(row[8])} kcal"
             else:
-                self.goal_intake.text = f"Suggested Carbohydrate Intake range:  \n {int(row[9])} grams - {int(row[10])} grams"
+                self.goal_intake.text = f"Carbohydrate Intake range:  \n {int(row[9])} grams - {int(row[10])} grams"
         else:
             print("Database is empty")
         
@@ -173,8 +172,6 @@ class EditProfilePage(Screen):
 
     def display_mealPlan(self, instance):
         dayClicked = instance.text
-        print(dayClicked)
-
 
         # remove the day buttons
         for dayButton in self.day_buttons:
@@ -295,14 +292,10 @@ class EditProfilePage(Screen):
         # remove the meal plan buttons
         fe_button = self.ids.food_exchange
         pp_button = self.ids.pinggang_pinoy
-        ump_button = self.ids.user_foodHistory
 
         self.ids.card_mealPlan.remove_widget(fe_button)
         self.ids.card_mealPlan.remove_widget(pp_button)
-        self.ids.card_mealPlan.remove_widget(ump_button)
 
-        # update the size of the MDCard
-        self.ids.card_mealPlan.size = (400, 350) 
 
     def reset(self): 
         self.user_name.text = "Name: "

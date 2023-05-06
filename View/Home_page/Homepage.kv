@@ -81,6 +81,14 @@
             on_release:
                 app.root.generateHelpPageScreen()
 
+    MDIconButton:
+        icon: "circle-edit-outline"
+        theme_icon_color: "Custom"
+        icon_color: app.theme_cls.primary_color
+        pos_hint: {"x": 0.95, "top": 1}
+
+        on_release:
+            root.confirmation_dialog()
 
     
     MDCard:
@@ -90,6 +98,7 @@
         padding: 5
         spacing: 5
         orientation: 'vertical'
+
 
         # CALORIE TRACKER
         MDLabel:
@@ -102,15 +111,9 @@
             padding_y: 5
 
         MDLabel:
-            id: cal_tracker
-            # text: f"{root.manager.progress_value}% Progress"
+            id: user_goal
+            text: ""
 
-        ProgressBar:
-            id: cal_tracker_bar
-            min: 0
-            max: 1
-            pos_hint: {'x': 0}
-            size_hint_x: 1
     
 
     FloatLayout:

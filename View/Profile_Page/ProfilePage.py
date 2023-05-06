@@ -4,15 +4,12 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.lang import Builder
 from kivy.uix.vkeyboard import VKeyboard
-from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from kivy.core.window import Window
 
 import sqlite3
+import math
 
-import os
 Builder.load_file("View\Profile_Page\ProfilePage.kv")
-
-
 
 
 class ProfilePage(Screen):
@@ -129,21 +126,19 @@ class ProfilePage(Screen):
                             track_goal = self.track_goal.text
                             activity_level = self.activity_level.text
 
-
-
                             # COMPUTE BMI
                             bmi = user_weight / ((user_height/100) ** 2)
                         
                             # check track goal:
-                            if track_goal == "Calories" or track_goal == "Default":                
+                            if track_goal == "Calories":                
                                 # COMPUTE TDEE 
-                                tdee = self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level)
+                                tdee = math.ceil(self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level))
                                 carbs_min = None
                                 carbs_max = None
                             else:
-                                tdee = self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level)
-                                carbs_min = (tdee * 0.45)/4
-                                carbs_max = (tdee * 0.65)/4
+                                tdee = math.ceil(self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level))
+                                carbs_min = math.ceil((tdee * 0.45)/4)
+                                carbs_max = math.ceil((tdee * 0.65)/4)
                         
                             # Connect to the database
                             conn = sqlite3.connect('user_database\\userDB.db')

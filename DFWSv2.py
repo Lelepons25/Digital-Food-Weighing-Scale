@@ -28,7 +28,6 @@ Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
     
-    progress_value = NumericProperty(0)
 
     def __init__(self, **kwargs):
         
@@ -73,6 +72,7 @@ class WindowManager(ScreenManager):
         self.ids.EditProfilePage.add_widget(self.EditProfilePage_widget)
         self.current = "EditProfilePage"
 
+
     def generateHelpPageScreen(self):
         if hasattr(self, 'HelpPage_widget'):
             self.ids.HelpPage.remove_widget(self.HelpPage_widget)
@@ -95,12 +95,16 @@ class WindowManager(ScreenManager):
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
         self.current = "CategoryPage"
     
+<<<<<<< HEAD
     def update_progress_value(self, value):
         self.progress_value = value
         
 
     def get_progress_value(self):
         return self.progress_value
+=======
+
+>>>>>>> 552b7debb58b6c84e8e8c1fb7c686b980f092802
 
 class DFWS(MDApp):
 
