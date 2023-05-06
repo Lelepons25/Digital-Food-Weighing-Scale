@@ -19,6 +19,7 @@
             text_color: "black"
             on_release:
                 root.enter_topButton("Save")
+
         
         # TARE
         MDRoundFlatIconButton:
@@ -48,7 +49,7 @@
 
             on_release:
                 app.root.generateEditProfilePageScreen()
-        
+
         # HISTORY
         MDRoundFlatIconButton:
             id: foodHistory
@@ -62,14 +63,40 @@
                 app.root.generateFoodHistoryPageScreen()
                 
 
+    MDCard:
+        size_hint: None, None
+        size: 50, 80
+        pos_hint: {'x': 0.65, 'top':0.96}
+        orientation: 'vertical'
+        
+        # HELP
+        MDFloatingActionButton:
+            id: help
+            icon: "help-circle"
+            pos_hint: {'center_x':0.5 , 'top':0.96}
+            md_bg_color: app.theme_cls.primary_color
+
+            on_release:
+                app.root.generateHelpPageScreen()
+
+    MDIconButton:
+        icon: "circle-edit-outline"
+        theme_icon_color: "Custom"
+        icon_color: app.theme_cls.primary_color
+        pos_hint: {"x": 0.95, "top": 1}
+
+        on_release:
+            root.confirmation_dialog()
+
     
     MDCard:
         size_hint: None, None
-        size: 270, 80
-        pos_hint: {'x': 0.65, 'top':0.96}
+        size: 200, 80
+        pos_hint: {'x': 0.72, 'top':0.96}
         padding: 5
         spacing: 5
         orientation: 'vertical'
+
 
         # CALORIE TRACKER
         MDLabel:
@@ -82,16 +109,9 @@
             padding_y: 5
 
         MDLabel:
-            id: cal_tracker
-            # text: f"{root.manager.progress_value}% Progress"
+            id: user_goal
+            text: ""
 
-        ProgressBar:
-            id: cal_tracker_bar
-            min: 0
-            max: 1
-            pos_hint: {'x': 0}
-            size_hint_x: 1
-        
 
 
     FloatLayout:
@@ -367,5 +387,6 @@
 
     
     MDRectangleFlatIconButton:
+        pos_hint: {"center_x": 0.94, "top": 0.08}
         on_release:
             app.root.generateHomePageScreen()

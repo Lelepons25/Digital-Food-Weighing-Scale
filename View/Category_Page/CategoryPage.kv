@@ -44,7 +44,7 @@
             text: 'Save'
             text_color: "black"
             on_release:
-                root.saveFood()
+                root.enter_topButton("Save")
 
         
         # TARE
@@ -103,10 +103,7 @@
             md_bg_color: app.theme_cls.primary_color
 
             on_release:
-                app.root.generateHelpPageScreen()
 
-
-    
     MDCard:
         size_hint: None, None
         size: 200, 80
@@ -114,6 +111,7 @@
         padding: 5
         spacing: 5
         orientation: 'vertical'
+
 
         # CALORIE TRACKER
         MDLabel:
@@ -126,16 +124,9 @@
             padding_y: 5
 
         MDLabel:
-            id: cal_tracker
-            # text: f"{root.manager.progress_value}% Progress"
+            id: user_goal
+            text: ""
 
-        ProgressBar:
-            id: cal_tracker_bar
-            min: 0
-            max: 1
-            pos_hint: {'x': 0}
-            size_hint_x: 1
-    
 ##############################################################
     # Fix Food List
 

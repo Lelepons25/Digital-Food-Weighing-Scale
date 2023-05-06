@@ -31,15 +31,9 @@ class CategoryPage(Screen):
         self.ids.foodList.clear_widgets()
         self.kCal = 0
         self.on_enter()
-        # Get a reference to the progress bar widget
-        self.progress_bar = self.ids.cal_tracker_bar
+
           
     def on_enter(self):
-        wm = self.manager
-        progress_value = wm.progress_value
-        self.displayProgressBar()
-
-        self.ids.cal_tracker.text = f"{progress_value}% Progress"
         self.food_buttons =[] 
         
         # Connect to the database
@@ -185,14 +179,6 @@ class CategoryPage(Screen):
 
             popupMessage("Food Saved!", food_intake)
 
-    def update_progress_label(self):
-        # Update the progress bar label text based on the total calories and the maximum value of the progress bar
-        progress_percent = int((self.total_calories / self.progress_bar.max) / 100)
-        self.ids.cal_tracker.text = f"{progress_percent}% Progress"
-        
-        wm = self.manager
-        wm.progress_value = progress_percent
-        wm.update_progress_value(progress_percent)
 
 
 def popupMessage(message, food_intake = None):

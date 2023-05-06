@@ -148,35 +148,11 @@
             on_release:
                 root.enter_foodExchange()
         
-        MDRectangleFlatButton:
-            id: user_foodHistory
-            size_hint: (1 , 0.3)
-            pos_hint: {'center_x':0.5 , 'center_y':0.3}
-            text: 'Food History'
-            text_color: "black"
-            line_color: "red"
-            on_release:
-                root.enter_userFoodHistory()
-        
             ##################################################################        
         MDCarousel:
             # List or Card of Meal Plans
             id: carousel
 
-        ScrollView:
-            size: 400, 350
-            pos_hint: {'center_x': 0.5}
-
-
-            GridLayout:
-                id: food_history
-                size_hint_y: None
-                height: self.minimum_height
-                width: 400
-                cols: 1
-                spacing: 10, 10
-                padding: 10, 10
- 
     # Back for the MDCard
     MDRectangleFlatIconButton:
         text: "Return"
