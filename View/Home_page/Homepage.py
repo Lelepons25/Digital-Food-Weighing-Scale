@@ -66,26 +66,45 @@ class Homepage(Screen):
 
 
     def on_enter(self):
-        conn = sqlite3.connect('user_database\\userDB.db')
+
+        totalIntake = 0
+        userIntake = 0 
+        conn = sqlite3.connect('user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
-        
+
+        connHistory = sqlite3.connect('mp_database/food_history.db')
+        cursorHistory = connHistory.cursor()
+        cursorHistory.execute("SELECT food_intake FROM food_history")
+        intakes = cursorHistory.fetchall()
+
+        for intake in intakes:
+            totalIntake += intake[0]
+
         if str(track_goal[0]) == "Calories":
             self.ids.tracker.text = "Calorie Intake Tracker"
             
             cursor.execute("SELECT tdee FROM user")
             tdee = cursor.fetchone()
 
-            self.ids.user_goal.text = f"{tdee[0]} Kcal - ="
+            userIntake = tdee[0] - totalIntake
+
+            # Computation
+            self.ids.user_goal.text = f"{tdee[0]} Kcal - {totalIntake} Kcal = {userIntake} remaining" 
+            self.ids.user_goal.font_size = 12
+
         elif str(track_goal[0]) == "Carbohydrates":
             self.ids.tracker.text = "Carbohydrates Intake Tracker"
 
             cursor.execute("SELECT carbs_min, carbs_max FROM user")
             carbs_min, carbs_max = cursor.fetchone()
-            self.ids.user_goal.text = f"[{carbs_min} g minimum - {carbs_max} g maximum] - ="
-        
 
+            userIntake = carbs_max - totalIntake
+            self.ids.user_goal.text = f"{carbs_max} g maximum - {totalIntake} g = {userIntake} remaining"
+
+        connHistory.commit()
+        connHistory.close()
         conn.commit()
         conn.close()
 
@@ -155,7 +174,6 @@ class Homepage(Screen):
             self.dialog.dismiss()
             self.manager.generateHomePageScreen()
 
-   
     def enter_topButton(self, button):
         if button == "Save":
             content = Label(text='Please choose which category \nand what food is being weighed.', halign='center')

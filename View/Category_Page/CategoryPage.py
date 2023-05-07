@@ -15,6 +15,7 @@ from datetime import datetime
 
 import re
 import time
+import math
 
 Builder.load_file('View\Category_Page\CategoryPage.kv')
 
@@ -53,25 +54,53 @@ class CategoryPage(Screen):
         # Close the database connection
         c.close()
 
+        self.displayProgressBar()
+
 
 
     
     def displayProgressBar(self):
 
-        # DISPLAY FOR PROGRESS BAR
-        conn = sqlite3.connect('user_database\\userDB.db')
+        totalIntake = 0
+        userIntake = 0 
+        conn = sqlite3.connect('user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
 
-        
-        if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
+        connHistory = sqlite3.connect('mp_database/food_history.db')
+        cursorHistory = connHistory.cursor()
+        cursorHistory.execute("SELECT food_intake FROM food_history")
+        intakes = cursorHistory.fetchall()
+
+        for intake in intakes:
+            totalIntake += intake[0]
+
+        if str(track_goal[0]) == "Calories":
             self.ids.tracker.text = "Calorie Intake Tracker"
+            
+            cursor.execute("SELECT tdee FROM user")
+            tdee = cursor.fetchone()
+
+            userIntake = tdee[0] - totalIntake
+
+            # Computation
+            self.ids.user_goal.text = f"{tdee[0]} Kcal - {totalIntake} Kcal = {userIntake} remaining" 
+            self.ids.user_goal.font_size = 12
+
         elif str(track_goal[0]) == "Carbohydrates":
             self.ids.tracker.text = "Carbohydrates Intake Tracker"
 
-        conn.close()
+            cursor.execute("SELECT carbs_min, carbs_max FROM user")
+            carbs_min, carbs_max = cursor.fetchone()
 
+            userIntake = carbs_max - totalIntake
+            self.ids.user_goal.text = f"{carbs_max} g maximum - {totalIntake} g = {userIntake} remaining"
+
+        connHistory.commit()
+        connHistory.close()
+        conn.commit()
+        conn.close()
 
 
     def displayFoodValues(self, instance, row_data):
@@ -122,8 +151,8 @@ class CategoryPage(Screen):
          
         weight_input = self.ids.weight_input.text
         weight_input = float(weight_input)
-        tracker_text = self.ids.tracker.text
-        edible_text = self.ids.food_edible.text
+        tracker_text = self.ids.tracker.text  # Title of the tracker
+        edible_text = self.ids.food_edible.text # Edible Portion
 
         # Check which to track/save
         if tracker_text == "Calorie Intake Tracker":
@@ -140,19 +169,19 @@ class CategoryPage(Screen):
 
             edible_text = edible_text.strip()
             edible_text = ''.join(filter(str.isdigit, edible_text))
-
-
+        
         if not track_text and not edible_text:
             popupMessage("No food has been selected.")
         elif weight_input == '0':
             popupMessage("No weight has been detected.")
         else:
+            
             track_text = float(track_text)
             edible_text = float(edible_text)
 
             # COMPUTATION
             weight_ep = (edible_text / 100) * weight_input
-            food_intake = (track_text / 100) * weight_ep
+            food_intake = math.ceil((track_text / 100) * weight_ep)
             
             # GET the current time and date
             current_time = datetime.now().strftime('%H:%M:%S')
@@ -162,10 +191,10 @@ class CategoryPage(Screen):
             cursor = conn.cursor()
 
 
- 
+
             cursor.execute('''CREATE TABLE IF NOT EXISTS food_history (foodId TEXT, 
                                                             foodName TEXT, 
-                                                            food_intake TEXT, 
+                                                            food_intake INTEGER, 
                                                             current_time TEXT, 
                                                             current_date TEXT)''')
 
@@ -176,6 +205,7 @@ class CategoryPage(Screen):
             conn.close()
 
             popupMessage("Food Saved!", food_intake)
+            self.displayProgressBar()
 
 
 

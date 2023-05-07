@@ -161,6 +161,13 @@ class ProfilePage(Screen):
                                 conn.close()
                                 self.manager.generateEditProfilePageScreen()
 
+                                # Delete the food history
+                                conn = sqlite3.connect('mp_database\\food_history.db')
+                                cursor = conn.cursor()
+                                cursor.execute("DELETE FROM food_history")
+                                conn.commit()
+                                conn.close()
+                                
                         else: 
                             invalidForm("Input height in cm raging from 50 - 300")
                     else:
