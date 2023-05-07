@@ -95,16 +95,6 @@ class WindowManager(ScreenManager):
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
         self.current = "CategoryPage"
     
-<<<<<<< HEAD
-    def update_progress_value(self, value):
-        self.progress_value = value
-        
-
-    def get_progress_value(self):
-        return self.progress_value
-=======
-
->>>>>>> 552b7debb58b6c84e8e8c1fb7c686b980f092802
 
 class DFWS(MDApp):
 

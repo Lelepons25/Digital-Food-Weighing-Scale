@@ -31,11 +31,6 @@ class CategoryPage(Screen):
         self.ids.foodList.clear_widgets()
         self.kCal = 0
         self.on_enter()
-<<<<<<< HEAD
-        self.progress_bar = self.ids.cal_tracker_bar
-=======
-
->>>>>>> 552b7debb58b6c84e8e8c1fb7c686b980f092802
           
     def on_enter(self):
         self.food_buttons =[] 
