@@ -1,38 +1,124 @@
 <HelpPage>
 
     MDCard:
+        id: titleHelp_card
         size_hint: None, None
         size: 150, 50
-        pos_hint: {'x': 0.04, 'top':0.96}
+        pos_hint: {'center_x': 0.5, 'top':0.96}
 
         MDLabel:
             text: "Help"
             bold: True
             font_size: 20
-            halign: 'left'
+            halign: 'center'
             padding_y: 5
-        
+
+    MDCard:
+        id: titleGs_card
+        size_hint: None, None
+        size: 150, 30
+        pos_hint: {'x': 0.04, 'top':0.87}
+
+        MDLabel:
+            text: "Getting Started"
+            bold: True
+            font_size: 14
+            halign: 'center'
+            padding_y: 5
     
     MDCard:
+        id: gs_card
         size_hint: None, None
-        size: 250, 300
+        size: 330, 300
         pos_hint: {'x': 0.04, 'top':0.8}
         elevation: 1
         padding: 10
         spacing: 10
         orientation: 'vertical'
                 
+        ScrollView:
+            size: 300, 300
+
+            GridLayout:
+                id: gs_list
+                size_hint_y: None
+                height: self.minimum_height
+                width: 200
+                cols: 1
+                spacing: 10, 10
+                padding: 10, 10
+
+    MDCard:
+        id: titleGoal_card
+        size_hint: None, None
+        size: 280, 30
+        pos_hint: {'x': 0.5, 'top':0.87}
+
         MDLabel:
-            text: "Getting Started"
+            text: "Goal Setting and Progress Tracking"
             bold: True
             font_size: 14
-            halign: 'left'
+            halign: 'center'
             padding_y: 5
 
+    MDCard:
+        id: goal_card
+        size_hint: None, None
+        size: 330, 120
+        pos_hint: {'x': 0.5, 'top':0.8}
+        elevation: 1
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+                
         ScrollView:
-            size: 400, 350
-            pos_hint: {'center_x': 0.5}
-    
+            size: 300, 300
+
+            GridLayout:
+                id: goalSetting_list
+                size_hint_y: None
+                height: self.minimum_height
+                width: 200
+                cols: 1
+                spacing: 10, 10
+                padding: 10, 10
+
+    MDCard:
+        id: titleFood_card
+        size_hint: None, None
+        size: 280, 30
+        pos_hint: {'x': 0.5, 'top':0.47}
+
+        MDLabel:
+            text: "Food History and Food Database"
+            bold: True
+            font_size: 14
+            halign: 'center'
+            padding_y: 5  
+
+    MDCard:
+        id: food_card
+        size_hint: None, None
+        size: 330, 120
+        pos_hint: {'x': 0.5, 'top':0.4}
+        elevation: 1
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+
+
+        ScrollView:
+            size: 300, 300
+
+            GridLayout:
+                id: foodHistory_list
+                size_hint_y: None
+                height: self.minimum_height
+                width: 200
+                cols: 1
+                spacing: 10, 10
+                padding: 10, 10
+
 
 
 

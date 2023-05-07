@@ -3,9 +3,9 @@ from kivy.config import Config
 # you can use 0 or 1 && True or False
 Config.set('graphics', 'resizable', '0')
 # fix the width of the window   
-Config.set('graphics', 'width', '860')
+Config.set('graphics', 'width', '800')
 # fix the height of the window
-Config.set('graphics', 'height', '480')
+Config.set('graphics', 'height', '420')
 
 import os
 from kivymd.app import MDApp
@@ -21,6 +21,7 @@ from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from View.More_Page.MorePage import MorePage
 from View.Help_Page.HelpPage import HelpPage
 from View.FoodHistory_Page.FoodHistoryPage import FoodHistoryPage
+
 
 import sqlite3
 
@@ -80,6 +81,7 @@ class WindowManager(ScreenManager):
         self.ids.HelpPage.add_widget(self.HelpPage_widget)
         self.current = "HelpPage"
     
+    
     def generateFoodHistoryPageScreen(self):
         if hasattr(self, 'FoodHistoryPage_widget'):
             self.ids.FoodHistoryPage.remove_widget(self.FoodHistoryPage_widget)
@@ -95,17 +97,6 @@ class WindowManager(ScreenManager):
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
         self.current = "CategoryPage"
     
-<<<<<<< HEAD
-    def update_progress_value(self, value):
-        self.progress_value = value
-        
-
-    def get_progress_value(self):
-        return self.progress_value
-=======
-
->>>>>>> 552b7debb58b6c84e8e8c1fb7c686b980f092802
-
 class DFWS(MDApp):
 
     def on_start(self):

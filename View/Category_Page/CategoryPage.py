@@ -31,12 +31,7 @@ class CategoryPage(Screen):
         self.ids.foodList.clear_widgets()
         self.kCal = 0
         self.on_enter()
-<<<<<<< HEAD
-        self.progress_bar = self.ids.cal_tracker_bar
-=======
 
->>>>>>> 552b7debb58b6c84e8e8c1fb7c686b980f092802
-          
     def on_enter(self):
         self.food_buttons =[] 
         conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
@@ -51,7 +46,7 @@ class CategoryPage(Screen):
         
         # Add the buttons to the screen
         for record in self.records:
-            food = MDRectangleFlatButton(text=str(record[0]), size_hint = (1, 0.3), height='50dp', text_color = "black", line_color = "blue")
+            food = MDRectangleFlatButton(text=str(record[0]), size_hint = (1, 0.1), height='40dp', text_color = "black", line_color = "blue")
             food.bind(on_press=lambda instance, record=record: self.displayFoodValues(instance, record))
             self.ids.foodList.add_widget(food)
             self.food_buttons.append(food)
