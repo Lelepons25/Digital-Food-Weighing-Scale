@@ -35,7 +35,7 @@ class CategoryPage(Screen):
 
     def on_enter(self):
         self.food_buttons =[] 
-        conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
+        conn = sqlite3.connect(f'food_category/{self.databaseName}.db')
         c = conn.cursor()
         # Fetch the data from the database
         c.execute(f"SELECT foodName FROM Products")
@@ -115,7 +115,7 @@ class CategoryPage(Screen):
         self.ids.food_calcium.text = ""
         self.ids.food_iron.text = ""
         offset = self.records.index(row_data)
-        conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
+        conn = sqlite3.connect(f'food_category/{self.databaseName}.db')
         c = conn.cursor()
         c.execute(f"SELECT * FROM Products LIMIT 1 OFFSET {offset}")
         record = c.fetchone()
