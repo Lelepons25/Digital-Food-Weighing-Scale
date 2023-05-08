@@ -20,7 +20,7 @@ class Homepage(Screen):
     
     def __init__(self, manager, **kwargs):
         super().__init__(**kwargs)
-        self.ids.weight_input.text = "9"
+        self.ids.weight_input.text = "54"
         self.manager = manager
         self.on_enter()
 

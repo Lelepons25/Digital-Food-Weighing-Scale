@@ -34,7 +34,7 @@ class WindowManager(ScreenManager):
         
         super().__init__(**kwargs)
 
-        conn = sqlite3.connect('user_database\\userDB.db')
+        conn = sqlite3.connect('user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT COUNT(*) FROM user")
         count = cursor.fetchone()
