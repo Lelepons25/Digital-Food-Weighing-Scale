@@ -109,6 +109,39 @@ class Homepage(Screen):
         conn.close()
 
 
+    def confirmation_resetDialog(self):
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title = "Reset your food intake?",
+                text = "This will also delete the history of your food intake. Are you sure?",
+                type = "custom",
+                buttons=[
+                    MDFlatButton(
+                        text = "CANCEL",
+                        theme_text_color="Custom",
+                        on_release=self.cancel_dialog,
+                    ),
+                    MDFlatButton(
+                        text = "RESET",
+                        theme_text_color="Custom",
+                        on_release=self.reset_dialog,
+                    ),
+                ]
+            )
+        self.dialog.open()
+
+    def reset_dialog(self, instance):
+       
+        conn = sqlite3.connect('mp_database/food_history.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM food_history")
+        conn.commit()
+        conn.close()
+
+        self.dialog.dismiss()
+        popupResetMessage("Your food intake has been reset!")
+        self.manager.generateHomePageScreen()
+
     # customize the goal based on the tracker selected
     def confirmation_dialog(self):
         # set the dialog title based on the tracker selected
@@ -146,7 +179,7 @@ class Homepage(Screen):
     def cancel_dialog(self, instance):
         self.dialog.dismiss()
 
-    # save the custom goal in the database
+    
     def save_custom_goal(self, instance):
         goal = self.input_goalText.text
 
@@ -180,16 +213,23 @@ class Homepage(Screen):
             popup = Popup(title='Error', content=content, size_hint=(None, None), size=(400, 200))
             popup.open()
             return
-        elif button == "Clear":
-            print("Clear")
+        elif button == "Tare":
+            self.ids.weight_input.text = "0"
 
 def popupMessage(message):
     pop = Popup(title = " Invalid Form ",
         content = Label (text = message),
         size_hint = (None, None),
-        size = (400, 400)
+        size = (300, 300)
     )
     pop.open()
 
+def popupResetMessage(message):
+    pop = Popup(title = " Success ",
+        content = Label (text = message),
+        size_hint = (None, None),
+        size = (300, 300)
+    )
+    pop.open()
 
 
