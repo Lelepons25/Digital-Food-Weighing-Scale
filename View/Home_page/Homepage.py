@@ -37,7 +37,19 @@ class Homepage(Screen):
 
 
     def on_enter(self):
+                # CHECK if there are tables
+        conn = sqlite3.connect('mp_database/food_history.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cursor.fetchall()
+
+        # Check if the tables == 7
+        if len(tables) == 7:
+            self.deleteHistory()
+
         self.tracker()
+
+        conn.close()
 
 
     def tracker(self):
@@ -73,7 +85,6 @@ class Homepage(Screen):
         # CHECK if there are tables
         cursorHistory.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = cursorHistory.fetchall()
-        print(tables)
 
         if not tables:
             # There are no tables in the food_history database.
@@ -94,6 +105,7 @@ class Homepage(Screen):
                 computeIntake = 0
                 userIntake = 0
                 cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
+
             else:
                 cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
                 intakes = cursorHistory.fetchall()
@@ -111,6 +123,19 @@ class Homepage(Screen):
         connHistory.close()
         conn.commit()
         conn.close()
+    
+    def deleteHistory(self):
+        conn = sqlite3.connect('mp_database/food_history.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cursor.fetchall()
+
+        for table in tables:
+            cursor.execute(f"DROP TABLE {table[0]}")
+
+        conn.commit()
+        conn.close()
+        popupNotice()
 
 
     def confirmation_resetDialog(self):
@@ -145,6 +170,7 @@ class Homepage(Screen):
         self.dialog.dismiss()
         popupResetMessage("Your food intake has been reset!")
         self.manager.generateHomePageScreen()
+    
 
     # customize the goal based on the tracker selected
     def confirmation_dialog(self):
@@ -183,7 +209,6 @@ class Homepage(Screen):
     def cancel_dialog(self, instance):
         self.dialog.dismiss()
 
-    
     def save_custom_goal(self, instance):
         goal = self.input_goalText.text
 
@@ -263,6 +288,13 @@ def popupMessage(message):
     )
     pop.open()
 
+def popupNotice():
+    pop = Popup(title = " Notice ",
+        content = Label (text = "Your food intake goal has been reset! \n You can now start tracking your food intake."),
+        size_hint = (None, None),
+        size = (300, 300)
+    )
+    pop.open()
 def popupResetMessage(message):
     pop = Popup(title = " Success ",
         content = Label (text = message),

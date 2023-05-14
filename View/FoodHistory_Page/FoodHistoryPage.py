@@ -35,7 +35,6 @@ class FoodHistoryPage(Screen):
 
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = cursor.fetchall()
-        print(tables)
 
         self.day_buttons = []
         if not tables:
@@ -43,7 +42,6 @@ class FoodHistoryPage(Screen):
             self.ids.food_history.add_widget(label)
         else:
             table_count = len(tables)
-            print(table_count)
 
             for i in range(table_count):
                 dayButtons = MDFlatButton( id = f"day{i}",
@@ -58,7 +56,6 @@ class FoodHistoryPage(Screen):
         conn.close()
 
     def display_FoodValues(self, instance, table_count):
-        print(f"Button {table_count} pressed")
 
         for dayButtons in self.day_buttons:
             self.ids.food_history.remove_widget(dayButtons)
@@ -111,8 +108,6 @@ class FoodHistoryPage(Screen):
         conn.close()
     
     def delete_history(self, foodId, table_name):
-        print(table_name)
-        print(foodId)
         conn = sqlite3.connect("mp_database/food_history.db")
         cursor = conn.cursor()
         cursor.execute(f"DELETE FROM {table_name} WHERE foodId = ?", (str(foodId),))
