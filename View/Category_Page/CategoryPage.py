@@ -12,7 +12,7 @@ from kivy.properties import StringProperty, NumericProperty
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
 from datetime import datetime
-
+import psycopg2
 import re
 import time
 import math
@@ -218,7 +218,6 @@ class CategoryPage(Screen):
             # GET the current time and date
             current_time = datetime.now().strftime('%H:%M:%S')
             current_date = datetime.now().strftime('%Y%m%d')
-            print("current_date", current_date)
 
             conn = sqlite3.connect('mp_database\\food_history.db')
             cursor = conn.cursor()
@@ -227,7 +226,6 @@ class CategoryPage(Screen):
             # check if the first table from food_history if it is empty
             cursor.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='table'")
             table_count = cursor.fetchone()[0]
-            print(table_count)
 
             if table_count < 8:
                 if table_count == 0:
@@ -247,9 +245,6 @@ class CategoryPage(Screen):
                     records = cursor.fetchall()
                     previous_date = records[-1]
                     prev = int(previous_date[4])
-
-                    print("previous_date", prev)
-                    print("current_date", int(current_date))
 
                     if int(current_date) == int(prev):
                         # Insert new record
@@ -274,7 +269,6 @@ class CategoryPage(Screen):
                 self.displayProgressBar()
             else:
                 popupMessage("The database is full.")
-                # DELETE the tables
 
 
 def popupMessage(message, food_intake = None):

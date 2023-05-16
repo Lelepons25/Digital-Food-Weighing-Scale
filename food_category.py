@@ -6,11 +6,11 @@ conn = sqlite3.connect("food_category\\nuts.db")
 
 conn.execute('''
     CREATE TABLE IF NOT EXISTS Products (
-        food_ID CHAR(100), foodName CHAR(100), altName CHAR(100), edible INTEGER NOT NULL,
-        water INTEGER NOT NULL, kCal REAL, protein INTEGER NOT NULL, fat INTEGER NOT NULL,
-        carbo INTEGER NOT NULL, ash INTEGER NOT NULL, fiber INTEGER NOT NULL, 
-        sugar INTEGER NOT NULL, calcium INTEGER NOT NULL, phos INTEGER NOT NULL, iron INTEGER NOT NULL,
-        potassium INTEGER NOT NULL, sodium INTEGER NOT NULL, zinc INTEGER NOT NULL);''')
+        food_ID text, foodName text, altName text, edible text,
+        water text, kCal REAL, protein text, fat text,
+        carbo text, ash text, fiber text, 
+        sugar text, calcium text, phos text, iron text,
+        potassium text, sodium text, zinc text);''')
 conn.execute("INSERT INTO Products (food_ID,foodName,altName,edible,water,kCal,protein,fat,carbo,ash,fiber,sugar,calcium,phos,iron,potassium,sodium,zinc) VALUES ('C002','Cashew nut, roasted','Kasuy, binusa',85,6.2,603,19.2,47.4,24.8,2.4,2.9,4.8,37,441,3.3,0,15,0)");
 conn.execute("INSERT into Products (food_ID,foodName,altName,edible,water,kCal,protein,fat,carbo,ash,fiber,sugar,calcium,phos,iron,potassium,sodium,zinc) VALUES ('C003','Chestnut, roasted','Kastanyas, binusa',75,36.3,256,5,1.2,56.4,1.1,5.5,11.3,29,80,1.3,0,5,0)");
 conn.execute("INSERT into Products (food_ID,foodName,altName,edible,water,kCal,protein,fat,carbo,ash,fiber,sugar,calcium,phos,iron,potassium,sodium,zinc) VALUES ('C004','Chickpea, dried','Garbansos/Garbanzo, tuyo',100,10.4,377,19.2,6.2,61.2,3,11.8,10.4,129,303,3.4,0,7,0)");

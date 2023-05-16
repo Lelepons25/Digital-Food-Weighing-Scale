@@ -24,10 +24,8 @@ class Homepage(Screen):
     
     def __init__(self, manager, **kwargs):
         super().__init__(**kwargs)
-
-        self.now_date = datetime.date.today().strftime("%Y%m%d")
-        self.ids.weight_input.text = "54"
         self.manager = manager
+
         self.on_enter()
 
         self.input_goalText = MDTextField(
@@ -37,28 +35,8 @@ class Homepage(Screen):
 
 
     def on_enter(self):
-                # CHECK if there are tables
-        conn = sqlite3.connect('mp_database/food_history.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = cursor.fetchall()
-
-        # Check if the tables == 7
-        if len(tables) == 7:
-            self.deleteHistory()
-
-        self.tracker()
-
-        conn.close()
-
-
-    def tracker(self):
-
-        computeIntake = 0
-        userIntake = 0
-
-
-        conn = sqlite3.connect('user_database/userDB.db')
+    
+        conn = sqlite3.connect('user_database\\userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
