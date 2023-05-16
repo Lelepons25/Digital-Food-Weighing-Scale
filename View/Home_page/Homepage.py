@@ -24,8 +24,10 @@ class Homepage(Screen):
     
     def __init__(self, manager, **kwargs):
         super().__init__(**kwargs)
-        self.manager = manager
 
+        self.now_date = datetime.date.today().strftime("%Y%m%d")
+        self.ids.weight_input.text = "54"
+        self.manager = manager
         self.on_enter()
 
         self.input_goalText = MDTextField(
@@ -35,8 +37,16 @@ class Homepage(Screen):
 
 
     def on_enter(self):
-    
-        conn = sqlite3.connect('user_database\\userDB.db')
+        self.tracker()
+
+
+    def tracker(self):
+
+        computeIntake = 0
+        userIntake = 0
+
+
+        conn = sqlite3.connect('user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
@@ -63,6 +73,7 @@ class Homepage(Screen):
         # CHECK if there are tables
         cursorHistory.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = cursorHistory.fetchall()
+        print(tables)
 
         if not tables:
             # There are no tables in the food_history database.
@@ -76,23 +87,28 @@ class Homepage(Screen):
             # Compare Dates
             cursorHistory.execute(f"SELECT * FROM {table_name}")
             records = cursorHistory.fetchall()
-            previous_date = records[-1]
-            prev = int(previous_date[4])
 
-            if int(self.now_date) > prev:
+            # Check if it is empty
+            if not records:
                 computeIntake = 0
                 userIntake = 0
-                cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
-
             else:
-                cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
-                intakes = cursorHistory.fetchall()
+                previous_date = records[-1]
+                prev = int(previous_date[4])
 
-                ########### COMPUTATION
-                computeIntake = sum([intake[0] for intake in intakes])
-                userIntake = goal - computeIntake   
-                cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
-            
+                if int(self.now_date) > prev:
+                    computeIntake = 0
+                    userIntake = 0
+                    cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
+                else:
+                    cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
+                    intakes = cursorHistory.fetchall()
+
+                    ########### COMPUTATION
+                    computeIntake = sum([intake[0] for intake in intakes])
+                    userIntake = goal - computeIntake   
+                    cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
+                
         
         self.ids.user_goal.text = f"{goal} goal - {computeIntake} intake = {userIntake} remaining"
         self.ids.user_goal.font_size = 12
@@ -101,6 +117,7 @@ class Homepage(Screen):
         connHistory.close()
         conn.commit()
         conn.close()
+
     
     def deleteHistory(self):
         conn = sqlite3.connect('mp_database/food_history.db')
@@ -150,6 +167,11 @@ class Homepage(Screen):
 
         if not tables:
             popupMessage("You have no food intake to reset!")
+        elif len(tables) == 1:
+            table_count = len(tables)
+            table_name = f"food_history_{table_count}"
+            cursor.execute(f"DELETE FROM {table_name}")
+            popupResetMessage("Your food intake has been reset!")
         else:
             # Access the latest table
             table_count = len(tables)-1
