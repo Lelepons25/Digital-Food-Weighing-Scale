@@ -20,8 +20,8 @@ class Homepage(Screen):
     
     def __init__(self, manager, **kwargs):
         super().__init__(**kwargs)
-        self.ids.weight_input.text = "9"
         self.manager = manager
+
         self.on_enter()
 
         self.input_goalText = MDTextField(
@@ -66,6 +66,7 @@ class Homepage(Screen):
 
 
     def on_enter(self):
+    
         conn = sqlite3.connect('user_database\\userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")

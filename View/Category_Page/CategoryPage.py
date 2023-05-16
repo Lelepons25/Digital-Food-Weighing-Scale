@@ -12,7 +12,8 @@ from kivy.properties import StringProperty, NumericProperty
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
 from datetime import datetime
-
+import pyodbc
+import psycopg2
 import re
 import time
 
@@ -20,8 +21,6 @@ Builder.load_file('View\Category_Page\CategoryPage.kv')
 
 
 class CategoryPage(Screen):
-    foodList = ObjectProperty(None)
-    total_calories = NumericProperty(0)
     
     def __init__(self , databaseName, manager = None, **kwargs):
         super(CategoryPage, self).__init__(**kwargs)
@@ -34,11 +33,19 @@ class CategoryPage(Screen):
 
     def on_enter(self):
         self.food_buttons =[] 
+
+        #conn = psycopg2.connect(host = "localhost",  dbname = "postgres", user = "postgres", password = "dfws04", port = 5432)
+
         conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
-        c = conn.cursor()
+        
+        #conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
+        cursor = conn.cursor()
         # Fetch the data from the database
-        c.execute(f"SELECT foodName FROM Products")
-        self.records = c.fetchall()
+        #update_query = "UPDATE oil SET foodName = TRIM(foodName);"
+        #cursor.execute(update_query)
+        cursor.execute(f"SELECT foodName FROM Products")
+        self.records = cursor.fetchall()
+        print(self.records)
 
         self.data = []
         for record in self.records:
@@ -51,7 +58,8 @@ class CategoryPage(Screen):
             self.ids.foodList.add_widget(food)
             self.food_buttons.append(food)
         # Close the database connection
-        c.close()
+        cursor.close()
+        conn.close()
 
 
 
@@ -103,8 +111,8 @@ class CategoryPage(Screen):
         calcium = record[12]
         iron = record[14]
 
-        self.ids.food_edible.text = f"Edible Portion                 {str(ep)}%"
-        self.ids.food_calories.text = f"Calories                    {str(self.kCal)}"
+        self.ids.food_edible.text = f"Edible Portion          {str(ep)}%"
+        self.ids.food_calories.text = f"Calories                     {str(self.kCal)}"
         self.ids.food_fat.text = f"Total Fat (g)              {str(tFat)}"
         self.ids.food_choles.text =  f"Cholesterol (mg)      {str(chole)}"
         self.ids.food_sodium.text =  f"Sodium (mg)             {str(sodium)}"
@@ -112,6 +120,7 @@ class CategoryPage(Screen):
         self.ids.food_protein.text =  f"Protein (g)                 {str(protein)}"
         self.ids.food_calcium.text =  f"Calcium (mg)            {str(calcium)}"
         self.ids.food_iron.text = f"Iron (mg)                    {str(iron)}"
+
         c.close()
     
     def reset(self):

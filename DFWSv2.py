@@ -28,7 +28,7 @@ import sqlite3
 Builder.load_file("dfwsv2.kv")
 
 class WindowManager(ScreenManager):
-    
+    weight_text = StringProperty("0")
 
     def __init__(self, **kwargs):
         
@@ -103,7 +103,8 @@ class DFWS(MDApp):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
 
-    def build(self):      
+    def build(self):     
+    
         return WindowManager()
     
     
