@@ -125,6 +125,7 @@ class ProfilePage(Screen):
                             user_height = float(self.user_height.text)
                             track_goal = self.track_goal.text
                             activity_level = self.activity_level.text
+                            totalIntake = None
 
                             # COMPUTE BMI
                             bmi = user_weight / ((user_height/100) ** 2)
@@ -141,7 +142,7 @@ class ProfilePage(Screen):
                                 carbs_max = math.ceil((tdee * 0.65)/4)
                         
                             # Connect to the database
-                            conn = sqlite3.connect('user_database\\userDB.db')
+                            conn = sqlite3.connect('user_database/userDB.db')
                             cursor = conn.cursor()
 
                             # Check if the database is empty
@@ -150,17 +151,24 @@ class ProfilePage(Screen):
 
                             if result[0] == 0:
                                 # User does not exist, insert new row
-                                cursor.execute("INSERT INTO user (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max))
+                                cursor.execute("INSERT INTO user (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max, totalIntake) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max, totalIntake))
                                 conn.commit()
                                 conn.close()    
                                 self.manager.generateHomePageScreen()
                             else:
                                 # User exists, update existing row
-                                cursor.execute("UPDATE user SET user_name=?, sex=?, age=?, user_weight=?, user_height=?, track_goal=?, activity_level=?, bmi=?, tdee=?, carbs_min=?, carbs_max=?", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max))
+                                cursor.execute("UPDATE user SET user_name=?, sex=?, age=?, user_weight=?, user_height=?, track_goal=?, activity_level=?, bmi=?, tdee=?, carbs_min=?, carbs_max=?, totalIntake=?", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max, totalIntake))
                                 conn.commit()
                                 conn.close()
                                 self.manager.generateEditProfilePageScreen()
 
+                                # Delete the food history
+                                conn = sqlite3.connect('mp_database/food_history.db')
+                                cursor = conn.cursor()
+                                cursor.execute("DELETE FROM food_history")
+                                conn.commit()
+                                conn.close()
+                                
                         else: 
                             invalidForm("Input height in cm raging from 50 - 300")
                     else:

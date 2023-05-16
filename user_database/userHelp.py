@@ -52,7 +52,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS help_foodHistory
 
 conn.execute("INSERT INTO help_foodHistory(quesID, question, answer) VALUES ('C001','Where does the Digital Food Weighing Scale obtain the nutritional data for the food items?','The information provided is based on the Philppine Food Composition Tables Online Database (PhilFCT) containing over 1500 commonly consumed food items in the Philippines')")
 conn.execute("INSERT INTO help_foodHistory(quesID, question, answer) VALUES ('C002','How do I figure out the nutritional facts of the food that I weighed?','Find the food amongst the food categories to where the weighed food belongs and once found, click the food and the nutritional information will appear.')")
-conn.execute("INSERT INTO help_foodHistory(quesID, question, answer) VALUES ('C003','How can I select a food that I weighed and save it my food history.','You just choose among the 17 food categories of foods to which the weighed food belongs and find it there. Once you found the food, click it and the nutritional facts will be displayed then afterwards click save.')")
+conn.execute("INSERT INTO help_foodHistory(quesID, question, answer) VALUES ('C003','How can I select a food that I weighed and save it my food history?','You just choose among the 17 food categories of foods to which the weighed food belongs and find it there. Once you found the food, click it and the nutritional facts will be displayed then afterwards click save.')")
 
 
 # commit the changes and close the connection

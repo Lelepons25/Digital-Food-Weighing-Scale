@@ -31,6 +31,8 @@
             pos_hint: {'center_x':0.5 , 'center_y':0.5}
             text: 'Tare'
             text_color: "black"
+            on_release:
+                root.enter_topButton("Tare")
         
     MDCard:
         size_hint: None, None
@@ -89,6 +91,15 @@
 
         on_release:
             root.confirmation_dialog()
+    
+    MDIconButton:
+        icon: "undo"
+        theme_icon_color: "Custom"
+        icon_color: app.theme_cls.primary_color
+        pos_hint: {"x": 0.95, "top": 0.94}
+
+        on_release:
+            root.confirmation_resetDialog()
 
     
     MDCard:

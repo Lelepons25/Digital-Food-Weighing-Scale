@@ -16,15 +16,23 @@ import pyodbc
 import psycopg2
 import re
 import time
+import math
 
 Builder.load_file('View\Category_Page\CategoryPage.kv')
 
 
 class CategoryPage(Screen):
+<<<<<<< HEAD
+=======
+    # now_date = StringProperty()
+    foodList = ObjectProperty(None)
+    total_calories = NumericProperty(0)
+>>>>>>> 55db3167965b839ca6bb41fa6f0b0be77e2ffde2
     
     def __init__(self , databaseName, manager = None, **kwargs):
         super(CategoryPage, self).__init__(**kwargs)
         self.manager = manager
+        # self.now_date = kwargs['now_date']
         self.ids.weight_input.text = "54"
         self.databaseName = databaseName
         self.ids.foodList.clear_widgets()
@@ -61,25 +69,83 @@ class CategoryPage(Screen):
         cursor.close()
         conn.close()
 
+        self.displayProgressBar()
+
 
 
     
     def displayProgressBar(self):
 
-        # DISPLAY FOR PROGRESS BAR
-        conn = sqlite3.connect('user_database\\userDB.db')
+        computeIntake = 0
+        userIntake = 0
+
+
+        conn = sqlite3.connect('user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
 
-        
-        if str(track_goal[0]) == "Calories" or str(track_goal[0]) == "Default":
-            self.ids.tracker.text = "Calorie Intake Tracker"
+        #########  DISPLAY
+        if str(track_goal[0]) == "Calories":
+                self.ids.tracker.text = "Calorie Intake Tracker"
+                cursor.execute("SELECT tdee FROM user")
+                tdee = cursor.fetchone()
+                goal = tdee[0]
+
         elif str(track_goal[0]) == "Carbohydrates":
-            self.ids.tracker.text = "Carbohydrates Intake Tracker"
+                self.ids.tracker.text = "Carbohydrates Intake Tracker"
+                cursor.execute("SELECT carbs_min FROM user")
+                carbs_min = cursor.fetchone()
+                goal = carbs_min
+    
+        #########
+        
+        connHistory = sqlite3.connect('mp_database/food_history.db')
+        cursorHistory = connHistory.cursor()
 
+
+        # CHECK if there are tables
+        cursorHistory.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cursorHistory.fetchall()
+        print(tables)
+
+        if not tables:
+            # There are no tables in the food_history database.
+            computeIntake = 0
+            userIntake = 0
+        else:
+            # Access the latest table
+            table_count = len(tables)-1
+            table_name = f"food_history_{table_count}"
+
+            # Compare Dates
+            cursorHistory.execute(f"SELECT * FROM {table_name}")
+            records = cursorHistory.fetchall()
+            previous_date = records[-1]
+            prev = int(previous_date[4])
+
+            '''if int(self.now_date) > prev:
+                computeIntake = 0
+                userIntake = 0
+                cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
+            else:'''
+            
+            cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
+            intakes = cursorHistory.fetchall()
+
+            ########### COMPUTATION
+            computeIntake = sum([intake[0] for intake in intakes])
+            userIntake = goal - computeIntake   
+            cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
+            
+        
+        self.ids.user_goal.text = f"{goal} goal - {computeIntake} intake = {userIntake} remaining"
+        self.ids.user_goal.font_size = 12
+
+        connHistory.commit()
+        connHistory.close()
+        conn.commit()
         conn.close()
-
 
 
     def displayFoodValues(self, instance, row_data):
@@ -94,7 +160,7 @@ class CategoryPage(Screen):
         self.ids.food_calcium.text = ""
         self.ids.food_iron.text = ""
         offset = self.records.index(row_data)
-        conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
+        conn = sqlite3.connect(f'food_category/{self.databaseName}.db')
         c = conn.cursor()
         c.execute(f"SELECT * FROM Products LIMIT 1 OFFSET {offset}")
         record = c.fetchone()
@@ -131,8 +197,8 @@ class CategoryPage(Screen):
          
         weight_input = self.ids.weight_input.text
         weight_input = float(weight_input)
-        tracker_text = self.ids.tracker.text
-        edible_text = self.ids.food_edible.text
+        tracker_text = self.ids.tracker.text  # Title of the tracker
+        edible_text = self.ids.food_edible.text # Edible Portion
 
         # Check which to track/save
         if tracker_text == "Calorie Intake Tracker":
@@ -149,43 +215,80 @@ class CategoryPage(Screen):
 
             edible_text = edible_text.strip()
             edible_text = ''.join(filter(str.isdigit, edible_text))
-
-
+        
         if not track_text and not edible_text:
             popupMessage("No food has been selected.")
         elif weight_input == '0':
             popupMessage("No weight has been detected.")
         else:
+            
             track_text = float(track_text)
             edible_text = float(edible_text)
 
             # COMPUTATION
             weight_ep = (edible_text / 100) * weight_input
-            food_intake = (track_text / 100) * weight_ep
+            food_intake = math.ceil((track_text / 100) * weight_ep)
             
             # GET the current time and date
             current_time = datetime.now().strftime('%H:%M:%S')
-            current_date = datetime.now().strftime('%Y-%m-%d')
+            current_date = datetime.now().strftime('%Y%m%d')
+            print("current_date", current_date)
 
             conn = sqlite3.connect('mp_database\\food_history.db')
             cursor = conn.cursor()
 
 
- 
-            cursor.execute('''CREATE TABLE IF NOT EXISTS food_history (foodId TEXT, 
-                                                            foodName TEXT, 
-                                                            food_intake TEXT, 
-                                                            current_time TEXT, 
-                                                            current_date TEXT)''')
+            # check if the first table from food_history if it is empty
+            cursor.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='table'")
+            table_count = cursor.fetchone()[0]
+            print(table_count)
 
-            cursor.execute("INSERT INTO food_history (foodId, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+            if table_count < 8:
+                if table_count == 0:
+                    # Create the first table in food_history
+                    table_name = f"food_history_{table_count}"
+                    cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (foodID TEXT, foodName TEXT, food_intake INTEGER, current_time TEXT, current_date TEXT)")
 
-            
-            conn.commit()
-            conn.close()
+                    cursor.execute(f"INSERT INTO {table_name}(foodID, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+                    conn.commit()
+                    popupMessage("Food Saved!", food_intake)
+                else:
+                    # Check previous table
+                    table_name = f"food_history_{table_count - 1}"
 
-            popupMessage("Food Saved!", food_intake)
+                    # COMPARE DATES
+                    cursor.execute(f"SELECT * FROM {table_name}")
+                    records = cursor.fetchall()
+                    previous_date = records[-1]
+                    prev = int(previous_date[4])
 
+                    print("previous_date", prev)
+                    print("current_date", int(current_date))
+
+                    if int(current_date) == int(prev):
+                        # Insert new record
+                        cursor.execute(f"INSERT INTO {table_name}(foodID, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+                        conn.commit()
+                        popupMessage("Food Saved!", food_intake)
+                    else:
+                        table_name = f"food_history_{table_count}"
+
+                        if table_count != 7:
+                            # Create 6 other tables
+                            cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (foodID TEXT, foodName TEXT, food_intake INTEGER, current_time TEXT, current_date TEXT)")
+                            cursor.execute(f"INSERT INTO {table_name}(foodID, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+                            conn.commit()
+                            popupMessage("Food Saved!", food_intake)
+                        else:
+                            popupMessage("The database is full.")
+
+                    conn.commit()
+
+                conn.close()
+                self.displayProgressBar()
+            else:
+                popupMessage("The database is full.")
+                # DELETE the tables
 
 
 def popupMessage(message, food_intake = None):

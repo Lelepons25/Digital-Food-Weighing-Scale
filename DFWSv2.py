@@ -22,6 +22,7 @@ from View.More_Page.MorePage import MorePage
 from View.Help_Page.HelpPage import HelpPage
 from View.FoodHistory_Page.FoodHistoryPage import FoodHistoryPage
 
+import datetime
 
 import sqlite3
 
@@ -34,7 +35,7 @@ class WindowManager(ScreenManager):
         
         super().__init__(**kwargs)
 
-        conn = sqlite3.connect('user_database\\userDB.db')
+        conn = sqlite3.connect('user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT COUNT(*) FROM user")
         count = cursor.fetchone()
@@ -65,7 +66,7 @@ class WindowManager(ScreenManager):
         self.ids.Homepage.add_widget(self.Homepage_widget)
         self.current = "Homepage"
 
-        
+      
     def generateEditProfilePageScreen(self):
         if hasattr(self, 'EditProfilePage_widget'):
             self.ids.EditProfilePage.remove_widget(self.EditProfilePage_widget)
@@ -93,6 +94,7 @@ class WindowManager(ScreenManager):
     def generateCategoryPageScreen(self, databaseName):
         if hasattr(self, 'CategoryPage_widget'):
             self.ids.CategoryPage.remove_widget(self.CategoryPage_widget)
+        # now_date = datetime.date.today().strftime("%Y%m%d")
         self.CategoryPage_widget = CategoryPage(manager=self, databaseName= databaseName)
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
         self.current = "CategoryPage"

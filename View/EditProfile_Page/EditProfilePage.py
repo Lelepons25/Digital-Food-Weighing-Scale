@@ -55,7 +55,7 @@ class EditProfilePage(Screen):
     def on_enter(self):
         super().on_enter()
 
-        conn = sqlite3.connect("user_database\\userDB.db")
+        conn = sqlite3.connect("user_database/userDB.db")
         curr = conn.cursor()
 
         curr.execute("SELECT * FROM user")
@@ -92,7 +92,7 @@ class EditProfilePage(Screen):
         self.ids.mp_title.text = "Food Exchange List in Meal Planning"
 
         # Display the list
-        conn = sqlite3.connect('mp_database\mp_foodExchange.db')
+        conn = sqlite3.connect('mp_database/mp_foodExchange.db')
         curr = conn.cursor()
         curr.execute("SELECT * FROM mp_foodExchange")
         rows = curr.fetchall()
@@ -178,7 +178,7 @@ class EditProfilePage(Screen):
             self.ids.card_mealPlan.remove_widget(dayButton)
 
 
-        conn = sqlite3.connect("user_database\\userDB.db")
+        conn = sqlite3.connect("user_database/userDB.db")
         cursor = conn.cursor()
         cursor.execute("SELECT sex, age FROM user")
         rows = cursor.fetchall()
@@ -211,7 +211,7 @@ class EditProfilePage(Screen):
                 table_name = 'mp_femaleElderly'
         
 
-        conn = sqlite3.connect("mp_database\\mealplan.db")
+        conn = sqlite3.connect("mp_database/mealplan.db")
         curr = conn.cursor()
         if table_name:
             offset = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'].index(dayClicked)
