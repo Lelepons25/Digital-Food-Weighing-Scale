@@ -133,9 +133,11 @@ class Homepage(Screen):
         for table in tables:
             cursor.execute(f"DROP TABLE {table[0]}")
 
+        popupNotice()
+        
         conn.commit()
         conn.close()
-        popupNotice()
+        
 
 
     def confirmation_resetDialog(self):
@@ -163,12 +165,23 @@ class Homepage(Screen):
        
         conn = sqlite3.connect('mp_database/food_history.db')
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM food_history")
+
+        # CHECK if there are tables
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cursor.fetchall()
+
+        if not tables:
+            popupMessage("You have no food intake to reset!")
+        else:
+            # Access the latest table
+            table_count = len(tables)-1
+            table_name = f"food_history_{table_count}"
+            cursor.execute(f"DELETE FROM {table_name}")
+            popupResetMessage("Your food intake has been reset!")
         conn.commit()
         conn.close()
 
         self.dialog.dismiss()
-        popupResetMessage("Your food intake has been reset!")
         self.manager.generateHomePageScreen()
     
 
@@ -281,7 +294,7 @@ class Homepage(Screen):
             self.ids.weight_input.text = "0"
 
 def popupMessage(message):
-    pop = Popup(title = " Invalid Form ",
+    pop = Popup(title = " Invalid ",
         content = Label (text = message),
         size_hint = (None, None),
         size = (300, 300)
