@@ -22,12 +22,9 @@ Builder.load_file('View\Category_Page\CategoryPage.kv')
 
 
 class CategoryPage(Screen):
-<<<<<<< HEAD
-=======
     # now_date = StringProperty()
     foodList = ObjectProperty(None)
     total_calories = NumericProperty(0)
->>>>>>> 55db3167965b839ca6bb41fa6f0b0be77e2ffde2
     
     def __init__(self , databaseName, manager = None, **kwargs):
         super(CategoryPage, self).__init__(**kwargs)

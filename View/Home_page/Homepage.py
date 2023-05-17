@@ -24,12 +24,9 @@ class Homepage(Screen):
     
     def __init__(self, manager, **kwargs):
         super().__init__(**kwargs)
-<<<<<<< HEAD
-=======
 
         self.now_date = datetime.date.today().strftime("%Y%m%d")
         self.ids.weight_input.text = "54"
->>>>>>> 55db3167965b839ca6bb41fa6f0b0be77e2ffde2
         self.manager = manager
 
         self.on_enter()
@@ -41,10 +38,6 @@ class Homepage(Screen):
 
 
     def on_enter(self):
-<<<<<<< HEAD
-    
-        conn = sqlite3.connect('user_database\\userDB.db')
-=======
                 # CHECK if there are tables
         conn = sqlite3.connect('mp_database/food_history.db')
         cursor = conn.cursor()
@@ -67,7 +60,6 @@ class Homepage(Screen):
 
 
         conn = sqlite3.connect('user_database/userDB.db')
->>>>>>> 55db3167965b839ca6bb41fa6f0b0be77e2ffde2
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
