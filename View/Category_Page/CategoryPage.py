@@ -12,7 +12,6 @@ from kivy.properties import StringProperty, NumericProperty
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
 from datetime import datetime
-import pyodbc
 import psycopg2
 import re
 import time
@@ -38,19 +37,11 @@ class CategoryPage(Screen):
 
     def on_enter(self):
         self.food_buttons =[] 
-
-        #conn = psycopg2.connect(host = "localhost",  dbname = "postgres", user = "postgres", password = "dfws04", port = 5432)
-
-        conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
-        
-        #conn = sqlite3.connect(f'food_category//{self.databaseName}.db')
-        cursor = conn.cursor()
+        conn = sqlite3.connect(f'food_category/{self.databaseName}.db')
+        c = conn.cursor()
         # Fetch the data from the database
-        #update_query = "UPDATE oil SET foodName = TRIM(foodName);"
-        #cursor.execute(update_query)
-        cursor.execute(f"SELECT foodName FROM Products")
-        self.records = cursor.fetchall()
-        print(self.records)
+        c.execute(f"SELECT foodName FROM Products")
+        self.records = c.fetchall()
 
         self.data = []
         for record in self.records:
@@ -63,8 +54,7 @@ class CategoryPage(Screen):
             self.ids.foodList.add_widget(food)
             self.food_buttons.append(food)
         # Close the database connection
-        cursor.close()
-        conn.close()
+        c.close()
 
         self.displayProgressBar()
 
@@ -174,8 +164,8 @@ class CategoryPage(Screen):
         calcium = record[12]
         iron = record[14]
 
-        self.ids.food_edible.text = f"Edible Portion          {str(ep)}%"
-        self.ids.food_calories.text = f"Calories                     {str(self.kCal)}"
+        self.ids.food_edible.text = f"Edible Portion                 {str(ep)}%"
+        self.ids.food_calories.text = f"Calories                    {str(self.kCal)}"
         self.ids.food_fat.text = f"Total Fat (g)              {str(tFat)}"
         self.ids.food_choles.text =  f"Cholesterol (mg)      {str(chole)}"
         self.ids.food_sodium.text =  f"Sodium (mg)             {str(sodium)}"
@@ -183,7 +173,6 @@ class CategoryPage(Screen):
         self.ids.food_protein.text =  f"Protein (g)                 {str(protein)}"
         self.ids.food_calcium.text =  f"Calcium (mg)            {str(calcium)}"
         self.ids.food_iron.text = f"Iron (mg)                    {str(iron)}"
-
         c.close()
     
     def reset(self):
@@ -229,7 +218,6 @@ class CategoryPage(Screen):
             # GET the current time and date
             current_time = datetime.now().strftime('%H:%M:%S')
             current_date = datetime.now().strftime('%Y%m%d')
-            print("current_date", current_date)
 
             conn = sqlite3.connect('mp_database\\food_history.db')
             cursor = conn.cursor()
@@ -238,7 +226,6 @@ class CategoryPage(Screen):
             # check if the first table from food_history if it is empty
             cursor.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='table'")
             table_count = cursor.fetchone()[0]
-            print(table_count)
 
             if table_count < 8:
                 if table_count == 0:
@@ -258,9 +245,6 @@ class CategoryPage(Screen):
                     records = cursor.fetchall()
                     previous_date = records[-1]
                     prev = int(previous_date[4])
-
-                    print("previous_date", prev)
-                    print("current_date", int(current_date))
 
                     if int(current_date) == int(prev):
                         # Insert new record
@@ -285,7 +269,6 @@ class CategoryPage(Screen):
                 self.displayProgressBar()
             else:
                 popupMessage("The database is full.")
-                # DELETE the tables
 
 
 def popupMessage(message, food_intake = None):

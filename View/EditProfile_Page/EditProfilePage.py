@@ -127,29 +127,6 @@ class EditProfilePage(Screen):
         conn.commit()
         conn.close()
 
-    def enter_userFoodHistory(self):
-        
-        self.clear_mealPlan()
-
-        conn = sqlite3.connect('mp_database/food_history.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM food_history")
-        food_rows = cursor.fetchall()
-
-    # Add each list item to the layout
-        for row in food_rows:
-            historyList = ThreeLineAvatarIconListItem(
-                IconRightWidget(icon="minus"),
-                text=row[4],
-                secondary_text=row[1],
-                tertiary_text=row[2]
-            )
-            self.ids.food_history.add_widget(historyList)
-        
-
-        conn.close()
-
-
 
     def enter_pinggangPinoy(self):
         self.clear_mealPlan()
