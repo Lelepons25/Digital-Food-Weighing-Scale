@@ -22,6 +22,7 @@ from View.More_Page.MorePage import MorePage
 from View.Help_Page.HelpPage import HelpPage
 from View.FoodHistory_Page.FoodHistoryPage import FoodHistoryPage
 
+import datetime
 
 import sqlite3
 
@@ -65,7 +66,7 @@ class WindowManager(ScreenManager):
         self.ids.Homepage.add_widget(self.Homepage_widget)
         self.current = "Homepage"
 
-        
+      
     def generateEditProfilePageScreen(self):
         if hasattr(self, 'EditProfilePage_widget'):
             self.ids.EditProfilePage.remove_widget(self.EditProfilePage_widget)

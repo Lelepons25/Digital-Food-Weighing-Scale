@@ -18,7 +18,8 @@ cursor.execute('''CREATE TABLE user
                 bmi REAL, 
                 tdee REAL,
                 carbs_min REAL,
-                carbs_max REAL
+                carbs_max REAL,
+                totalIntake REAL
                 )''')
 
 

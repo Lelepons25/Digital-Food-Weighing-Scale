@@ -45,7 +45,7 @@ class FoodHistoryPage(Screen):
                     tertiary_text=f"Food Intake: {row[2]}"
                 )
 
-                historyList.foodId = row[0]
+                historyList.foodId = row[1]
                 historyList.bind(on_press=self.confirmation_dialog)
                 self.ids.food_history.add_widget(historyList)
 

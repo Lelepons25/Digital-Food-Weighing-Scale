@@ -5,7 +5,9 @@ cursor = conn.cursor()
 
 
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS food_history (foodId TEXT, 
+cursor.execute('''CREATE TABLE IF NOT EXISTS food_history (
+                                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                                foodId TEXT, 
                                                 foodName TEXT, 
                                                 food_intake INTEGER, 
                                                 current_time TEXT, 

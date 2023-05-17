@@ -68,34 +68,38 @@ class CategoryPage(Screen):
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
 
-        connHistory = sqlite3.connect('mp_database/food_history.db')
-        cursorHistory = connHistory.cursor()
-        cursorHistory.execute("SELECT food_intake FROM food_history")
-        intakes = cursorHistory.fetchall()
 
-        for intake in intakes:
-            totalIntake += intake[0]
-
+        #########  DISPLAY
         if str(track_goal[0]) == "Calories":
-            self.ids.tracker.text = "Calorie Intake Tracker"
-            
-            cursor.execute("SELECT tdee FROM user")
-            tdee = cursor.fetchone()
-
-            userIntake = tdee[0] - totalIntake
-
-            # Computation
-            self.ids.user_goal.text = f"{tdee[0]} Kcal - {totalIntake} Kcal = {userIntake} remaining" 
-            self.ids.user_goal.font_size = 12
+                self.ids.tracker.text = "Calorie Intake Tracker"
+                cursor.execute("SELECT tdee FROM user")
+                tdee = cursor.fetchone()
+                goal = tdee[0]
 
         elif str(track_goal[0]) == "Carbohydrates":
-            self.ids.tracker.text = "Carbohydrates Intake Tracker"
+                self.ids.tracker.text = "Carbohydrates Intake Tracker"
+                cursor.execute("SELECT carbs_min FROM user")
+                carbs_min = cursor.fetchone()
+                goal = carbs_min
 
-            cursor.execute("SELECT carbs_min, carbs_max FROM user")
-            carbs_min, carbs_max = cursor.fetchone()
+        self.ids.user_goal.text = f"{goal} goal - {totalIntake} intake = {userIntake} remaining"
+        self.ids.user_goal.font_size = 12
+    
+        #########
 
-            userIntake = carbs_max - totalIntake
-            self.ids.user_goal.text = f"{carbs_max} g maximum - {totalIntake} g = {userIntake} remaining"
+        connHistory = sqlite3.connect('mp_database/food_history.db')
+        cursorHistory = connHistory.cursor()
+
+        # CHECK if there are tables
+        cursorHistory.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cursorHistory.fetchall()
+
+        if not tables:
+            print("There are no tables in the food_history database.")
+        else:
+            print("There are tables in the food_history database.")
+
+
 
         connHistory.commit()
         connHistory.close()
@@ -185,28 +189,64 @@ class CategoryPage(Screen):
             
             # GET the current time and date
             current_time = datetime.now().strftime('%H:%M:%S')
-            current_date = datetime.now().strftime('%Y-%m-%d')
+            current_date = datetime.now().strftime('%Y%m%d')
+            print("current_date", current_date)
 
             conn = sqlite3.connect('mp_database\\food_history.db')
             cursor = conn.cursor()
 
 
+            # check if the first table from food_history if it is empty
+            cursor.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='table'")
+            table_count = cursor.fetchone()[0]
+            print(table_count)
 
-            cursor.execute('''CREATE TABLE IF NOT EXISTS food_history (foodId TEXT, 
-                                                            foodName TEXT, 
-                                                            food_intake INTEGER, 
-                                                            current_time TEXT, 
-                                                            current_date TEXT)''')
+            if table_count < 8:
+                if table_count == 0:
+                    # Create the first table in food_history
+                    table_name = f"food_history_{table_count}"
+                    cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (foodID TEXT, foodName TEXT, food_intake INTEGER, current_time TEXT, current_date TEXT)")
 
-            cursor.execute("INSERT INTO food_history (foodId, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+                    cursor.execute(f"INSERT INTO {table_name}(foodID, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+                    conn.commit()
+                    popupMessage("Food Saved!", food_intake)
+                else:
+                    # Check previous table
+                    table_name = f"food_history_{table_count - 1}"
 
-            
-            conn.commit()
-            conn.close()
+                    # COMPARE DATES
+                    cursor.execute(f"SELECT * FROM {table_name}")
+                    records = cursor.fetchall()
+                    previous_date = records[-1]
+                    prev = int(previous_date[4])
 
-            popupMessage("Food Saved!", food_intake)
-            self.displayProgressBar()
+                    print("previous_date", prev)
+                    print("current_date", int(current_date))
 
+                    if int(current_date) == int(prev):
+                        # Insert new record
+                        cursor.execute(f"INSERT INTO {table_name}(foodID, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+                        conn.commit()
+                        popupMessage("Food Saved!", food_intake)
+                    else:
+                        table_name = f"food_history_{table_count}"
+
+                        if table_count != 7:
+                            # Create 6 other tables
+                            cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (foodID TEXT, foodName TEXT, food_intake INTEGER, current_time TEXT, current_date TEXT)")
+                            cursor.execute(f"INSERT INTO {table_name}(foodID, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+                            conn.commit()
+                            popupMessage("Food Saved!", food_intake)
+                        else:
+                            popupMessage("The database is full.")
+
+                    conn.commit()
+
+                conn.close()
+                self.displayProgressBar()
+            else:
+                popupMessage("The database is full.")
+                # DELETE the tables
 
 
 def popupMessage(message, food_intake = None):
