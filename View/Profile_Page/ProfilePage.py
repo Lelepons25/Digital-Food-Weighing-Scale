@@ -9,7 +9,7 @@ from kivy.core.window import Window
 import sqlite3
 import math
 
-Builder.load_file("View\Profile_Page\ProfilePage.kv")
+Builder.load_file("/home/pi/Digital-Food-Weighing-Scale/View/Profile_Page/ProfilePage.kv")
 
 
 class ProfilePage(Screen):

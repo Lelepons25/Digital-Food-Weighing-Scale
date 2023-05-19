@@ -10,7 +10,7 @@ from kivy.uix.vkeyboard import VKeyboard
 from kivy.core.window import Window
 from kivy.properties import StringProperty
 
-Builder.load_file('View\Home_page\Homepage.kv')
+Builder.load_file('/home/pi/Digital-Food-Weighing-Scale/View/Home_page/Homepage.kv')
 
 import sqlite3
 import datetime

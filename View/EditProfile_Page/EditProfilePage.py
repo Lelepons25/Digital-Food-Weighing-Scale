@@ -15,7 +15,7 @@ from kivy.graphics import Color, Rectangle
 from kivy.uix.floatlayout import FloatLayout
 
 
-Builder.load_file('View\EditProfile_Page\EditProfilePage.kv')
+Builder.load_file('/home/pi/Digital-Food-Weighing-Scale/View/EditProfile_Page/EditProfilePage.kv')
 
 class EditProfilePage(Screen):
     

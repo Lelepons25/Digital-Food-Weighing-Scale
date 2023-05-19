@@ -10,7 +10,7 @@ from kivy.uix.vkeyboard import VKeyboard
 from kivy.core.window import Window
 import sqlite3
 
-Builder.load_file('View\More_Page\MorePage.kv')
+Builder.load_file('/home/pi/Digital-Food-Weighing-Scale/View/More_Page/MorePage.kv')
 
 # More Page displays the other categories
 class MorePage(Screen):

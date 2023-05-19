@@ -12,12 +12,12 @@ from kivy.properties import StringProperty, NumericProperty
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
 from datetime import datetime
-import psycopg2
+# import psycopg2
 import re
 import time
 import math
 
-Builder.load_file('View\Category_Page\CategoryPage.kv')
+Builder.load_file('/home/pi/Digital-Food-Weighing-Scale/View/Category_Page/CategoryPage.kv')
 
 
 class CategoryPage(Screen):

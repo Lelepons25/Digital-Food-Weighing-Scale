@@ -26,7 +26,7 @@ import datetime
 
 import sqlite3
 
-Builder.load_file("dfwsv2.kv")
+Builder.load_file("/home/pi/Digital-Food-Weighing-Scale/dfwsv2.kv")
 
 class WindowManager(ScreenManager):
     weight_text = StringProperty("0")

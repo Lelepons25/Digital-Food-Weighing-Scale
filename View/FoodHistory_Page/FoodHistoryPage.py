@@ -12,7 +12,7 @@ from functools import partial
 
 import sqlite3
 
-Builder.load_file("View\FoodHistory_Page\FoodHistoryPage.kv")
+Builder.load_file("/home/pi/Digital-Food-Weighing-Scale/View/FoodHistory_Page/FoodHistoryPage.kv")
 
 class FoodHistoryPage(Screen):
 

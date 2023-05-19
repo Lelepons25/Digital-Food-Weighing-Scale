@@ -8,7 +8,7 @@ from functools import partial
 import sqlite3
 
 
-Builder.load_file('View\Help_Page\HelpPage.kv')
+Builder.load_file('/home/pi/Digital-Food-Weighing-Scale/View/Help_Page/HelpPage.kv')
 
 class HelpPage(Screen):
     
