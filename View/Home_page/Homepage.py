@@ -62,7 +62,8 @@ class Homepage(Screen):
                 self.ids.tracker.text = "Carbohydrates Intake Tracker"
                 cursor.execute("SELECT carbs_min FROM user")
                 carbs_min = cursor.fetchone()
-                goal = carbs_min
+                goal = carbs_min[0]
+
     
         #########
         
@@ -106,7 +107,7 @@ class Homepage(Screen):
 
                     ########### COMPUTATION
                     computeIntake = sum([intake[0] for intake in intakes])
-                    userIntake = goal - computeIntake   
+                    userIntake = goal - computeIntake  
                     cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
                 
         
@@ -168,7 +169,7 @@ class Homepage(Screen):
         if not tables:
             popupMessage("You have no food intake to reset!")
         elif len(tables) == 1:
-            table_count = len(tables)
+            table_count = len(tables) - 1
             table_name = f"food_history_{table_count}"
             cursor.execute(f"DELETE FROM {table_name}")
             popupResetMessage("Your food intake has been reset!")

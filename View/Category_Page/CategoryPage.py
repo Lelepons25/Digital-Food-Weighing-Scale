@@ -17,6 +17,7 @@ import re
 import time
 import math
 
+
 Builder.load_file('/home/pi/Digital-Food-Weighing-Scale/View/Category_Page/CategoryPage.kv')
 
 
@@ -28,7 +29,7 @@ class CategoryPage(Screen):
     def __init__(self , databaseName, manager = None, **kwargs):
         super(CategoryPage, self).__init__(**kwargs)
         self.manager = manager
-        # self.now_date = kwargs['now_date']
+        # self.now_date = datetime.date.today().strftime("%Y%m%d")
         self.ids.weight_input.text = "54"
         self.databaseName = databaseName
         self.ids.foodList.clear_widgets()
@@ -83,7 +84,7 @@ class CategoryPage(Screen):
                 self.ids.tracker.text = "Carbohydrates Intake Tracker"
                 cursor.execute("SELECT carbs_min FROM user")
                 carbs_min = cursor.fetchone()
-                goal = carbs_min
+                goal = carbs_min[0]
     
         #########
         
@@ -108,22 +109,19 @@ class CategoryPage(Screen):
             # Compare Dates
             cursorHistory.execute(f"SELECT * FROM {table_name}")
             records = cursorHistory.fetchall()
-            previous_date = records[-1]
-            prev = int(previous_date[4])
 
-            '''if int(self.now_date) > prev:
+            # Check if it is empty
+            if not records:
                 computeIntake = 0
                 userIntake = 0
-                cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
-            else:'''
-            
-            cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
-            intakes = cursorHistory.fetchall()
+            else:
+                cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
+                intakes = cursorHistory.fetchall()
 
-            ########### COMPUTATION
-            computeIntake = sum([intake[0] for intake in intakes])
-            userIntake = goal - computeIntake   
-            cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
+                ########### COMPUTATION
+                computeIntake = sum([intake[0] for intake in intakes])
+                userIntake = goal - computeIntake  
+                cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
             
         
         self.ids.user_goal.text = f"{goal} goal - {computeIntake} intake = {userIntake} remaining"
@@ -243,27 +241,32 @@ class CategoryPage(Screen):
                     # COMPARE DATES
                     cursor.execute(f"SELECT * FROM {table_name}")
                     records = cursor.fetchall()
-                    previous_date = records[-1]
-                    prev = int(previous_date[4])
 
-                    if int(current_date) == int(prev):
-                        # Insert new record
-                        cursor.execute(f"INSERT INTO {table_name}(foodID, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
-                        conn.commit()
-                        popupMessage("Food Saved!", food_intake)
+                    # Check if it is empty
+                    if not records:
+                        pass
                     else:
-                        table_name = f"food_history_{table_count}"
+                        previous_date = records[-1]
+                        prev = int(previous_date[4])
 
-                        if table_count != 7:
-                            # Create 6 other tables
-                            cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (foodID TEXT, foodName TEXT, food_intake INTEGER, current_time TEXT, current_date TEXT)")
+                        if int(current_date) == int(prev):
+                            # Insert new record
                             cursor.execute(f"INSERT INTO {table_name}(foodID, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
                             conn.commit()
                             popupMessage("Food Saved!", food_intake)
                         else:
-                            popupMessage("The database is full.")
+                            table_name = f"food_history_{table_count}"
 
-                    conn.commit()
+                            if table_count != 7:
+                                # Create 6 other tables
+                                cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (foodID TEXT, foodName TEXT, food_intake INTEGER, current_time TEXT, current_date TEXT)")
+                                cursor.execute(f"INSERT INTO {table_name}(foodID, foodName, food_intake, current_time, current_date) VALUES (?, ?, ?, ?, ?)", (self.foodId, self.foodName, food_intake, current_time, current_date))
+                                conn.commit()
+                                popupMessage("Food Saved!", food_intake)
+                            else:
+                                popupMessage("The database is full.")
+
+                        conn.commit()
 
                 conn.close()
                 self.displayProgressBar()

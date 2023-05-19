@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('mp_database\\food_history.db')
+conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db')
 cursor = conn.cursor()
 
 
