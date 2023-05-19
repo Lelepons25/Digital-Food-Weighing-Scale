@@ -69,12 +69,12 @@ class MorePage(Screen):
 
         totalIntake = 0
         userIntake = 0 
-        conn = sqlite3.connect('user_database/userDB.db')
+        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
 
-        connHistory = sqlite3.connect('mp_database/food_history.db')
+        connHistory = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db')
         cursorHistory = connHistory.cursor()
         cursorHistory.execute("SELECT food_intake FROM food_history")
         intakes = cursorHistory.fetchall()
@@ -155,7 +155,7 @@ class MorePage(Screen):
             popupMessage("Please enter a number.")
         else:
         # connect to the database
-            with sqlite3.connect('user_database\\userDB.db') as conn:
+            with sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db') as conn:
                 cursor = conn.cursor()
 
                 # update the goal based on the tracker selected

@@ -142,7 +142,7 @@ class ProfilePage(Screen):
                                 carbs_max = math.ceil((tdee * 0.65)/4)
                         
                             # Connect to the database
-                            conn = sqlite3.connect('user_database/userDB.db')
+                            conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db')
                             cursor = conn.cursor()
 
                             # Check if the database is empty
@@ -163,9 +163,9 @@ class ProfilePage(Screen):
                                 self.manager.generateEditProfilePageScreen()
 
                                 # Delete the food history
-                                conn = sqlite3.connect('mp_database/food_history.db')
+                                conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db')
                                 cursor = conn.cursor()
-                                cursor.execute("DELETE FROM food_history")
+                                # cursor.execute("DELETE FROM food_history")
                                 conn.commit()
                                 conn.close()
                                 

@@ -46,7 +46,7 @@ class Homepage(Screen):
         userIntake = 0
 
 
-        conn = sqlite3.connect('user_database/userDB.db')
+        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
@@ -66,7 +66,7 @@ class Homepage(Screen):
     
         #########
         
-        connHistory = sqlite3.connect('mp_database/food_history.db')
+        connHistory = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db')
         cursorHistory = connHistory.cursor()
 
 
@@ -120,7 +120,7 @@ class Homepage(Screen):
 
     
     def deleteHistory(self):
-        conn = sqlite3.connect('mp_database/food_history.db')
+        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db')
         cursor = conn.cursor()
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = cursor.fetchall()
@@ -158,7 +158,7 @@ class Homepage(Screen):
 
     def reset_dialog(self, instance):
        
-        conn = sqlite3.connect('mp_database/food_history.db')
+        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db')
         cursor = conn.cursor()
 
         # CHECK if there are tables
@@ -231,7 +231,7 @@ class Homepage(Screen):
             popupMessage("Please enter a number.")
         else:
         # connect to the database
-            with sqlite3.connect('user_database\\userDB.db') as conn:
+            with sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db') as conn:
                 cursor = conn.cursor()
 
                 # update the goal based on the tracker selected

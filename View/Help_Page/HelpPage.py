@@ -24,7 +24,7 @@ class HelpPage(Screen):
         self.add_questions_to_list('help_foodHistory', self.ids.foodHistory_list)
 
     def add_questions_to_list(self, table_name, list_widget):
-        with sqlite3.connect('user_database/userHelp.db') as conn:
+        with sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userHelp.db') as conn:
             cursor = conn.cursor()
             cursor.execute(f"SELECT quesID, question FROM {table_name}")
             questions = cursor.fetchall()
@@ -58,7 +58,7 @@ class HelpPage(Screen):
 
         # Get the answer text from the database
         answer = ""
-        with sqlite3.connect('user_database/userHelp.db') as conn:
+        with sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userHelp.db') as conn:
             cursor = conn.cursor()
             cursor.execute(f"SELECT answer FROM {table_name} WHERE quesID = '{quesID}'")
             answer = cursor.fetchone()[0]

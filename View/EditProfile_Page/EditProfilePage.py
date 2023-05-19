@@ -6,29 +6,14 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDRectangleFlatButton
 from kivy.metrics import dp
 from kivy.core.window import Window
-from kivymd.app import MDApp
 import sqlite3
-from kivymd.uix.list import ThreeLineAvatarIconListItem, IconRightWidget
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.boxlayout import BoxLayout
-from kivy.graphics import Color, Rectangle
-from kivy.uix.floatlayout import FloatLayout
+
 
 
 Builder.load_file('/home/pi/Digital-Food-Weighing-Scale/View/EditProfile_Page/EditProfilePage.kv')
 
 class EditProfilePage(Screen):
     
-
-    user_name = ObjectProperty(None)
-    sex = ObjectProperty(None)
-    age = ObjectProperty(None)
-    user_weight = ObjectProperty(None)
-    user_height = ObjectProperty(None)
-    track_goal = ObjectProperty(None)
-    bmi = ObjectProperty(None)
-    activity_level = ObjectProperty(None)
-    goal_intake = ObjectProperty(None)
 
     def __init__(self, manager = None, **kwargs):
         super(EditProfilePage, self).__init__(**kwargs)
@@ -53,13 +38,16 @@ class EditProfilePage(Screen):
     
 
     def on_enter(self):
-        super().on_enter()
+        self.displayUserInfo()
 
-        conn = sqlite3.connect("user_database/userDB.db")
-        curr = conn.cursor()
+    
+    def displayUserInfo(self):
 
-        curr.execute("SELECT * FROM user")
-        row = curr.fetchone()
+        conn = sqlite3.connect('user_database/userDB.py')
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM user")
+        row = cursor.fetchone()
 
         bmi = row[7]
         track_goal = row[5]
@@ -92,7 +80,7 @@ class EditProfilePage(Screen):
         self.ids.mp_title.text = "Food Exchange List in Meal Planning"
 
         # Display the list
-        conn = sqlite3.connect('mp_database/mp_foodExchange.db')
+        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/mp_foodExchange.db')
         curr = conn.cursor()
         curr.execute("SELECT * FROM mp_foodExchange")
         rows = curr.fetchall()
@@ -155,7 +143,7 @@ class EditProfilePage(Screen):
             self.ids.card_mealPlan.remove_widget(dayButton)
 
 
-        conn = sqlite3.connect("user_database/userDB.db")
+        conn = sqlite3.connect("/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db")
         cursor = conn.cursor()
         cursor.execute("SELECT sex, age FROM user")
         rows = cursor.fetchall()
@@ -188,7 +176,7 @@ class EditProfilePage(Screen):
                 table_name = 'mp_femaleElderly'
         
 
-        conn = sqlite3.connect("mp_database/mealplan.db")
+        conn = sqlite3.connect("/home/pi/Digital-Food-Weighing-Scale/mp_database/mealplan.db")
         curr = conn.cursor()
         if table_name:
             offset = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'].index(dayClicked)
@@ -274,14 +262,3 @@ class EditProfilePage(Screen):
         self.ids.card_mealPlan.remove_widget(fe_button)
         self.ids.card_mealPlan.remove_widget(pp_button)
         self.ids.card_mealPlan.remove_widget(fh_button)
-
-
-    def reset(self): 
-        self.user_name.text = "Name: "
-        self.sex.text = "Sex: "
-        self.age.text = "Age: "
-        self.user_weight.text = "Weight: "
-        self.user_height.text = "Height: "
-        self.track_goal.text = "Track: "
-        self.bmi.text = "Bmi: "
-        self.activity_level.text = "Activity: "

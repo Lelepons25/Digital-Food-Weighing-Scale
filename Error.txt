@@ -1,0 +1,23 @@
+"""        Exception has occurred: DatabaseError
+file is not a database
+  File "/home/pi/Digital-Food-Weighing-Scale/View/EditProfile_Page/EditProfilePage.py", line 49, in displayUserInfo
+    cursor.execute("SELECT * FROM user")
+  File "/home/pi/Digital-Food-Weighing-Scale/View/EditProfile_Page/EditProfilePage.py", line 41, in on_enter
+    self.displayUserInfo()
+  File "/home/pi/Digital-Food-Weighing-Scale/View/EditProfile_Page/EditProfilePage.py", line 21, in __init__
+    self.on_enter()
+  File "/home/pi/Digital-Food-Weighing-Scale/DFWSv2.py", line 73, in generateEditProfilePageScreen
+    self.EditProfilePage_widget = EditProfilePage(manager=self)
+  File "/home/pi/Digital-Food-Weighing-Scale/View/Home_page/Homepage.kv", line 55, in <module>
+    app.root.generateEditProfilePageScreen()
+  File "/home/pi/Digital-Food-Weighing-Scale/DFWSv2.py", line 117, in <module>
+    DFWS().run()
+sqlite3.DatabaseError: file is not a database"""
+
+
+[6:46:36 PM][vscode-sqlite][INFO] Activating extension vscode-sqlite v0.14.1...
+[6:46:37 PM][vscode-sqlite][ERROR] Unable to find a valid SQLite command. Fallback binary is not valid.
+[6:46:37 PM][vscode-sqlite][INFO] Extension activated.
+[6:46:48 PM][vscode-sqlite][ERROR] Failed to open database '/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db': SQLite process failed to start: The argument 'file' cannot be empty. Received ''
+[6:46:59 PM][vscode-sqlite][ERROR] Failed to open database '/home/pi/Digital-Food-Weighing-Scale/food_category/cereals.db': SQLite process failed to start: The argument 'file' cannot be empty. Received ''
+[6:49:33 PM][vscode-sqlite][ERROR] Failed to open database '/home/pi/Digital-Food-Weighing-Scale/user_database/userHelp.db': SQLite process failed to start: The argument 'file' cannot be empty. Received ''

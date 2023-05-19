@@ -67,7 +67,7 @@ class CategoryPage(Screen):
         userIntake = 0
 
 
-        conn = sqlite3.connect('user_database/userDB.db')
+        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
@@ -87,7 +87,7 @@ class CategoryPage(Screen):
     
         #########
         
-        connHistory = sqlite3.connect('mp_database/food_history.db')
+        connHistory = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db')
         cursorHistory = connHistory.cursor()
 
 
@@ -219,7 +219,7 @@ class CategoryPage(Screen):
             current_time = datetime.now().strftime('%H:%M:%S')
             current_date = datetime.now().strftime('%Y%m%d')
 
-            conn = sqlite3.connect('mp_database\\food_history.db')
+            conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db')
             cursor = conn.cursor()
 
 
