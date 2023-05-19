@@ -43,7 +43,7 @@ class EditProfilePage(Screen):
     
     def displayUserInfo(self):
 
-        conn = sqlite3.connect('user_database/userDB.py')
+        conn = sqlite3.connect('user_database/userDB.db')
         cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM user")
@@ -56,19 +56,19 @@ class EditProfilePage(Screen):
 
         if row is not None:
             # DISPLAY
-            self.user_name.text = f"Name: {row[0]}"
-            self.sex.text = f"Sex: {row[1]}"
-            self.age.text = f"Age: {row[2]}"
-            self.user_weight.text = f"Weight: {row[3]} kg"
-            self.user_height.text = f"Height: {row[4]} cm"
-            self.track_goal.text = f"Track: {row[5]}"
-            self.activity_level.text = f"Activity Level: {row[6]}"
-            self.bmi.text = f"BMI: {row[7]:.2f} - {bmiCategory}"
+            self.ids.user_name.text = f"Name: {row[0]}"
+            self.ids.sex.text = f"Sex: {row[1]}"
+            self.ids.age.text = f"Age: {row[2]}"
+            self.ids.user_weight.text = f"Weight: {row[3]} kg"
+            self.ids.user_height.text = f"Height: {row[4]} cm"
+            self.ids.track_goal.text = f"Track: {row[5]}"
+            self.ids.activity_level.text = f"Activity Level: {row[6]}"
+            self.ids.bmi.text = f"BMI: {row[7]:.2f} - {bmiCategory}"
 
             if track_goal == "Calories":
-                self.goal_intake.text = f"Carolie Intake Goal: {int(row[8])} kcal"
+                self.ids.goal_intake.text = f"Carolie Intake Goal: {int(row[8])} kcal"
             else:
-                self.goal_intake.text = f"Carbohydrate Intake range:  \n {int(row[9])} grams - {int(row[10])} grams"
+                self.ids.goal_intake.text = f"Carbohydrate Intake range:  \n {int(row[9])} grams - {int(row[10])} grams"
         else:
             print("Database is empty")
         
