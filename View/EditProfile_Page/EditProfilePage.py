@@ -269,9 +269,11 @@ class EditProfilePage(Screen):
         # remove the meal plan buttons
         fe_button = self.ids.food_exchange
         pp_button = self.ids.pinggang_pinoy
+        fh_button = self.ids.user_foodHistory
 
         self.ids.card_mealPlan.remove_widget(fe_button)
         self.ids.card_mealPlan.remove_widget(pp_button)
+        self.ids.card_mealPlan.remove_widget(fh_button)
 
 
     def reset(self): 
