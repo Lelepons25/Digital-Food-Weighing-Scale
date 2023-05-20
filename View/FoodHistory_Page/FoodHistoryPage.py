@@ -8,6 +8,8 @@ from functools import partial
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 
+from functools import partial
+
 import sqlite3
 
 Builder.load_file("View\FoodHistory_Page\FoodHistoryPage.kv")
@@ -22,16 +24,53 @@ class FoodHistoryPage(Screen):
         self.on_enter()
     
     def on_enter(self, *args):
-        self.display_food_history()
+        self.display_foodHistory()
         
     
-    def display_food_history(self):
+    def display_foodHistory(self):
             
         conn = sqlite3.connect("mp_database/food_history.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM food_history")
+
+
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cursor.fetchall()
+        print(tables)
+
+        self.day_buttons = []
+        if not tables:
+            label = MDLabel(text = "No Food History")
+            self.ids.food_history.add_widget(label)
+        else:
+            table_count = len(tables)
+            print(table_count)
+
+            for i in range(table_count):
+                dayButtons = MDFlatButton( id = f"day{i}",
+                                        text=f"Day {i+1}",
+                                        size_hint=(1, 0.1),
+                                        text_color="black",
+                                        line_color="blue")
+                self.day_buttons.append(dayButtons)
+                dayButtons.bind(on_press=partial(self.display_FoodValues, table_count=i))
+                self.ids.food_history.add_widget(dayButtons)
+        
+        conn.close()
+
+    def display_FoodValues(self, instance, table_count):
+        print(f"Button {table_count} pressed")
+
+        for dayButtons in self.day_buttons:
+            self.ids.food_history.remove_widget(dayButtons)
+
+        table_name = f"food_history_{table_count}"
+
+        conn = sqlite3.connect("mp_database/food_history.db")
+        cursor = conn.cursor()
+
+        cursor.execute(f"SELECT * FROM {table_name}")
         food_rows = cursor.fetchall()
-    
+
         if len(food_rows) == 0:
             label = MDLabel(text = "No Food History")
             self.ids.food_history.add_widget(label)
@@ -40,18 +79,51 @@ class FoodHistoryPage(Screen):
             for row in food_rows:
                 historyList = ThreeLineAvatarIconListItem(
                     IconRightWidget(icon="minus"),
-                    text=row[4],
+                    text=row[3],
                     secondary_text=row[1],
                     tertiary_text=f"Food Intake: {row[2]}"
                 )
 
-                historyList.foodId = row[1]
-                historyList.bind(on_press=self.confirmation_dialog)
+                historyList.foodId = row[0]
+                historyList.bind(on_press=lambda historyList, table_name=table_name: self.confirmation_dialog(historyList, table_name))
                 self.ids.food_history.add_widget(historyList)
+        
+        # Computation
+        cursor.execute(f"SELECT food_intake FROM {table_name}")
+        intakes = cursor.fetchall()
 
+        ########### COMPUTATION
+        computeIntake = sum([intake[0] for intake in intakes])
+
+        ########### DISPLAY Food History Information
+        
+        # Check if the history is empty
+        if len(food_rows) == 0:
+            self.ids.history_date.text = f"Date Saved: Not Available"
+            self.ids.history_intake.text = f"Total Intake: Not Available"
+        else:
+            self.ids.history_date.text = f"Date Saved: {row[4]}"
+            self.ids.history_intake.text = f"Total Intake: {computeIntake}"
+
+
+
+        conn.commit()
         conn.close()
+    
+    def delete_history(self, foodId, table_name):
+        print(table_name)
+        print(foodId)
+        conn = sqlite3.connect("mp_database/food_history.db")
+        cursor = conn.cursor()
+        cursor.execute(f"DELETE FROM {table_name} WHERE foodId = ?", (str(foodId),))
+        popupMessage("Food History Deleted")
+        conn.commit()
+        conn.close()
+        self.dialog.dismiss()
+        self.manager.generateFoodHistoryPageScreen()
 
-    def confirmation_dialog(self, instance):
+
+    def confirmation_dialog(self, instance, table_name):
         if not self.dialog:
             self.dialog = MDDialog(
                 title = "Delete Food Intake History?",
@@ -65,7 +137,7 @@ class FoodHistoryPage(Screen):
                     MDFlatButton(
                         text = "Delete",
                         theme_text_color = "Custom",
-                        on_release = lambda x: self.delete_history(instance.foodId)
+                        on_release=lambda x: self.delete_history(instance.foodId, table_name)
                     )
                 ]
             )
@@ -74,16 +146,9 @@ class FoodHistoryPage(Screen):
     def cancel_dialog(self, instance):
         self.dialog.dismiss()
 
-    def delete_history(self, foodId):
-        conn = sqlite3.connect("mp_database/food_history.db")
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM food_history WHERE foodId = ?", (str(foodId),))
-        popupMessage("Food History Deleted")
-        conn.commit()
-        conn.close()
-        self.dialog.dismiss()
-        self.manager.generateFoodHistoryPageScreen()
-
+    def clear_foodHistory(self):
+        for dayButtons in self.day_buttons:
+            self.ids.card_foodHistory.remove_widget(dayButtons)
 
 def popupMessage(message):
     pop = Popup(title = "Successs",

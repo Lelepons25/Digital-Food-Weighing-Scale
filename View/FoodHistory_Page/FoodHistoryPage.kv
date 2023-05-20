@@ -13,6 +13,7 @@
             padding_y: 5
 
     MDCard:
+        id: card_foodHistory
         size_hint: None, None
         size: 400, 300
         pos_hint: {'x': 0.04, 'top':0.8}
@@ -35,8 +36,38 @@
                 spacing: 10, 10
                 padding: 10, 10
 
+    MDCard:
+        id: card_intakeHistory
+        size_hint: None, None
+        size: 300, 150
+        pos_hint: {'x': 0.6, 'top':0.8}
+        elevation: 1
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Food History Information"
+        
+        MDLabel:
+            id: history_date
+            text: "Date Saved: "
+        
+        MDLabel:
+            id: history_intake
+            text: "Total Intake: "
+        
 
 
+    # Back for the MDCard
+    MDRectangleFlatIconButton:
+        text: "Return"
+        icon: "keyboard-return"
+        text_color: "red"
+        icon_color: "red"
+        pos_hint: {"x": 0.43, "top": 0.14}
+        on_release:
+            app.root.generateFoodHistoryPageScreen()
 
 
     MDRectangleFlatIconButton:

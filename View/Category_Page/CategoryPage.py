@@ -21,12 +21,14 @@ Builder.load_file('View\Category_Page\CategoryPage.kv')
 
 
 class CategoryPage(Screen):
+    # now_date = StringProperty()
     foodList = ObjectProperty(None)
     total_calories = NumericProperty(0)
     
     def __init__(self , databaseName, manager = None, **kwargs):
         super(CategoryPage, self).__init__(**kwargs)
         self.manager = manager
+        # self.now_date = kwargs['now_date']
         self.ids.weight_input.text = "54"
         self.databaseName = databaseName
         self.ids.foodList.clear_widgets()
@@ -61,13 +63,14 @@ class CategoryPage(Screen):
     
     def displayProgressBar(self):
 
-        totalIntake = 0
-        userIntake = 0 
+        computeIntake = 0
+        userIntake = 0
+
+
         conn = sqlite3.connect('user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
-
 
         #########  DISPLAY
         if str(track_goal[0]) == "Calories":
@@ -81,25 +84,50 @@ class CategoryPage(Screen):
                 cursor.execute("SELECT carbs_min FROM user")
                 carbs_min = cursor.fetchone()
                 goal = carbs_min
-
-        self.ids.user_goal.text = f"{goal} goal - {totalIntake} intake = {userIntake} remaining"
-        self.ids.user_goal.font_size = 12
     
         #########
-
+        
         connHistory = sqlite3.connect('mp_database/food_history.db')
         cursorHistory = connHistory.cursor()
+
 
         # CHECK if there are tables
         cursorHistory.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = cursorHistory.fetchall()
+        print(tables)
 
         if not tables:
-            print("There are no tables in the food_history database.")
+            # There are no tables in the food_history database.
+            computeIntake = 0
+            userIntake = 0
         else:
-            print("There are tables in the food_history database.")
+            # Access the latest table
+            table_count = len(tables)-1
+            table_name = f"food_history_{table_count}"
 
+            # Compare Dates
+            cursorHistory.execute(f"SELECT * FROM {table_name}")
+            records = cursorHistory.fetchall()
+            previous_date = records[-1]
+            prev = int(previous_date[4])
 
+            '''if int(self.now_date) > prev:
+                computeIntake = 0
+                userIntake = 0
+                cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
+            else:'''
+            
+            cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
+            intakes = cursorHistory.fetchall()
+
+            ########### COMPUTATION
+            computeIntake = sum([intake[0] for intake in intakes])
+            userIntake = goal - computeIntake   
+            cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
+            
+        
+        self.ids.user_goal.text = f"{goal} goal - {computeIntake} intake = {userIntake} remaining"
+        self.ids.user_goal.font_size = 12
 
         connHistory.commit()
         connHistory.close()

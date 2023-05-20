@@ -94,6 +94,7 @@ class WindowManager(ScreenManager):
     def generateCategoryPageScreen(self, databaseName):
         if hasattr(self, 'CategoryPage_widget'):
             self.ids.CategoryPage.remove_widget(self.CategoryPage_widget)
+        # now_date = datetime.date.today().strftime("%Y%m%d")
         self.CategoryPage_widget = CategoryPage(manager=self, databaseName= databaseName)
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
         self.current = "CategoryPage"

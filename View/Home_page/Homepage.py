@@ -26,8 +26,6 @@ class Homepage(Screen):
         super().__init__(**kwargs)
 
         self.now_date = datetime.date.today().strftime("%Y%m%d")
-        print("NOW INIT:", self.now_date)
-
         self.ids.weight_input.text = "54"
         self.manager = manager
         self.on_enter()
@@ -37,7 +35,6 @@ class Homepage(Screen):
             multiline=False
         )
 
-    
 
     def on_enter(self):
         self.tracker()
