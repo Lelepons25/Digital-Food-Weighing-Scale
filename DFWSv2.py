@@ -22,6 +22,7 @@ from View.More_Page.MorePage import MorePage
 from View.Help_Page.HelpPage import HelpPage
 from View.FoodHistory_Page.FoodHistoryPage import FoodHistoryPage
 
+
 import datetime
 
 import sqlite3
@@ -101,9 +102,12 @@ class WindowManager(ScreenManager):
     
 class DFWS(MDApp):
 
-    def on_start(self):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
+
+
 
     def build(self):     
     

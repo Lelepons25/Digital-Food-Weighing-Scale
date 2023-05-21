@@ -62,7 +62,7 @@ class Homepage(Screen):
                 self.ids.tracker.text = "Carbohydrates Intake Tracker"
                 cursor.execute("SELECT carbs_min FROM user")
                 carbs_min = cursor.fetchone()
-                goal = carbs_min
+                goal = carbs_min[0]
     
         #########
         

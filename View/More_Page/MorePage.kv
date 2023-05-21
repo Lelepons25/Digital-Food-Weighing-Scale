@@ -79,15 +79,6 @@
             on_release:
                 app.root.generateHelpPageScreen()
 
-    MDIconButton:
-        icon: "circle-edit-outline"
-        theme_icon_color: "Custom"
-        icon_color: app.theme_cls.primary_color
-        pos_hint: {"x": 0.95, "top": 1}
-
-        on_release:
-            root.confirmation_dialog()
-
     
     MDCard:
         size_hint: None, None
@@ -124,15 +115,17 @@
             Line:
                 width: 1.2
                 rectangle: (self.x, self.y, self.width, self.height)
-                
-        Label:
+
+
+    ###########################################################################    
+        #   WEIGHT       
+        MDLabel:
             id: weight_input
             text: '0'
             bold: True
             font_size: 60
             color: 0.204, 0.204, 0.204, 1
             pos_hint:{'x':0.01, 'top': 1}
-
 
 ##############################################################################
 

@@ -28,11 +28,10 @@ class CategoryPage(Screen):
     def __init__(self , databaseName, manager = None, **kwargs):
         super(CategoryPage, self).__init__(**kwargs)
         self.manager = manager
-        # self.now_date = kwargs['now_date']
+        # self.now_date = datetime.date.today().strftime("%Y%m%d")
         self.ids.weight_input.text = "54"
         self.databaseName = databaseName
         self.ids.foodList.clear_widgets()
-        self.kCal = 0
         self.on_enter()
 
     def on_enter(self):
@@ -83,7 +82,7 @@ class CategoryPage(Screen):
                 self.ids.tracker.text = "Carbohydrates Intake Tracker"
                 cursor.execute("SELECT carbs_min FROM user")
                 carbs_min = cursor.fetchone()
-                goal = carbs_min
+                goal = carbs_min[0]
     
         #########
         
@@ -108,22 +107,19 @@ class CategoryPage(Screen):
             # Compare Dates
             cursorHistory.execute(f"SELECT * FROM {table_name}")
             records = cursorHistory.fetchall()
-            previous_date = records[-1]
-            prev = int(previous_date[4])
 
-            '''if int(self.now_date) > prev:
+            # Check if it is empty
+            if not records:
                 computeIntake = 0
                 userIntake = 0
-                cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
-            else:'''
-            
-            cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
-            intakes = cursorHistory.fetchall()
+            else:
+                cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
+                intakes = cursorHistory.fetchall()
 
-            ########### COMPUTATION
-            computeIntake = sum([intake[0] for intake in intakes])
-            userIntake = goal - computeIntake   
-            cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
+                ########### COMPUTATION
+                computeIntake = sum([intake[0] for intake in intakes])
+                userIntake = goal - computeIntake  
+                cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
             
         
         self.ids.user_goal.text = f"{goal} goal - {computeIntake} intake = {userIntake} remaining"
@@ -133,7 +129,6 @@ class CategoryPage(Screen):
         connHistory.close()
         conn.commit()
         conn.close()
-
 
     def displayFoodValues(self, instance, row_data):
 
