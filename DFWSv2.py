@@ -99,7 +99,10 @@ class WindowManager(ScreenManager):
         self.CategoryPage_widget = CategoryPage(manager=self, databaseName= databaseName)
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
         self.current = "CategoryPage"
-    
+
+
+
+
 class DFWS(MDApp):
 
     def __init__(self, **kwargs):
@@ -113,7 +116,8 @@ class DFWS(MDApp):
     
         return WindowManager()
     
-    
+
+
 
 
 

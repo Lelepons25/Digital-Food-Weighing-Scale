@@ -110,12 +110,22 @@ class FoodHistoryPage(Screen):
     def delete_history(self, foodId, table_name):
         conn = sqlite3.connect("mp_database/food_history.db")
         cursor = conn.cursor()
-        cursor.execute(f"DELETE FROM {table_name} WHERE foodId = ?", (str(foodId),))
+
+        # Check if the table has only one row
+        cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+        count = cursor.fetchone()[0]
+
+        if count <= 1:
+            cursor.execute(f"DROP TABLE {table_name}")
+        else:
+            cursor.execute(f"DELETE FROM {table_name} WHERE foodId = ?", (str(foodId),))
+
         popupMessage("Food History Deleted")
         conn.commit()
         conn.close()
         self.dialog.dismiss()
         self.manager.generateFoodHistoryPageScreen()
+
 
 
     def confirmation_dialog(self, instance, table_name):
@@ -136,7 +146,7 @@ class FoodHistoryPage(Screen):
                     )
                 ]
             )
-        self.dialog.open()
+        self.dialog.open() 
 
     def cancel_dialog(self, instance):
         self.dialog.dismiss()

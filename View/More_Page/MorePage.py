@@ -11,6 +11,8 @@ from kivy.core.window import Window
 import sqlite3
 import datetime
 
+from View.Home_page.Homepage import Homepage
+
 Builder.load_file('View\More_Page\MorePage.kv')
 
 # More Page displays the other categories
@@ -33,90 +35,10 @@ class MorePage(Screen):
             multiline=False
         )
 
-
-
-
     def on_enter(self):
-        self.tracker()
 
-
-    def tracker(self):
-
-        computeIntake = 0
-        userIntake = 0
-
-
-        conn = sqlite3.connect('user_database/userDB.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
-        track_goal = cursor.fetchone()
-
-        #########  DISPLAY
-        if str(track_goal[0]) == "Calories":
-                self.ids.tracker.text = "Calorie Intake Tracker"
-                cursor.execute("SELECT tdee FROM user")
-                tdee = cursor.fetchone()
-                goal = tdee[0]
-
-        elif str(track_goal[0]) == "Carbohydrates":
-                self.ids.tracker.text = "Carbohydrates Intake Tracker"
-                cursor.execute("SELECT carbs_min FROM user")
-                carbs_min = cursor.fetchone()
-                goal = carbs_min[0]
-
-    
-        #########
-        
-        connHistory = sqlite3.connect('mp_database/food_history.db')
-        cursorHistory = connHistory.cursor()
-
-
-        # CHECK if there are tables
-        cursorHistory.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = cursorHistory.fetchall()
-
-        if not tables:
-            # There are no tables in the food_history database.
-            computeIntake = 0
-            userIntake = 0
-        else:
-            # Access the latest table
-            table_count = len(tables)-1
-            table_name = f"food_history_{table_count}"
-
-            # Compare Dates
-            cursorHistory.execute(f"SELECT * FROM {table_name}")
-            records = cursorHistory.fetchall()
-
-            # Check if it is empty
-            if not records:
-                computeIntake = 0
-                userIntake = 0
-            else:
-                previous_date = records[-1]
-                prev = int(previous_date[4])
-
-                if int(self.now_date) > prev:
-                    computeIntake = 0
-                    userIntake = 0
-                    cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
-                else:
-                    cursorHistory.execute(f"SELECT food_intake FROM {table_name}")
-                    intakes = cursorHistory.fetchall()
-
-                    ########### COMPUTATION
-                    computeIntake = sum([intake[0] for intake in intakes])
-                    userIntake = goal - computeIntake  
-                    cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
-                
-        
-        self.ids.user_goal.text = f"{goal} goal - {computeIntake} intake = {userIntake} remaining"
-        self.ids.user_goal.font_size = 12
-
-        connHistory.commit()
-        connHistory.close()
-        conn.commit()
-        conn.close()
+        # Display food intake tracker
+        Homepage.tracker(self)
 
     def enter_topButton(self, button):
         if button == "Save":

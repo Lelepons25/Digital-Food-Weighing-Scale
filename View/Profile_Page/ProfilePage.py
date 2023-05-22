@@ -5,6 +5,9 @@ from kivy.uix.label import Label
 from kivy.lang import Builder
 from kivy.uix.vkeyboard import VKeyboard
 from kivy.core.window import Window
+from kivy.factory import Factory
+
+
 
 import sqlite3
 import math
@@ -31,45 +34,6 @@ class ProfilePage(Screen):
         self.user_weight.bind(focus=self.on_text_focus)
         self.user_height.bind(focus=self.on_text_focus)
 
-    def on_text_focus(self, widget, value):
-        if value:
-            keyboard = VKeyboard(target=widget, layout='qwerty', size_hint = (0.35, 0.4))
-            Window.add_widget(keyboard)
-        else:
-            for child in Window.children[:]:
-                if isinstance(child, VKeyboard):
-                    Window.remove_widget(child)
-
-    # key_up: when the keyboard is released
-    def key_up(self, keyboard, keycode, text, modifiers):
-        active_textfield = None 
-        if isinstance(keycode, tuple):
-            keycode = keycode[1]
-        if self.user_name.focus:
-            active_textfield = self.user_name
-        elif self.age.focus:
-            active_textfield = self.age
-        elif self.user_weight.focus:
-            active_textfield = self.user_weight
-        elif self.user_height.focus:
-            active_textfield = self.user_height
-            
-        if active_textfield is not None:
-            if keycode == 'backspace':
-                active_textfield.text = active_textfield.text[:-1]
-            elif keycode == 'spacebar':
-                active_textfield.text += ' '
-            elif keycode == 'capslock':
-                active_textfield.text.upper()
-            elif keycode == 'shift':
-                pass
-            elif keycode == 'enter':
-                pass
-            elif keycode == 'layout':
-                pass
-            else:
-                active_textfield.text += text
-
     def get_sex_spinner(self, value):
         self.sex.text = value
     
@@ -79,6 +43,11 @@ class ProfilePage(Screen):
     def get_activitylevel_spinner(self, value):
         self.activity_level.text = value
 
+
+    def clear_error_message(self):
+        for widget in self.root.children:
+            if isinstance(widget, Label) and widget.text == "Please choose a valid option":
+                self.root.remove_widget(widget)
 
 
     def compute_calIntake(self, age, sex, user_weight, user_height, activity_level):
@@ -112,81 +81,133 @@ class ProfilePage(Screen):
         if self.user_name.text and self.sex.text and self.age.text and self.user_weight.text and self.user_height.text and self.track_goal.text and self.activity_level.text:
             # Check the length of the name 
             if len(self.user_name.text) >= 4 and len(self.user_name.text)<=50:
-            # Check if age is a valid positive integer
-                if self.age.text.isdigit() and 18 < int(self.age.text) < 100:
-                    # Check if user weight and height are valid positive integers
-                    if self.user_weight.text.isdigit() and int(self.user_weight.text) > 30 and int(self.user_weight.text) < 400:
-                        if self.user_height.text.isdigit() and int(self.user_height.text) > 0 and int(self.user_height.text) <300:
-                        # Add user to the database
-                            user_name = self.user_name.text
-                            sex = self.sex.text
-                            age = int(self.age.text)
-                            user_weight = float(self.user_weight.text)
-                            user_height = float(self.user_height.text)
-                            track_goal = self.track_goal.text
-                            activity_level = self.activity_level.text
-                            totalIntake = None
+                # Check spinner
+                if self.sex.text in ["Male", "Female"]:
+                    # Check if age is a valid positive integer
+                    if self.age.text.isdigit() and 18 < int(self.age.text) < 100:
+                        # Check if user weight and height are valid positive integers
+                        if self.user_weight.text.isdigit() and int(self.user_weight.text) > 30 and int(self.user_weight.text) < 400:
+                            if self.user_height.text.isdigit() and int(self.user_height.text) > 0 and int(self.user_height.text) <300:
+                                # Check spinner
+                                if self.track_goal.text in ["Calories", "Carbohydrates"]:
+                                    if self.activity_level.text in ["Sedentary", "Lightly active", "Moderately active", "Very active", "Extra active"]:
+                                    # Add user to the database
+                                        user_name = self.user_name.text
+                                        sex = self.sex.text
+                                        age = int(self.age.text)
+                                        user_weight = float(self.user_weight.text)
+                                        user_height = float(self.user_height.text)
+                                        track_goal = self.track_goal.text
+                                        activity_level = self.activity_level.text
+                                        totalIntake = None
 
-                            # COMPUTE BMI
-                            bmi = user_weight / ((user_height/100) ** 2)
-                        
-                            # check track goal:
-                            if track_goal == "Calories":                
-                                # COMPUTE TDEE 
-                                tdee = math.ceil(self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level))
-                                carbs_min = None
-                                carbs_max = None
-                            else:
-                                tdee = math.ceil(self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level))
-                                carbs_min = math.ceil((tdee * 0.45)/4)
-                                carbs_max = math.ceil((tdee * 0.65)/4)
-                        
-                            # Connect to the database
-                            conn = sqlite3.connect('user_database/userDB.db')
-                            cursor = conn.cursor()
+                                        # COMPUTE BMI
+                                        bmi = user_weight / ((user_height/100) ** 2)
+                                    
+                                        # check track goal:
+                                        if track_goal == "Calories":                
+                                            # COMPUTE TDEE 
+                                            tdee = math.ceil(self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level))
+                                            carbs_min = None
+                                            carbs_max = None
+                                        else:
+                                            tdee = math.ceil(self.compute_calIntake(int(age), sex, user_weight, user_height, activity_level))
+                                            carbs_min = math.ceil((tdee * 0.45)/4)
+                                            carbs_max = math.ceil((tdee * 0.65)/4)
+                                    
+                                        # Connect to the database
+                                        conn = sqlite3.connect('user_database/userDB.db')
+                                        cursor = conn.cursor()
 
-                            # Check if the database is empty
-                            cursor.execute("SELECT COUNT(*) FROM user")
-                            result = cursor.fetchone()
+                                        # Check if the database is empty
+                                        cursor.execute("SELECT COUNT(*) FROM user")
+                                        result = cursor.fetchone()
 
-                            if result[0] == 0:
-                                # User does not exist, insert new row
-                                cursor.execute("INSERT INTO user (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max, totalIntake) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max, totalIntake))
-                                conn.commit()
-                                conn.close()    
-                                self.manager.generateHomePageScreen()
-                            else:
-                                # User exists, update existing row
-                                cursor.execute("UPDATE user SET user_name=?, sex=?, age=?, user_weight=?, user_height=?, track_goal=?, activity_level=?, bmi=?, tdee=?, carbs_min=?, carbs_max=?, totalIntake=?", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max, totalIntake))
-                                conn.commit()
-                                conn.close()
-                                self.manager.generateEditProfilePageScreen()
+                                        if result[0] == 0:
+                                            # User does not exist, insert new row
+                                            cursor.execute("INSERT INTO user (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max, totalIntake) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max, totalIntake))
+                                            conn.commit()
+                                            conn.close()    
+                                            self.manager.generateHomePageScreen()
+                                        else:
+                                            # User exists, update existing row
+                                            cursor.execute("UPDATE user SET user_name=?, sex=?, age=?, user_weight=?, user_height=?, track_goal=?, activity_level=?, bmi=?, tdee=?, carbs_min=?, carbs_max=?, totalIntake=?", (user_name, sex, age, user_weight, user_height, track_goal, activity_level, bmi, tdee, carbs_min, carbs_max, totalIntake))
+                                            conn.commit()
+                                            conn.close()
+                                            self.manager.generateEditProfilePageScreen()
 
-                                # Delete the food history
-                                conn = sqlite3.connect('mp_database/food_history.db')
-                                cursor = conn.cursor()
-                                cursor.execute("DELETE FROM food_history")
-                                conn.commit()
-                                conn.close()
-                                
-                        else: 
-                            invalidForm("Input height in cm raging from 50 - 300")
+                                            # Delete the food history
+                                            #################################### SAVE TO RPI
+                                            conn = sqlite3.connect('mp_database/food_history.db')
+                                            cursor = conn.cursor()
+                                            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+                                            tables = cursor.fetchall()
+
+                                            for table in tables:
+                                                cursor.execute(f"DROP TABLE {table[0]}")
+                    
+                                            conn.commit()
+                                            conn.close()
+                                            #################################### SAVE TO RPI
+                                    else:
+                                        invalidForm("Select your activity level") 
+                                else:
+                                    invalidForm("Select your track goal")
+                            else: 
+                                invalidForm("Input height in cm raging from 50 - 300")
+                        else:
+                            invalidForm("Input weight in kg raging from 30 - 400")
                     else:
-                        invalidForm("Input weight in kg raging from 30 - 400")
+                        invalidForm("Age Limit: 18 - 100")
                 else:
-                    invalidForm("Age Limit: 18 - 100")
+                    invalidForm("Select your sex assigned at birth")
             else:
                 invalidForm("Input name with 4-50 characters")
         else:
             invalidForm("Please complete the form")
 
-    
-    def reset(self):
-        self.user_name.text = ""
-        self.sex.text = ""
-        self.age.text = ""
-        self.user_weight.text = ""
-        self.user_height.text = ""
+
+
+    def on_text_focus(self, widget, value):
+        if value:
+            keyboard = VKeyboard(target=widget, layout='qwerty', size_hint=(0.35, 0.4))
+            keyboard.bind(on_key_up=self.key_up) 
+            Window.add_widget(keyboard)
+        else:
+            for child in Window.children[:]:
+                if isinstance(child, VKeyboard):
+                    Window.remove_widget(child)
+
+
+    # key_up: when the keyboard is released
+    def key_up(self, keyboard, keycode, text, modifiers):
+        active_textfield = None 
+        if isinstance(keycode, tuple):
+            keycode = keycode[1]
+        if self.user_name.focus:
+            active_textfield = self.user_name
+        elif self.age.focus:
+            active_textfield = self.age
+        elif self.user_weight.focus:
+            active_textfield = self.user_weight
+        elif self.user_height.focus:
+            active_textfield = self.user_height
+            
+        if active_textfield is not None:
+            if keycode == 'backspace':
+                active_textfield.text = active_textfield.text[:-1]
+            elif keycode == 'spacebar':
+                active_textfield.text += ' '
+            elif keycode == 'capslock':
+                active_textfield.text.upper()
+            elif keycode == 'shift':
+                pass
+            elif keycode == 'enter':
+                pass
+            elif keycode == 'layout':
+                pass
+            else:
+                active_textfield.text += text  
 
 def invalidForm(message):
     pop = Popup(title = " Invalid Form ",
