@@ -46,8 +46,8 @@ class MorePage(Screen):
             popup = Popup(title='Error', content=content, size_hint=(None, None), size=(400, 200))
             popup.open()
             return
-        elif button == "Clear":
-            print("Clear")
+        elif button == "Tare":
+            self.ids.weight_input.text = "0"
 
 def popupMessage(message):
     pop = Popup(title = " Invalid Form ",
