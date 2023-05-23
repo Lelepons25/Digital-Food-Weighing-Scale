@@ -18,7 +18,7 @@ class FoodHistoryAnalysisPage(Screen):
         self.on_enter()
 
     def on_enter(self):
-        conn = sqlite3.connect('mp_database/Duplicatefood_history.db')
+        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db')
         cursor = conn.cursor()
 
         # Check if table exists
@@ -40,7 +40,7 @@ class FoodHistoryAnalysisPage(Screen):
 
     def analyis_frequency(self):
 
-        conn = sqlite3.connect('mp_database/Duplicatefood_history.db')
+        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db')
 
         # Frequency analysis
         dfs = []
@@ -68,7 +68,7 @@ class FoodHistoryAnalysisPage(Screen):
     
     def analysis_intake(self):
         
-        conn = sqlite3.connect('mp_database/Duplicatefood_history.db')
+        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db')
         # Get the top 5 highest food intake from the database
         dfsIntake = []
         for i in range(7):
