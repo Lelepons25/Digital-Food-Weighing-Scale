@@ -47,7 +47,7 @@ class Homepage(Screen):
         userIntake = 0
 
 
-        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db')
+        conn = sqlite3.connect('user_database/userDB.db')
         cursor = conn.cursor()
         cursor.execute("SELECT CAST(track_goal AS TEXT) FROM user")
         track_goal = cursor.fetchone()
