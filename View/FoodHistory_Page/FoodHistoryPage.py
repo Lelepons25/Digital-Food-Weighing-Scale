@@ -29,7 +29,7 @@ class FoodHistoryPage(Screen):
     
     def display_foodHistory(self):
             
-        conn = sqlite3.connect("mp_database/food_history.db")
+        conn = sqlite3.connect("/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db")
         cursor = conn.cursor()
 
 
@@ -62,7 +62,7 @@ class FoodHistoryPage(Screen):
 
         table_name = f"food_history_{table_count}"
 
-        conn = sqlite3.connect("mp_database/food_history.db")
+        conn = sqlite3.connect("/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db")
         cursor = conn.cursor()
 
         cursor.execute(f"SELECT * FROM {table_name}")
@@ -108,7 +108,7 @@ class FoodHistoryPage(Screen):
         conn.close()
     
     def delete_history(self, foodId, table_name):
-        conn = sqlite3.connect("mp_database/food_history.db")
+        conn = sqlite3.connect("/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db")
         cursor = conn.cursor()
 
         # Check if the table has only one row
