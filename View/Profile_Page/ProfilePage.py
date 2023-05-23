@@ -140,8 +140,8 @@ class ProfilePage(Screen):
                                             Homepage.deleteHistory(self)
 
                                         # Check if there's a duplicate in the database
-                                            if os.path.exists('mp_database/Duplicatefood_history.db'):
-                                                os.remove('mp_database/Duplicatefood_history.db')
+                                            if os.path.exists('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db'):
+                                                os.remove('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db')
                                         
                                     else:
                                         invalidForm("Select your activity level") 
