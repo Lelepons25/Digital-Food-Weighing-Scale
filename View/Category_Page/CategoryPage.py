@@ -205,7 +205,7 @@ class CategoryPage(Screen):
     def duplicate_db(self):
 
         # Check if there's existing duplicate database
-        if os.path.exists('mp_database/Duplicatefood_history.db'):
+        if os.path.exists('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db'):
             os.remove('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db')
         
         original_db = '/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db'
