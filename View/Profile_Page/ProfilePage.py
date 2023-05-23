@@ -138,7 +138,7 @@ class ProfilePage(Screen):
 
                                             # Delete the food history
                                             #################################### SAVE TO RPI
-                                            conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db')
+                                            conn = sqlite3.connect('mp_database/food_history.db')
                                             cursor = conn.cursor()
                                             cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
                                             tables = cursor.fetchall()
