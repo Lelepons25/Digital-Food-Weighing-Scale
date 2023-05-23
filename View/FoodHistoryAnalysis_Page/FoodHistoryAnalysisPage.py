@@ -9,7 +9,7 @@ import shutil
 
 
 
-Builder.load_file('View\FoodHistoryAnalysis_Page\FoodHistoryAnalysisPage.kv')
+Builder.load_file('/home/pi/Digital-Food-Weighing-Scale/View/FoodHistoryAnalysis_Page/FoodHistoryAnalysis.kv')
 
 class FoodHistoryAnalysisPage(Screen):
     def __init__(self, **kwargs):
