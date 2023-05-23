@@ -13,9 +13,11 @@ from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
 from datetime import datetime
 # import psycopg2
+
+import os
 import re
-import time
 import math
+import shutil
 
 from View.Home_page.Homepage import Homepage
 
@@ -188,6 +190,10 @@ class CategoryPage(Screen):
                             popupMessage("Food Saved!", food_intake)
                         else:
                             popupMessage("The database is full.")
+                            # Duplicate Food History
+                            self.duplicate_db()
+                            # Delete Original Food History
+                            Homepage.deleteHistory(self)
 
                     conn.commit()
 
@@ -196,6 +202,16 @@ class CategoryPage(Screen):
             else:
                 popupMessage("The database is full.")
 
+    def duplicate_db(self):
+
+        # Check if there's existing duplicate database
+        if os.path.exists('mp_database/Duplicatefood_history.db'):
+            os.remove('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db')
+        
+        original_db = '/home/pi/Digital-Food-Weighing-Scale/mp_database/food_history.db'
+        duplicate_db = '/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db'
+        # Copy the original database file to the duplicate file
+        shutil.copyfile(original_db, duplicate_db)
 
 def popupMessage(message, food_intake = None):
 
