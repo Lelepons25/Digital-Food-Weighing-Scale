@@ -14,7 +14,8 @@ Builder.load_file('/home/pi/Digital-Food-Weighing-Scale/View/Home_page/Homepage.
 
 import sqlite3
 import datetime
-from datetime import date
+from datetime
+import shutil
 
 class Homepage(Screen):
 
@@ -131,13 +132,9 @@ class Homepage(Screen):
 
         for table in tables:
             cursor.execute(f"DROP TABLE {table[0]}")
-
-        popupNotice()
         
         conn.commit()
         conn.close()
-        
-
 
     def confirmation_resetDialog(self):
         if not self.dialog:
