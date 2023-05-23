@@ -38,37 +38,36 @@ class EditProfilePage(Screen):
     
 
     def on_enter(self):
+        super().on_enter()
         self.displayUserInfo()
 
     
     def displayUserInfo(self):
+        conn = sqlite3.connect("user_database/userDB.db")
+        curr = conn.cursor()
 
-        conn = sqlite3.connect('user_database/userDB.db')
-        cursor = conn.cursor()
+        curr.execute("SELECT * FROM user")
+        row = curr.fetchone()
 
-        cursor.execute("SELECT * FROM user")
-        row = cursor.fetchone()
-
-        bmi = row[7]
-        track_goal = row[5]
-
-        bmiCategory = self.identify_bmiCategory(bmi)
-
-        if row is not None:
+        if row is not None:  
+            bmi = row[7]
+            track_goal = row[5]
+            bmiCategory = self.identify_bmiCategory(bmi)
+            
             # DISPLAY
             self.ids.user_name.text = f"Name: {row[0]}"
-            self.ids.sex.text = f"Sex: {row[1]}"
-            self.ids.age.text = f"Age: {row[2]}"
-            self.ids.user_weight.text = f"Weight: {row[3]} kg"
-            self.ids.user_height.text = f"Height: {row[4]} cm"
-            self.ids.track_goal.text = f"Track: {row[5]}"
-            self.ids.activity_level.text = f"Activity Level: {row[6]}"
-            self.ids.bmi.text = f"BMI: {row[7]:.2f} - {bmiCategory}"
+            self.ids.sex.text = f"Sex:  {row[1]}"
+            self.ids.age.text = f"Age:  {row[2]}"
+            self.ids.user_weight.text = f"Weight:   {row[3]} kg"
+            self.ids.user_height.text = f"Height:   {row[4]} cm"
+            self.ids.track_goal.text = f"Track:     {row[5]}"
+            self.ids.activity_level.text = f"Activity Level:    {row[6]}"
+            self.ids.bmi.text = f"BMI:  {row[7]:.2f} - {bmiCategory}"
 
             if track_goal == "Calories":
-                self.ids.goal_intake.text = f"Carolie Intake Goal: {int(row[8])} kcal"
+                self.ids.goal_intake.text = f"Carolie Intake Goal:  {int(row[8])} kcal"
             else:
-                self.ids.goal_intake.text = f"Carbohydrate Intake range:  \n {int(row[9])} grams - {int(row[10])} grams"
+                self.ids.goal_intake.text = f"Carbohydrate Intake range:  \n    {int(row[9])} grams - {int(row[10])} grams"
         else:
             print("Database is empty")
         
@@ -120,7 +119,7 @@ class EditProfilePage(Screen):
         self.clear_mealPlan()
         self.ids.mp_title.text = "Pinggang Pinoy"
         
-        # Create Button for pinggang pinoy Day 1 - Day 8
+        # Create Button for pinggang pinoy Day 1 - Day 7
         # Create a list to store the day buttons
         self.day_buttons =[] 
         for i in range (1, 8):
