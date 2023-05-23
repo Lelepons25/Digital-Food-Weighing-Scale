@@ -116,7 +116,7 @@ class ProfilePage(Screen):
                                             carbs_max = math.ceil((tdee * 0.65)/4)
                                     
                                         # Connect to the database
-                                        conn = sqlite3.connect('/home/pi/Digital-Food-Weighing-Scale/user_database/userDB.db')
+                                        conn = sqlite3.connect('user_database/userDB.db')
                                         cursor = conn.cursor()
 
                                         # Check if the database is empty
@@ -136,19 +136,13 @@ class ProfilePage(Screen):
                                             conn.close()
                                             self.manager.generateEditProfilePageScreen()
 
-                                            # Delete the food history
-                                            #################################### SAVE TO RPI
-                                            conn = sqlite3.connect('mp_database/food_history.db')
-                                            cursor = conn.cursor()
-                                            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-                                            tables = cursor.fetchall()
+                                            # Delete food history
+                                            Homepage.deleteHistory(self)
 
-                                            for table in tables:
-                                                cursor.execute(f"DROP TABLE {table[0]}")
-                    
-                                            conn.commit()
-                                            conn.close()
-                                            #################################### SAVE TO RPI
+                                        # Check if there's a duplicate in the database
+                                            if os.path.exists('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db'):
+                                                os.remove('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db')
+                                        
                                     else:
                                         invalidForm("Select your activity level") 
                                 else:
@@ -224,3 +218,4 @@ def restart():
         size = (400,400)
     )
     pop.open()
+
