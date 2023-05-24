@@ -141,8 +141,7 @@ class ProfilePage(Screen):
 
                                         # Check if there's a duplicate in the database
                                             if os.path.exists('mp_database/Duplicatefood_history.db'):
-                                                os.remove('mp_database/Duplicatefood_history.db')
-                                        
+                                                os.remove('mp_database/Duplicatefood_history.db')                            
                                     else:
                                         invalidForm("Select your activity level") 
                                 else:
