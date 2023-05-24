@@ -1,17 +1,6 @@
 <EditProfilePage>
     name: "EditProfilePage"
 
-    user_name: user_name
-    sex: sex
-    age: age
-    user_weight: user_weight
-    user_height: user_height
-    track_goal: track_goal
-    bmi: bmi
-    activity_level: activity_level
-    goal_intake: goal_intake
-
-
     # Profile
     MDCard:
         size_hint: None, None
@@ -55,44 +44,44 @@
         MDLabel:
             id: user_weight
             text: "Weight:"
-            size_hint_x: 30
-            font_size: 14
+            size_hint_x: None
+            font_size: 12
             pos_hint: {"x": 0.07}
         
         MDLabel:
             id: user_height
             text: "Height:"
-            size_hint_x: 30
-            font_size: 14
+            size_hint_x: None
+            font_size: 12
             pos_hint: {"x": 0.07}
         
         MDLabel:
             id: track_goal
             text: "Track:"
-            size_hint_x: 30
-            font_size: 14
+            size_hint_x: 1
+            font_size: 12
             pos_hint: {"x": 0.07}
         
         MDLabel:
             id: activity_level
             text: "Activity Level:"
-            size_hint_x: 30
-            font_size: 14
+            size_hint_x: 1
+            font_size: 12
             pos_hint: {"x": 0.07}
         
         MDLabel:
             id: bmi
             text: "BMI:"
-            size_hint_x: 30
-            font_size: 14
+            size_hint_x: 1
+            font_size: 12
             pos_hint: {"x": 0.07}
     
         
         MDLabel:
             id: goal_intake
             text: "Goal Intake:"
-            size_hint_x: 30
-            font_size: 14
+            size_hint_x: 1
+            font_size: 12
             pos_hint: {"x": 0.07}
 
         MDRoundFlatButton:
@@ -120,7 +109,7 @@
 
         MDLabel:
             id: mp_title
-            text: "Meal Plans"
+            text: "Meal Plan and Food Analysis"
             font_size: 20
             halign: 'center'
             size_hint_y: None
@@ -155,8 +144,8 @@
             text: 'Food History Analysis'
             text_color: "black"
             line_color: "red"
-            #on_release:
-             #   root.enter_foodExchange()
+            on_release:
+                app.root.generateFoodHistoryAnalysisPageScreen()
         
             ##################################################################        
         MDCarousel:

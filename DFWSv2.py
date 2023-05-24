@@ -21,6 +21,8 @@ from View.EditProfile_Page.EditProfilePage import EditProfilePage
 from View.More_Page.MorePage import MorePage
 from View.Help_Page.HelpPage import HelpPage
 from View.FoodHistory_Page.FoodHistoryPage import FoodHistoryPage
+from View.FoodHistoryAnalysis_Page.FoodHistoryAnalysisPage import FoodHistoryAnalysisPage
+
 
 import datetime
 
@@ -90,6 +92,13 @@ class WindowManager(ScreenManager):
         self.ids.FoodHistoryPage.add_widget(self.FoodHistoryPage_widget)
         self.current = "FoodHistoryPage"
 
+    def generateFoodHistoryAnalysisPageScreen(self):
+        if hasattr(self, 'FoodHistoryAnalysisPage_widget'):
+            self.ids.FoodHistoryAnalysisPage.remove_widget(self.FoodHistoryAnalysisPage_widget)
+        self.FoodHistoryAnalysisPage_widget = FoodHistoryAnalysisPage(manager=self)
+        self.ids.FoodHistoryAnalysisPage.add_widget(self.FoodHistoryAnalysisPage_widget)
+        self.current = "FoodHistoryAnalysisPage"
+
 
     def generateCategoryPageScreen(self, databaseName):
         if hasattr(self, 'CategoryPage_widget'):
@@ -98,18 +107,24 @@ class WindowManager(ScreenManager):
         self.CategoryPage_widget = CategoryPage(manager=self, databaseName= databaseName)
         self.ids.CategoryPage.add_widget(self.CategoryPage_widget)
         self.current = "CategoryPage"
-    
+
+
+
 class DFWS(MDApp):
 
-    def on_start(self):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Blue"
+
+
 
     def build(self):     
     
         return WindowManager()
     
-    
+
+
 
 
 

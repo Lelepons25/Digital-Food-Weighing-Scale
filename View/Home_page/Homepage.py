@@ -14,7 +14,7 @@ Builder.load_file('View\Home_page\Homepage.kv')
 
 import sqlite3
 import datetime
-from datetime import date
+import shutil
 
 class Homepage(Screen):
 
@@ -62,7 +62,7 @@ class Homepage(Screen):
                 self.ids.tracker.text = "Carbohydrates Intake Tracker"
                 cursor.execute("SELECT carbs_min FROM user")
                 carbs_min = cursor.fetchone()
-                goal = carbs_min
+                goal = carbs_min[0]
     
         #########
         
@@ -73,7 +73,6 @@ class Homepage(Screen):
         # CHECK if there are tables
         cursorHistory.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = cursorHistory.fetchall()
-        print(tables)
 
         if not tables:
             # There are no tables in the food_history database.
@@ -110,7 +109,11 @@ class Homepage(Screen):
                     cursor.execute("UPDATE user SET totalIntake = ?", (computeIntake,))
                 
         
-        self.ids.user_goal.text = f"{goal} goal - {computeIntake} intake = {userIntake} remaining"
+        # If the user intake is negative
+        if userIntake < 0:
+            self.ids.user_goal.text = f"{goal} goal - {computeIntake} intake = {userIntake} exceeded"
+        else:
+            self.ids.user_goal.text = f"{goal} goal - {computeIntake} intake = {userIntake} remaining"
         self.ids.user_goal.font_size = 12
 
         connHistory.commit()
@@ -128,8 +131,6 @@ class Homepage(Screen):
         for table in tables:
             cursor.execute(f"DROP TABLE {table[0]}")
 
-        popupNotice()
-        
         conn.commit()
         conn.close()
         
@@ -167,17 +168,21 @@ class Homepage(Screen):
 
         if not tables:
             popupMessage("You have no food intake to reset!")
-        elif len(tables) == 1:
-            table_count = len(tables)
-            table_name = f"food_history_{table_count}"
-            cursor.execute(f"DELETE FROM {table_name}")
-            popupResetMessage("Your food intake has been reset!")
         else:
             # Access the latest table
             table_count = len(tables)-1
             table_name = f"food_history_{table_count}"
-            cursor.execute(f"DELETE FROM {table_name}")
-            popupResetMessage("Your food intake has been reset!")
+            # Check if latest table date is the same as today's date
+            cursor.execute(f"SELECT * FROM {table_name}")
+            records = cursor.fetchall()
+            previous_date = records[-1]
+            prev = int(previous_date[4])
+
+            if int(self.now_date) > prev:
+                popupMessage("You have no food intake to reset!")
+            else:
+                cursor.execute(f"DROP TABLE {table_name}")
+                popupResetMessage("Your food intake has been reset!")
         conn.commit()
         conn.close()
 
@@ -292,6 +297,8 @@ class Homepage(Screen):
             return
         elif button == "Tare":
             self.ids.weight_input.text = "0"
+
+
 
 def popupMessage(message):
     pop = Popup(title = " Invalid ",
