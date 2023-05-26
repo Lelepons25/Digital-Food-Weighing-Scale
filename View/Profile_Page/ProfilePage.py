@@ -140,9 +140,8 @@ class ProfilePage(Screen):
                                             Homepage.deleteHistory(self)
 
                                         # Check if there's a duplicate in the database
-                                            if os.path.exists('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db'):
-                                                os.remove('/home/pi/Digital-Food-Weighing-Scale/mp_database/Duplicatefood_history.db')
-                                        
+                                            if os.path.exists('mp_database/Duplicatefood_history.db'):
+                                                os.remove('mp_database/Duplicatefood_history.db')                            
                                     else:
                                         invalidForm("Select your activity level") 
                                 else:
@@ -161,6 +160,18 @@ class ProfilePage(Screen):
             invalidForm("Please complete the form")
 
 
+    def cancel_profile(self):
+
+        conn = sqlite3.connect("user_database/userDB.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM user")
+        count = cursor.fetchone()
+
+        if count[0] == 0:
+            # Display pop up message
+            invalidForm("Please input your information to proceed")
+        else:
+            self.manager.generateEditProfilePageScreen()
 
     def on_text_focus(self, widget, value):
         if value:

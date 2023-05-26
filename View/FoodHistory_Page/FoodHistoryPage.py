@@ -9,6 +9,7 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 
 from functools import partial
+from dateutil.parser import parse
 
 import sqlite3
 
@@ -99,7 +100,8 @@ class FoodHistoryPage(Screen):
             self.ids.history_date.text = f"Date Saved: Not Available"
             self.ids.history_intake.text = f"Total Intake: Not Available"
         else:
-            self.ids.history_date.text = f"Date Saved: {row[4]}"
+            date = parse(row[4]).date()
+            self.ids.history_date.text = f"Date Saved: {date}"
             self.ids.history_intake.text = f"Total Intake: {computeIntake}"
 
 
@@ -116,11 +118,25 @@ class FoodHistoryPage(Screen):
         count = cursor.fetchone()[0]
 
         if count <= 1:
-            cursor.execute(f"DROP TABLE {table_name}")
+            # Check if the table is the recent table
+            connCheck = sqlite3.connect("mp_database/food_history.db")
+            cursorCheck = connCheck.cursor()
+            cursorCheck.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            tables = cursorCheck.fetchall()
+            # Access the latest table
+            table_count = len(tables)-1
+            checktable_name = f"food_history_{table_count}"
+
+            if checktable_name == table_name:
+                # Applicable only if deleting recent table
+                cursor.execute(f"DROP TABLE {table_name}")
+                popupMessage("Food History Deleted")
+            else:
+                # Invalid message
+                popupMessageInvalid("You can't delete this table")
         else:
             cursor.execute(f"DELETE FROM {table_name} WHERE foodId = ?", (str(foodId),))
-
-        popupMessage("Food History Deleted")
+            popupMessage("Food History Deleted")
         conn.commit()
         conn.close()
         self.dialog.dismiss()
@@ -157,6 +173,13 @@ class FoodHistoryPage(Screen):
 
 def popupMessage(message):
     pop = Popup(title = "Successs",
+                content = Label(text = f"{message}"),
+                size_hint = (None, None),
+                size = (400, 200))
+    pop.open()
+
+def popupMessageInvalid(message):
+    pop = Popup(title = "Invalid",
                 content = Label(text = f"{message}"),
                 size_hint = (None, None),
                 size = (400, 200))
