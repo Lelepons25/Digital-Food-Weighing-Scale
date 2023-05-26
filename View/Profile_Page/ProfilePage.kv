@@ -111,6 +111,17 @@
             pos_hint: {"center_x": 0.5}
             on_release:
                 root.saveProfile()
+        
+
+
         Widget:
             size_hint_y: None
             height: 3
+        
+    # CANCEL    
+    MDRoundFlatButton:
+        text: "Cancel"
+        font_size: 12
+        pos_hint: {"center_x": 0.94, "top": 0.98}
+        on_release:
+            root.cancel_profile()

@@ -27,11 +27,9 @@ class FoodHistoryAnalysisPage(Screen):
         tables = cursor.fetchall()
 
         if not tables:
-            self.ids.title_foodAnalysisFreq.text = "No Food History"
-            self.ids.title_foodAnalysisIntake.text= " No Food History"
-        elif len(tables) != 7:
             self.ids.title_foodAnalysisFreq.text= "Your Food History Analysis will be available after 7 days"
             self.ids.title_foodAnalysisIntake.text= "Your Food History Analysis will be available after 7 days"
+            self.ids.title_foodAnalysisTime.text= "Your peak consumption time of the week will be available after 7 days"
         elif len(tables) == 7:
             self.ids.title_foodAnalysisFreq.text= "Your most frequent food of the week"
             self.ids.title_foodAnalysisIntake.text= "Your highest food intake of the week"
@@ -129,4 +127,4 @@ def get_time_range(time_str):
     elif datetime.time(17, 0) <= time <= datetime.time(21, 0):
         return '17:00 - 21:00'
     else:
-        return 'Other'
+        return 'Snacks'

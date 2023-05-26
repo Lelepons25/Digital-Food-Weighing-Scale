@@ -160,6 +160,18 @@ class ProfilePage(Screen):
             invalidForm("Please complete the form")
 
 
+    def cancel_profile(self):
+
+        conn = sqlite3.connect("user_database/userDB.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM user")
+        count = cursor.fetchone()
+
+        if count[0] == 0:
+            # Display pop up message
+            invalidForm("Please input your information to proceed")
+        else:
+            self.manager.generateEditProfilePageScreen()
 
     def on_text_focus(self, widget, value):
         if value:
