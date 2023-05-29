@@ -119,7 +119,7 @@ class EditProfilePage(Screen):
         self.clear_mealPlan()
         self.ids.mp_title.text = "Pinggang Pinoy"
         
-        # Create Button for pinggang pinoy Day 1 - Day 8
+        # Create Button for pinggang pinoy Day 1 - Day 7
         # Create a list to store the day buttons
         self.day_buttons =[] 
         for i in range (1, 8):

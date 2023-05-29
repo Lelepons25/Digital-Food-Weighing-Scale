@@ -14,6 +14,7 @@ Builder.load_file('View\Home_page\Homepage.kv')
 
 import sqlite3
 import datetime
+import shutil
 
 class Homepage(Screen):
 
@@ -298,6 +299,8 @@ class Homepage(Screen):
             return
         elif button == "Tare":
             self.ids.weight_input.text = "0"
+
+
 
 def popupMessage(message):
     pop = Popup(title = " Invalid ",

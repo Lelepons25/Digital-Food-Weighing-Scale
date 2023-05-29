@@ -15,6 +15,7 @@ import datetime
 import psycopg2
 import re
 import math
+import shutil
 
 from View.Home_page.Homepage import Homepage
 
@@ -186,6 +187,7 @@ class CategoryPage(Screen):
                             popupMessage("Food Saved!", food_intake)
                         else:
                             popupMessage("The database is full.")
+                            # Analyze the data
 
                     conn.commit()
 
@@ -193,6 +195,9 @@ class CategoryPage(Screen):
                 Homepage.tracker(self)
             else:
                 popupMessage("The database is full.")
+
+
+
 
 
 def popupMessage(message, food_intake = None):

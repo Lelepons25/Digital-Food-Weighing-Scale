@@ -109,7 +109,7 @@
 
         MDLabel:
             id: mp_title
-            text: "Meal Plans"
+            text: "Meal Plan and Food Analysis"
             font_size: 20
             halign: 'center'
             size_hint_y: None
@@ -144,8 +144,8 @@
             text: 'Food History Analysis'
             text_color: "black"
             line_color: "red"
-            #on_release:
-             #   root.enter_foodExchange()
+            on_release:
+                app.root.generateFoodHistoryAnalysisPageScreen()
         
             ##################################################################        
         MDCarousel:
