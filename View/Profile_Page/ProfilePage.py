@@ -6,9 +6,9 @@ from kivy.lang import Builder
 from kivy.uix.vkeyboard import VKeyboard
 from kivy.core.window import Window
 from kivy.factory import Factory
+from View.Home_page.Homepage import Homepage
 
-
-
+import os
 import sqlite3
 import math
 
@@ -136,19 +136,13 @@ class ProfilePage(Screen):
                                             conn.close()
                                             self.manager.generateEditProfilePageScreen()
 
-                                            # Delete the food history
-                                            #################################### SAVE TO RPI
-                                            conn = sqlite3.connect('mp_database/food_history.db')
-                                            cursor = conn.cursor()
-                                            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-                                            tables = cursor.fetchall()
+                                            # Delete food history
+                                            Homepage.deleteHistory(self)
 
-                                            for table in tables:
-                                                cursor.execute(f"DROP TABLE {table[0]}")
-                    
-                                            conn.commit()
-                                            conn.close()
-                                            #################################### SAVE TO RPI
+                                        # Check if there's a duplicate in the database
+                                            if os.path.exists('mp_database/Duplicatefood_history.db'):
+                                                os.remove('mp_database/Duplicatefood_history.db')
+                                        
                                     else:
                                         invalidForm("Select your activity level") 
                                 else:

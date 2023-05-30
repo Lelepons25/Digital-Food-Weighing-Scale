@@ -131,8 +131,6 @@ class Homepage(Screen):
         for table in tables:
             cursor.execute(f"DROP TABLE {table[0]}")
 
-        popupNotice()
-        
         conn.commit()
         conn.close()
         

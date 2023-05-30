@@ -2,9 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from kivy.uix.label import Label
 import sqlite3
-from kivy.uix.scrollview import ScrollView
 from kivy.properties import ObjectProperty
-from kivy.uix.button import Button
 from kivy.metrics import dp
 from functools import partial
 from kivy.uix.popup import Popup
@@ -12,7 +10,8 @@ from kivy.properties import StringProperty, NumericProperty
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
 import datetime
-import psycopg2
+
+import os
 import re
 import math
 import shutil
@@ -144,7 +143,7 @@ class CategoryPage(Screen):
             current_time = datetime.datetime.now().strftime('%H:%M:%S')
             current_date = datetime.datetime.now().strftime('%Y%m%d')
 
-            conn = sqlite3.connect('mp_database\\food_history.db')
+            conn = sqlite3.connect('mp_database/food_history.db')
             cursor = conn.cursor()
 
 
@@ -187,8 +186,10 @@ class CategoryPage(Screen):
                             popupMessage("Food Saved!", food_intake)
                         else:
                             popupMessage("The database is full.")
-                            # Analyze the data
-
+                            # Duplicate Food History
+                            self.duplicate_db()
+                            # Delete Original Food History
+                            Homepage.deleteHistory(self)
                     conn.commit()
 
                 conn.close()
@@ -198,6 +199,17 @@ class CategoryPage(Screen):
 
 
 
+
+    def duplicate_db(self):
+
+        # Check if there's existing duplicate database
+        if os.path.exists('mp_database/Duplicatefood_history.db'):
+            os.remove('mp_database/Duplicatefood_history.db')
+        
+        original_db = 'mp_database/food_history.db'
+        duplicate_db = 'mp_database/Duplicatefood_history.db'
+        # Copy the original database file to the duplicate file
+        shutil.copyfile(original_db, duplicate_db)
 
 
 def popupMessage(message, food_intake = None):

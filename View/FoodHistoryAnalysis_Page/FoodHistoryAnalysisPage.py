@@ -5,7 +5,7 @@ from kivy.lang import Builder
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import MDList, OneLineListItem
 import matplotlib.pyplot as plt
-
+import shutil
 
 
 
@@ -18,7 +18,7 @@ class FoodHistoryAnalysisPage(Screen):
         self.on_enter()
 
     def on_enter(self):
-        conn = sqlite3.connect('mp_database/food_history.db')
+        conn = sqlite3.connect('mp_database/Duplicatefood_history.db')
         cursor = conn.cursor()
 
         # Check if table exists
@@ -26,21 +26,21 @@ class FoodHistoryAnalysisPage(Screen):
         tables = cursor.fetchall()
 
         if not tables:
-            label = MDLabel(text="No Food History")
-            self.ids.card_foodAnalysisFreq.add_widget(label)
-            self.ids.card_foodAnalysisIntake.add_widget(label) 
+            self.ids.title_foodAnalysisFreq.text = "No Food History"
+            self.ids.title_foodAnalysisIntake.text= " No Food History"
         elif len(tables) != 7:
-            label = MDLabel(text="Your Food History Analysis will be available after 7 days")
-            self.ids.card_foodAnalysisFreq.add_widget(label)
-            self.ids.card_foodAnalysisIntake.add_widget(label)
+            self.ids.title_foodAnalysisFreq.text= "Your Food History Analysis will be available after 7 days"
+            self.ids.title_foodAnalysisIntake.text= "Your Food History Analysis will be available after 7 days"
         elif len(tables) == 7:
+            self.ids.title_foodAnalysisFreq.text= "Your most frequent food of the week"
+            self.ids.title_foodAnalysisIntake.text= "Your highest food intake of the week"
             self.analyis_frequency()
             self.analysis_intake()
 
 
     def analyis_frequency(self):
 
-        conn = sqlite3.connect('mp_database/food_history.db')
+        conn = sqlite3.connect('mp_database/Duplicatefood_history.db')
 
         # Frequency analysis
         dfs = []
@@ -68,7 +68,7 @@ class FoodHistoryAnalysisPage(Screen):
     
     def analysis_intake(self):
         
-        conn = sqlite3.connect('mp_database/food_history.db')
+        conn = sqlite3.connect('mp_database/Duplicatefood_history.db')
         # Get the top 5 highest food intake from the database
         dfsIntake = []
         for i in range(7):
@@ -88,3 +88,4 @@ class FoodHistoryAnalysisPage(Screen):
             self.ids.food_AnalysisIntake.add_widget(item)
         
         conn.close()
+    
