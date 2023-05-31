@@ -3,7 +3,7 @@
     MDCard:
         id: card_foodAnalysisFreq
         size_hint: None, None
-        size: 300, 350
+        size: 250, 350
         pos_hint: {'x': 0.04, 'top':0.88}
         elevation: 2
         padding: 10
@@ -32,8 +32,8 @@
     MDCard:
         id: card_foodAnalysisIntake
         size_hint: None, None
-        size: 300, 350
-        pos_hint: {'x': 0.45, 'top':0.88}
+        size: 230, 350
+        pos_hint: {'x': 0.38, 'top':0.88}
         elevation: 2
         padding: 10
         spacing: 10
@@ -56,6 +56,36 @@
 
             MDList:
                 id: food_AnalysisIntake
+
+
+
+    MDCard:
+        id: card_foodAnalysisIntake
+        size_hint: None, None
+        size: 230, 350
+        pos_hint: {'x': 0.69, 'top':0.88}
+        elevation: 2
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+    
+        MDLabel:
+            id: title_foodAnalysisTime
+            text: ""
+            bold: True
+            font_size: 14
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 5
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: self.minimum_height
+
+            MDList:
+                id: food_AnalysisTime
 
 
 
